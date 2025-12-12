@@ -1,0 +1,56 @@
+---
+interface Column {
+  content: string;
+  width?: number;
+}
+
+interface Props {
+  title?: string;
+  columns: Column[];
+  gap?: 'sm' | 'md' | 'lg';
+  vertical_align?: 'top' | 'center' | 'bottom';
+}
+
+const { 
+  title, 
+  columns = [], 
+  gap = 'md',
+  vertical_align = 'top'
+} = Astro.props;
+
+const gapClasses = {
+  sm: 'gap-4',
+  md: 'gap-8',
+  lg: 'gap-12'
+};
+
+const alignClasses = {
+  top: 'items-start',
+  center: 'items-center',
+  bottom: 'items-end'
+};
+
+const columnCount = columns.length;
+const gridCols = columnCount === 1 ? 'grid-cols-1' 
+  : columnCount === 2 ? 'md:grid-cols-2' 
+  : columnCount === 3 ? 'md:grid-cols-3' 
+  : 'md:grid-cols-4';
+---
+
+<section class="max-w-6xl mx-auto px-6 py-12">
+  {title && (
+    <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+      {title}
+    </h2>
+  )}
+  
+  <div class={`grid grid-cols-1 ${gridCols} ${gapClasses[gap]} ${alignClasses[vertical_align]}`}>
+    {columns.map((col) => (
+      <div 
+        class="prose prose-gray dark:prose-invert max-w-none"
+        style={col.width ? `flex: 0 0 ${col.width}%` : ''}
+        set:html={col.content}
+      />
+    ))}
+  </div>
+</section>

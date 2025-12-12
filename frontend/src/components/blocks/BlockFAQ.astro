@@ -1,0 +1,72 @@
+---
+interface FAQ {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  faqs: FAQ[];
+}
+
+const { title, subtitle, faqs = [] } = Astro.props;
+
+// Generate structured data for SEO
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+};
+---
+
+<section class="max-w-4xl mx-auto px-6 py-16">
+  {(title || subtitle) && (
+    <div class="text-center mb-12">
+      {title && (
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          {title}
+        </h2>
+      )}
+      {subtitle && (
+        <p class="text-xl text-gray-600 dark:text-gray-400">
+          {subtitle}
+        </p>
+      )}
+    </div>
+  )}
+  
+  <div class="space-y-4">
+    {faqs.map((faq, index) => (
+      <details 
+        class="group bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700"
+      >
+        <summary class="flex items-center justify-between p-6 cursor-pointer list-none font-semibold text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+          <span class="pr-6">{faq.question}</span>
+          <svg 
+            class="w-5 h-5 text-gray-500 transition-transform duration-300 group-open:rotate-180 flex-shrink-0" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        
+        <div class="px-6 pb-6 pt-2 text-gray-600 dark:text-gray-400 leading-relaxed border-t border-gray-100 dark:border-gray-700">
+          <div set:html={faq.answer} />
+        </div>
+      </details>
+    ))}
+  </div>
+  
+  <!-- FAQ Schema for SEO -->
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+</section>

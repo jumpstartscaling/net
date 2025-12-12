@@ -1,0 +1,189 @@
+[
+    {
+        "collection": "pages",
+        "field": "site",
+        "related_collection": "sites",
+        "meta": {
+            "many_collection": "pages",
+            "many_field": "site",
+            "one_collection": "sites",
+            "one_field": null
+        }
+    },
+    {
+        "collection": "posts",
+        "field": "site",
+        "related_collection": "sites",
+        "meta": {
+            "many_collection": "posts",
+            "many_field": "site",
+            "one_collection": "sites",
+            "one_field": null
+        }
+    },
+    {
+        "collection": "posts",
+        "field": "author",
+        "related_collection": "authors",
+        "meta": {
+            "many_collection": "posts",
+            "many_field": "author",
+            "one_collection": "authors",
+            "one_field": null
+        }
+    },
+    {
+        "collection": "globals",
+        "field": "site",
+        "related_collection": "sites",
+        "meta": {
+            "many_collection": "globals",
+            "many_field": "site",
+            "one_collection": "sites",
+            "one_field": null
+        }
+    },
+    {
+        "collection": "navigation",
+        "field": "site",
+        "related_collection": "sites",
+        "meta": {
+            "many_collection": "navigation",
+            "many_field": "site",
+            "one_collection": "sites",
+            "one_field": null
+        }
+    },
+    {
+        "collection": "navigation",
+        "field": "parent",
+        "related_collection": "navigation",
+        "meta": {
+            "many_collection": "navigation",
+            "many_field": "parent",
+            "one_collection": "navigation",
+            "one_field": null
+        }
+    },
+    {
+        "collection": "leads",
+        "field": "site",
+        "related_collection": "sites",
+        "meta": {
+            "many_collection": "leads",
+            "many_field": "site",
+            "one_collection": "sites",
+            "one_field": null
+        }
+    },
+    {
+        "collection": "campaign_masters",
+        "field": "site",
+        "related_collection": "sites",
+        "meta": {
+            "many_collection": "campaign_masters",
+            "many_field": "site",
+            "one_collection": "sites",
+            "one_field": null
+        }
+    },
+    {
+        "collection": "headline_inventory",
+        "field": "campaign",
+        "related_collection": "campaign_masters",
+        "meta": {
+            "many_collection": "headline_inventory",
+            "many_field": "campaign",
+            "one_collection": "campaign_masters",
+            "one_field": null
+        }
+    },
+    {
+        "collection": "headline_inventory",
+        "field": "used_on_article",
+        "related_collection": "generated_articles",
+        "meta": {
+            "many_collection": "headline_inventory",
+            "many_field": "used_on_article",
+            "one_collection": "generated_articles",
+            "one_field": null
+        }
+    },
+    {
+        "collection": "content_fragments",
+        "field": "campaign",
+        "related_collection": "campaign_masters",
+        "meta": {
+            "many_collection": "content_fragments",
+            "many_field": "campaign",
+            "one_collection": "campaign_masters",
+            "one_field": null
+        }
+    },
+    {
+        "collection": "generated_articles",
+        "field": "site",
+        "related_collection": "sites",
+        "meta": {
+            "many_collection": "generated_articles",
+            "many_field": "site",
+            "one_collection": "sites",
+            "one_field": null
+        }
+    },
+    {
+        "collection": "generated_articles",
+        "field": "campaign",
+        "related_collection": "campaign_masters",
+        "meta": {
+            "many_collection": "generated_articles",
+            "many_field": "campaign",
+            "one_collection": "campaign_masters",
+            "one_field": null
+        }
+    },
+    {
+        "collection": "locations_counties",
+        "field": "state",
+        "related_collection": "locations_states",
+        "meta": {
+            "many_collection": "locations_counties",
+            "many_field": "state",
+            "one_collection": "locations_states",
+            "one_field": null
+        }
+    },
+    {
+        "collection": "locations_cities",
+        "field": "county",
+        "related_collection": "locations_counties",
+        "meta": {
+            "many_collection": "locations_cities",
+            "many_field": "county",
+            "one_collection": "locations_counties",
+            "one_field": null
+        }
+    },
+    {
+        "collection": "locations_cities",
+        "field": "state",
+        "related_collection": "locations_states",
+        "meta": {
+            "many_collection": "locations_cities",
+            "many_field": "state",
+            "one_collection": "locations_states",
+            "one_field": null
+        }
+    },
+    {
+        "collection": "image_templates",
+        "field": "site",
+        "related_collection": "sites",
+        "meta": {
+            "many_collection": "image_templates",
+            "many_field": "site",
+            "one_collection": "sites",
+            "one_field": null
+        }
+    }
+]

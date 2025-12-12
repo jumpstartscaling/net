@@ -1,0 +1,115 @@
+version: '3.8'
+
+services:
+  # ==========================================
+  # DIRECTUS (Headless CMS)
+  # ==========================================
+  directus:
+    build:
+      context: ./directus
+      dockerfile: Dockerfile
+    container_name: spark-directus
+    restart: unless-stopped
+    ports:
+      - "8055:8055"
+    environment:
+      SECRET: ${DIRECTUS_SECRET:-super-secret-key-change-in-production}
+      ADMIN_EMAIL: ${DIRECTUS_ADMIN_EMAIL:-admin@spark.local}
+      ADMIN_PASSWORD: ${DIRECTUS_ADMIN_PASSWORD:-admin}
+      DB_CLIENT: pg
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: ${POSTGRES_DB:-spark}
+      DB_USER: ${POSTGRES_USER:-spark}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-spark}
+      CACHE_ENABLED: "true"
+      CACHE_STORE: redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      CORS_ENABLED: "true"
+      CORS_ORIGIN: "*"
+      PUBLIC_URL: ${DIRECTUS_PUBLIC_URL:-http://localhost:8055}
+      STORAGE_LOCATIONS: local
+      STORAGE_LOCAL_ROOT: /directus/uploads
+    volumes:
+      - directus_uploads:/directus/uploads
+      - directus_extensions:/directus/extensions
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - spark-network
+
+  # ==========================================
+  # FRONTEND (Astro SSR)
+  # ==========================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: spark-frontend
+    restart: unless-stopped
+    ports:
+      - "4321:4321"
+    environment:
+      PUBLIC_DIRECTUS_URL: ${DIRECTUS_PUBLIC_URL:-http://directus:8055}
+      DIRECTUS_ADMIN_TOKEN: ${DIRECTUS_ADMIN_TOKEN:-}
+      PUBLIC_PLATFORM_DOMAIN: ${PLATFORM_DOMAIN:-localhost}
+    depends_on:
+      - directus
+    networks:
+      - spark-network
+
+  # ==========================================
+  # POSTGRESQL DATABASE
+  # ==========================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: spark-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-spark}
+      POSTGRES_USER: ${POSTGRES_USER:-spark}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-spark}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - spark-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-spark}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==========================================
+  # REDIS CACHE
+  # ==========================================
+  redis:
+    image: redis:7-alpine
+    container_name: spark-redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    networks:
+      - spark-network
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+# ==========================================
+# VOLUMES
+# ==========================================
+volumes:
+  postgres_data:
+  redis_data:
+  directus_uploads:
+  directus_extensions:
+
+    # ==========================================
+    # NETWORKS
+    # ==========================================
+networks:
+  spark-network:
+    driver: bridge

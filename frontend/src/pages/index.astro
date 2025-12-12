@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { fetchPageByPermalink, fetchSiteGlobals, fetchNavigation } from '../lib/directus/fetchers';
+import BlockHero from '../components/blocks/BlockHero.astro';
+import BlockRichText from '../components/blocks/BlockRichText.astro';
+import BlockColumns from '../components/blocks/BlockColumns.astro';
+import BlockMedia from '../components/blocks/BlockMedia.astro';
+import BlockSteps from '../components/blocks/BlockSteps.astro';
+import BlockQuote from '../components/blocks/BlockQuote.astro';
+import BlockGallery from '../components/blocks/BlockGallery.astro';
+import BlockFAQ from '../components/blocks/BlockFAQ.astro';
+import BlockPosts from '../components/blocks/BlockPosts.astro';
+import BlockForm from '../components/blocks/BlockForm.astro';
+
+const siteId = Astro.locals.siteId;
+
+// Fetch data
+const [globals, navigation, page] = await Promise.all([
+  siteId ? fetchSiteGlobals(siteId) : null,
+  siteId ? fetchNavigation(siteId) : [],
+  siteId ? fetchPageByPermalink('/', siteId) : null
+]);
+
+// Block component map
+const blockComponents: Record<string, any> = {
+  block_hero: BlockHero,
+  block_richtext: BlockRichText,
+  block_columns: BlockColumns,
+  block_media: BlockMedia,
+  block_steps: BlockSteps,
+  block_quote: BlockQuote,
+  block_gallery: BlockGallery,
+  block_faq: BlockFAQ,
+  block_posts: BlockPosts,
+  block_form: BlockForm,
+};
+---
+
+<BaseLayout 
+  title={page?.seo_title || page?.title || 'Welcome'}
+  description={page?.seo_description || globals?.site_tagline}
+  image={page?.seo_image}
+  globals={globals}
+  navigation={navigation}
+>
+  {page?.blocks?.map((block) => {
+    const Component = blockComponents[block.collection];
+    if (Component) {
+      return <Component {...block.item} />;
+    }
+    return null;
+  })}
+  
+  {!page && (
+    <section class="min-h-[70vh] flex items-center justify-center bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900">
+      <div class="text-center text-white px-6">
+        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 drop-shadow-2xl">
+          Welcome to Spark Platform
+        </h1>
+        <p class="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
+          The ultimate multi-tenant website builder with SEO automation, content generation, and lead capture.
+        </p>
+        <a 
+          href="/admin"
+          class="inline-flex items-center px-8 py-4 bg-white text-gray-900 rounded-xl font-bold text-lg shadow-xl hover:bg-gray-100 transition-all"
+        >
+          Go to Admin Dashboard
+          <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </section>
+  )}
+</BaseLayout>

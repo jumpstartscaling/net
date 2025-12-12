@@ -1,0 +1,207 @@
+---
+import type { Post } from '@/types/schema';
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  posts: Post[];
+  layout?: 'grid' | 'list' | 'featured';
+  show_excerpt?: boolean;
+  show_date?: boolean;
+  show_category?: boolean;
+  cta_text?: string;
+  cta_url?: string;
+}
+
+const { 
+  title, 
+  subtitle,
+  posts = [],
+  layout = 'grid',
+  show_excerpt = true,
+  show_date = true,
+  show_category = true,
+  cta_text,
+  cta_url
+} = Astro.props;
+
+function formatDate(dateString: string) {
+  return new Date(dateString).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+---
+
+<section class="max-w-6xl mx-auto px-6 py-16">
+  {(title || subtitle) && (
+    <div class="text-center mb-12">
+      {title && (
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          {title}
+        </h2>
+      )}
+      {subtitle && (
+        <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          {subtitle}
+        </p>
+      )}
+    </div>
+  )}
+  
+  {layout === 'featured' && posts.length > 0 ? (
+    <div class="grid md:grid-cols-2 gap-8">
+      <!-- Featured post -->
+      <a href={`/blog/${posts[0].slug}`} class="group block md:col-span-1 md:row-span-2">
+        <article class="h-full bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+          {posts[0].featured_image && (
+            <div class="relative h-64 md:h-full overflow-hidden">
+              <img 
+                src={posts[0].featured_image}
+                alt={posts[0].title}
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                {show_category && posts[0].category && (
+                  <span class="inline-block px-3 py-1 bg-primary rounded-full text-sm font-medium mb-3">
+                    {posts[0].category}
+                  </span>
+                )}
+                <h3 class="text-2xl font-bold mb-2">{posts[0].title}</h3>
+                {show_date && posts[0].published_at && (
+                  <time class="text-sm text-gray-300">{formatDate(posts[0].published_at)}</time>
+                )}
+              </div>
+            </div>
+          )}
+        </article>
+      </a>
+      
+      <!-- Other posts -->
+      <div class="space-y-6">
+        {posts.slice(1, 4).map((post) => (
+          <a href={`/blog/${post.slug}`} class="group block">
+            <article class="flex gap-4 bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+              {post.featured_image && (
+                <img 
+                  src={post.featured_image}
+                  alt={post.title}
+                  class="w-32 h-32 object-cover flex-shrink-0"
+                />
+              )}
+              <div class="flex-1 p-4">
+                {show_category && post.category && (
+                  <span class="text-xs font-medium text-primary uppercase tracking-wide">
+                    {post.category}
+                  </span>
+                )}
+                <h3 class="font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors mt-1">
+                  {post.title}
+                </h3>
+                {show_date && post.published_at && (
+                  <time class="text-sm text-gray-500 dark:text-gray-400 mt-2 block">
+                    {formatDate(post.published_at)}
+                  </time>
+                )}
+              </div>
+            </article>
+          </a>
+        ))}
+      </div>
+    </div>
+  ) : layout === 'list' ? (
+    <div class="space-y-6">
+      {posts.map((post) => (
+        <a href={`/blog/${post.slug}`} class="group block">
+          <article class="flex gap-6 bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+            {post.featured_image && (
+              <img 
+                src={post.featured_image}
+                alt={post.title}
+                class="w-48 h-32 object-cover rounded-lg flex-shrink-0"
+              />
+            )}
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                {show_category && post.category && (
+                  <span class="text-xs font-medium text-primary uppercase tracking-wide">
+                    {post.category}
+                  </span>
+                )}
+                {show_date && post.published_at && (
+                  <time class="text-sm text-gray-500 dark:text-gray-400">
+                    {formatDate(post.published_at)}
+                  </time>
+                )}
+              </div>
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors mb-2">
+                {post.title}
+              </h3>
+              {show_excerpt && post.excerpt && (
+                <p class="text-gray-600 dark:text-gray-400 line-clamp-2">
+                  {post.excerpt}
+                </p>
+              )}
+            </div>
+          </article>
+        </a>
+      ))}
+    </div>
+  ) : (
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {posts.map((post) => (
+        <a href={`/blog/${post.slug}`} class="group block">
+          <article class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
+            {post.featured_image && (
+              <div class="relative h-48 overflow-hidden">
+                <img 
+                  src={post.featured_image}
+                  alt={post.title}
+                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+            )}
+            <div class="p-6 flex-1 flex flex-col">
+              <div class="flex items-center gap-3 mb-3">
+                {show_category && post.category && (
+                  <span class="text-xs font-medium text-primary uppercase tracking-wide">
+                    {post.category}
+                  </span>
+                )}
+              </div>
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors mb-2">
+                {post.title}
+              </h3>
+              {show_excerpt && post.excerpt && (
+                <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 mb-4 flex-1">
+                  {post.excerpt}
+                </p>
+              )}
+              {show_date && post.published_at && (
+                <time class="text-sm text-gray-500 dark:text-gray-400 mt-auto">
+                  {formatDate(post.published_at)}
+                </time>
+              )}
+            </div>
+          </article>
+        </a>
+      ))}
+    </div>
+  )}
+  
+  {cta_text && cta_url && (
+    <div class="text-center mt-12">
+      <a 
+        href={cta_url}
+        class="inline-flex items-center px-6 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+      >
+        {cta_text}
+        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+  )}
+</section>

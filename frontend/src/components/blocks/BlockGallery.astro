@@ -1,0 +1,62 @@
+---
+interface GalleryImage {
+  url: string;
+  alt?: string;
+  caption?: string;
+}
+
+interface Props {
+  title?: string;
+  images: GalleryImage[];
+  columns?: 2 | 3 | 4;
+  gap?: 'sm' | 'md' | 'lg';
+  style?: 'grid' | 'masonry';
+}
+
+const { 
+  title, 
+  images = [],
+  columns = 3,
+  gap = 'md',
+  style = 'grid'
+} = Astro.props;
+
+const colClasses = {
+  2: 'md:grid-cols-2',
+  3: 'md:grid-cols-3',
+  4: 'md:grid-cols-4'
+};
+
+const gapClasses = {
+  sm: 'gap-2',
+  md: 'gap-4',
+  lg: 'gap-6'
+};
+---
+
+<section class="max-w-6xl mx-auto px-6 py-12">
+  {title && (
+    <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+      {title}
+    </h2>
+  )}
+  
+  <div class={`grid grid-cols-2 ${colClasses[columns]} ${gapClasses[gap]}`}>
+    {images.map((img, index) => (
+      <figure class="group relative overflow-hidden rounded-xl">
+        <img 
+          src={img.url}
+          alt={img.alt || img.caption || `Gallery image ${index + 1}`}
+          loading="lazy"
+          class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+        />
+        
+        {img.caption && (
+          <figcaption class="absolute inset-0 bg-black/60 flex items-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <span class="text-white text-sm">{img.caption}</span>
+          </figcaption>
+        )}
+      </figure>
+    ))}
+  </div>
+</section>

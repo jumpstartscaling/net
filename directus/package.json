@@ -1,0 +1,14 @@
+{
+    "name": "spark-platform-directus",
+    "version": "1.0.0",
+    "scripts": {
+        "import": "node scripts/import_template.js",
+        "load-locations": "node scripts/load_locations.js",
+        "generate-headlines": "node scripts/generate_headlines.js",
+        "assemble-article": "node scripts/assemble_article.js"
+    },
+    "dependencies": {
+        "@directus/sdk": "^17.0.0",
+        "dotenv": "^16.3.1"
+    }
+}

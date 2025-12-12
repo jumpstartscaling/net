@@ -1,0 +1,271 @@
+---
+import type { Globals, Navigation } from '@/types/schema';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  globals?: Globals;
+  navigation?: Navigation[];
+  canonical?: string;
+}
+
+const { 
+  title, 
+  description, 
+  image,
+  globals,
+  navigation = [],
+  canonical
+} = Astro.props;
+
+const siteUrl = Astro.url.origin;
+const currentPath = Astro.url.pathname;
+const fullTitle = globals?.site_name ? `${title} | ${globals.site_name}` : title;
+const metaDescription = description || globals?.site_tagline || '';
+const ogImage = image || globals?.logo || '';
+---
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <!-- SEO Meta -->
+    <title>{fullTitle}</title>
+    <meta name="description" content={metaDescription} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={metaDescription} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta property="og:url" content={siteUrl + currentPath} />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={metaDescription} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+    
+    <!-- Favicon -->
+    {globals?.favicon ? (
+      <link rel="icon" href={globals.favicon} />
+    ) : (
+      <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    )}
+    
+    <!-- Preconnect to Directus -->
+    <link rel="preconnect" href={import.meta.env.PUBLIC_DIRECTUS_URL} />
+    
+    <!-- Head Scripts -->
+    {globals?.scripts_head && <Fragment set:html={globals.scripts_head} />}
+    
+    <!-- Styles -->
+    <style is:global>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+      
+      :root {
+        --background: 0 0% 100%;
+        --foreground: 222.2 84% 4.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 222.2 84% 4.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 222.2 84% 4.9%;
+        --primary: 221.2 83.2% 53.3%;
+        --primary-foreground: 210 40% 98%;
+        --secondary: 210 40% 96.1%;
+        --secondary-foreground: 222.2 47.4% 11.2%;
+        --muted: 210 40% 96.1%;
+        --muted-foreground: 215.4 16.3% 46.9%;
+        --accent: 210 40% 96.1%;
+        --accent-foreground: 222.2 47.4% 11.2%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 210 40% 98%;
+        --border: 214.3 31.8% 91.4%;
+        --input: 214.3 31.8% 91.4%;
+        --ring: 221.2 83.2% 53.3%;
+        --radius: 0.5rem;
+      }
+      
+      .dark {
+        --background: 222.2 84% 4.9%;
+        --foreground: 210 40% 98%;
+        --card: 222.2 84% 4.9%;
+        --card-foreground: 210 40% 98%;
+        --popover: 222.2 84% 4.9%;
+        --popover-foreground: 210 40% 98%;
+        --primary: 217.2 91.2% 59.8%;
+        --primary-foreground: 222.2 47.4% 11.2%;
+        --secondary: 217.2 32.6% 17.5%;
+        --secondary-foreground: 210 40% 98%;
+        --muted: 217.2 32.6% 17.5%;
+        --muted-foreground: 215 20.2% 65.1%;
+        --accent: 217.2 32.6% 17.5%;
+        --accent-foreground: 210 40% 98%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 210 40% 98%;
+        --border: 217.2 32.6% 17.5%;
+        --input: 217.2 32.6% 17.5%;
+        --ring: 224.3 76.3% 48%;
+      }
+      
+      * {
+        border-color: hsl(var(--border));
+      }
+      
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: hsl(var(--background));
+        color: hsl(var(--foreground));
+      }
+    </style>
+  </head>
+  
+  <body class="min-h-screen flex flex-col antialiased">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800">
+      <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-3">
+          {globals?.logo ? (
+            <img src={globals.logo} alt={globals.site_name || 'Logo'} class="h-8 w-auto" />
+          ) : (
+            <span class="text-xl font-bold text-gray-900 dark:text-white">
+              {globals?.site_name || 'Spark'}
+            </span>
+          )}
+        </a>
+        
+        <nav class="hidden md:flex items-center gap-8">
+          {navigation.filter(n => !n.parent).map((item) => (
+            <a 
+              href={item.url}
+              target={item.target || '_self'}
+              class={`text-sm font-medium transition-colors hover:text-primary ${
+                currentPath === item.url 
+                  ? 'text-primary' 
+                  : 'text-gray-600 dark:text-gray-400'
+              }`}
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+        
+        <div class="flex items-center gap-4">
+          <a 
+            href="/contact"
+            class="hidden md:inline-flex px-4 py-2 bg-primary text-white rounded-lg font-medium text-sm hover:bg-primary/90 transition-colors"
+          >
+            Get Started
+          </a>
+          
+          <!-- Mobile menu button -->
+          <button 
+            id="mobile-menu-btn"
+            class="md:hidden p-2 text-gray-600 dark:text-gray-400"
+            aria-label="Toggle menu"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Mobile menu -->
+      <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-gray-800">
+        <nav class="px-6 py-4 space-y-3">
+          {navigation.filter(n => !n.parent).map((item) => (
+            <a 
+              href={item.url}
+              target={item.target || '_self'}
+              class="block py-2 text-gray-600 dark:text-gray-400 hover:text-primary"
+            >
+              {item.label}
+            </a>
+          ))}
+          <a 
+            href="/contact"
+            class="block py-2 text-primary font-medium"
+          >
+            Get Started
+          </a>
+        </nav>
+      </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="flex-1">
+      <slot />
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+      <div class="max-w-7xl mx-auto px-6 py-12">
+        <div class="grid md:grid-cols-4 gap-8">
+          <div class="md:col-span-2">
+            {globals?.logo ? (
+              <img src={globals.logo} alt={globals.site_name || 'Logo'} class="h-8 w-auto mb-4 brightness-0 invert" />
+            ) : (
+              <span class="text-2xl font-bold mb-4 block">
+                {globals?.site_name || 'Spark Platform'}
+              </span>
+            )}
+            <p class="text-gray-400 max-w-md">
+              {globals?.site_tagline || 'Building the future, one page at a time.'}
+            </p>
+          </div>
+          
+          <div>
+            <h4 class="font-semibold mb-4">Quick Links</h4>
+            <nav class="space-y-2">
+              {navigation.slice(0, 5).map((item) => (
+                <a 
+                  href={item.url}
+                  class="block text-gray-400 hover:text-white transition-colors"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+          </div>
+          
+          <div>
+            <h4 class="font-semibold mb-4">Connect</h4>
+            <div class="flex gap-4">
+              {globals?.social_links?.map((social) => (
+                <a 
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-gray-400 hover:text-white transition-colors"
+                >
+                  {social.platform}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+        
+        <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400 text-sm">
+          {globals?.footer_text || `© ${new Date().getFullYear()} All rights reserved.`}
+        </div>
+      </div>
+    </footer>
+    
+    <!-- Body Scripts -->
+    {globals?.scripts_body && <Fragment set:html={globals.scripts_body} />}
+    
+    <script>
+      // Mobile menu toggle
+      const btn = document.getElementById('mobile-menu-btn');
+      const menu = document.getElementById('mobile-menu');
+      btn?.addEventListener('click', () => {
+        menu?.classList.toggle('hidden');
+      });
+    </script>
+  </body>
+</html>

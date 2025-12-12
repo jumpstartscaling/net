@@ -1,0 +1,1349 @@
+{
+    "sites": [
+        {
+            "field": "id",
+            "type": "uuid",
+            "meta": {
+                "special": [
+                    "uuid"
+                ],
+                "interface": "input",
+                "readonly": true,
+                "hidden": true
+            }
+        },
+        {
+            "field": "status",
+            "type": "string",
+            "meta": {
+                "interface": "select-dropdown",
+                "options": {
+                    "choices": [
+                        {
+                            "text": "Active",
+                            "value": "active"
+                        },
+                        {
+                            "text": "Inactive",
+                            "value": "inactive"
+                        }
+                    ]
+                },
+                "width": "half"
+            },
+            "schema": {
+                "default_value": "active"
+            }
+        },
+        {
+            "field": "name",
+            "type": "string",
+            "meta": {
+                "interface": "input",
+                "width": "half",
+                "required": true
+            }
+        },
+        {
+            "field": "domain",
+            "type": "string",
+            "meta": {
+                "interface": "input",
+                "width": "half",
+                "required": true,
+                "note": "Primary domain for this site"
+            }
+        },
+        {
+            "field": "domain_aliases",
+            "type": "json",
+            "meta": {
+                "interface": "tags",
+                "width": "half",
+                "note": "Alternative domains that resolve to this site"
+            }
+        },
+        {
+            "field": "settings",
+            "type": "json",
+            "meta": {
+                "interface": "input-code",
+                "options": {
+                    "language": "json"
+                }
+            }
+        },
+        {
+            "field": "date_created",
+            "type": "timestamp",
+            "meta": {
+                "special": [
+                    "date-created"
+                ],
+                "interface": "datetime",
+                "readonly": true,
+                "hidden": true
+            }
+        },
+        {
+            "field": "date_updated",
+            "type": "timestamp",
+            "meta": {
+                "special": [
+                    "date-updated"
+                ],
+                "interface": "datetime",
+                "readonly": true,
+                "hidden": true
+            }
+        }
+    ],
+    "pages": [
+        {
+            "field": "id",
+            "type": "uuid",
+            "meta": {
+                "special": [
+                    "uuid"
+                ],
+                "interface": "input",
+                "readonly": true,
+                "hidden": true
+            }
+        },
+        {
+            "field": "status",
+            "type": "string",
+            "meta": {
+                "interface": "select-dropdown",
+                "options": {
+                    "choices": [
+                        {
+                            "text": "Draft",
+                            "value": "draft"
+                        },
+                        {
+                            "text": "Published",
+                            "value": "published"
+                        },
+                        {
+                            "text": "Archived",
+                            "value": "archived"
+                        }
+                    ]
+                },
+                "width": "half"
+            },
+            "schema": {
+                "default_value": "draft"
+            }
+        },
+        {
+            "field": "site",
+            "type": "uuid",
+            "meta": {
+                "interface": "select-dropdown-m2o",
+                "special": [
+                    "m2o"
+                ],
+                "required": true,
+                "width": "half"
+            }
+        },
+        {
+            "field": "title",
+            "type": "string",
+            "meta": {
+                "interface": "input",
+                "required": true
+            }
+        },
+        {
+            "field": "permalink",
+            "type": "string",
+            "meta": {
+                "interface": "input",
+                "required": true,
+                "note": "URL path like /about or /services/dental"
+            }
+        },
+        {
+            "field": "seo_title",
+            "type": "string",
+            "meta": {
+                "interface": "input",
+                "note": "Override page title for SEO (max 70 chars)"
+            }
+        },
+        {
+            "field": "seo_description",
+            "type": "text",
+            "meta": {
+                "interface": "input-multiline",
+                "note": "Meta description (max 160 chars)"
+            }
+        },
+        {
+            "field": "seo_image",
+            "type": "uuid",
+            "meta": {
+                "interface": "file-image",
+                "special": [
+                    "file"
+                ]
+            }
+        },
+        {
+            "field": "blocks",
+            "type": "alias",
+            "meta": {
+                "interface": "list-m2a",
+                "special": [
+                    "m2a"
+                ],
+                "note": "Page content blocks"
+            }
+        },
+        {
+            "field": "date_created",
+            "type": "timestamp",
+            "meta": {
+                "special": [
+                    "date-created"
+                ],
+                "interface": "datetime",
+                "readonly": true,
+                "hidden": true
+            }
+        },
+        {
+            "field": "date_updated",
+            "type": "timestamp",
+            "meta": {
+                "special": [
+                    "date-updated"
+                ],
+                "interface": "datetime",
+                "readonly": true,
+                "hidden": true
+            }
+        }
+    ],
+    "posts": [
+        {
+            "field": "id",
+            "type": "uuid",
+            "meta": {
+                "special": [
+                    "uuid"
+                ],
+                "interface": "input",
+                "readonly": true,
+                "hidden": true
+            }
+        },
+        {
+            "field": "status",
+            "type": "string",
+            "meta": {
+                "interface": "select-dropdown",
+                "options": {
+                    "choices": [
+                        {
+                            "text": "Draft",
+                            "value": "draft"
+                        },
+                        {
+                            "text": "Published",
+                            "value": "published"
+                        },
+                        {
+                            "text": "Archived",
+                            "value": "archived"
+                        }
+                    ]
+                },
+                "width": "half"
+            },
+            "schema": {
+                "default_value": "draft"
+            }
+        },
+        {
+            "field": "site",
+            "type": "uuid",
+            "meta": {
+                "interface": "select-dropdown-m2o",
+                "special": [
+                    "m2o"
+                ],
+                "required": true,
+                "width": "half"
+            }
+        },
+        {
+            "field": "title",
+            "type": "string",
+            "meta": {
+                "interface": "input",
+                "required": true
+            }
+        },
+        {
+            "field": "slug",
+            "type": "string",
+            "meta": {
+                "interface": "input",
+                "required": true
+            }
+        },
+        {
+            "field": "excerpt",
+            "type": "text",
+            "meta": {
+                "interface": "input-multiline"
+            }
+        },
+        {
+            "field": "content",
+            "type": "text",
+            "meta": {
+                "interface": "input-rich-text-html"
+            }
+        },
+        {
+            "field": "featured_image",
+            "type": "uuid",
+            "meta": {
+                "interface": "file-image",
+                "special": [
+                    "file"
+                ]
+            }
+        },
+        {
+            "field": "category",
+            "type": "string",
+            "meta": {
+                "interface": "input"
+            }
+        },
+        {
+            "field": "author",
+            "type": "uuid",
+            "meta": {
+                "interface": "select-dropdown-m2o",
+                "special": [
+                    "m2o"
+                ]
+            }
+        },
+        {
+            "field": "published_at",
+            "type": "timestamp",
+            "meta": {
+                "interface": "datetime"
+            }
+        },
+        {
+            "field": "seo_title",
+            "type": "string",
+            "meta": {
+                "interface": "input"
+            }
+        },
+        {
+            "field": "seo_description",
+            "type": "text",
+            "meta": {
+                "interface": "input-multiline"
+            }
+        },
+        {
+            "field": "date_created",
+            "type": "timestamp",
+            "meta": {
+                "special": [
+                    "date-created"
+                ],
+                "interface": "datetime",
+                "readonly": true,
+                "hidden": true
+            }
+        },
+        {
+            "field": "date_updated",
+            "type": "timestamp",
+            "meta": {
+                "special": [
+                    "date-updated"
+                ],
+                "interface": "datetime",
+                "readonly": true,
+                "hidden": true
+            }
+        }
+    ],
+    "globals": [
+        {
+            "field": "id",
+            "type": "uuid",
+            "meta": {
+                "special": [
+                    "uuid"
+                ],
+                "interface": "input",
+                "readonly": true,
+                "hidden": true
+            }
+        },
+        {
+            "field": "site",
+            "type": "uuid",
+            "meta": {
+                "interface": "select-dropdown-m2o",
+                "special": [
+                    "m2o"
+                ],
+                "required": true
+            }
+        },
+        {
+            "field": "site_name",
+            "type": "string",
+            "meta": {
+                "interface": "input"
+            }
+        },
+        {
+            "field": "site_tagline",
+            "type": "string",
+            "meta": {
+                "interface": "input"
+            }
+        },
+        {
+            "field": "logo",
+            "type": "uuid",
+            "meta": {
+                "interface": "file-image",
+                "special": [
+                    "file"
+                ]
+            }
+        },
+        {
+            "field": "favicon",
+            "type": "uuid",
+            "meta": {
+                "interface": "file-image",
+                "special": [
+                    "file"
+                ]
+            }
+        },
+        {
+            "field": "primary_color",
+            "type": "string",
+            "meta": {
+                "interface": "select-color"
+            }
+        },
+        {
+            "field": "secondary_color",
+            "type": "string",
+            "meta": {
+                "interface": "select-color"
+            }
+        },
+        {
+            "field": "footer_text",
+            "type": "text",
+            "meta": {
+                "interface": "input-multiline"
+            }
+        },
+        {
+            "field": "social_links",
+            "type": "json",
+            "meta": {
+                "interface": "list",
+                "options": {
+                    "template": "{{platform}}: {{url}}"
+                }
+            }
+        },
+        {
+            "field": "scripts_head",
+            "type": "text",
+            "meta": {
+                "interface": "input-code",
+                "options": {
+                    "language": "html"
+                }
+            }
+        },
+        {
+            "field": "scripts_body",
+            "type": "text",
+            "meta": {
+                "interface": "input-code",
+                "options": {
+                    "language": "html"
+                }
+            }
+        }
+    ],
+    "navigation": [
+        {
+            "field": "id",
+            "type": "uuid",
+            "meta": {
+                "special": [
+                    "uuid"
+                ],
+                "interface": "input",
+                "readonly": true,
+                "hidden": true
+            }
+        },
+        {
+            "field": "site",
+            "type": "uuid",
+            "meta": {
+                "interface": "select-dropdown-m2o",
+                "special": [
+                    "m2o"
+                ],
+                "required": true
+            }
+        },
+        {
+            "field": "label",
+            "type": "string",
+            "meta": {
+                "interface": "input",
+                "required": true
+            }
+        },
+        {
+            "field": "url",
+            "type": "string",
+            "meta": {
+                "interface": "input",
+                "required": true
+            }
+        },
+        {
+            "field": "target",
+            "type": "string",
+            "meta": {
+                "interface": "select-dropdown",
+                "options": {
+                    "choices": [
+                        {
+                            "text": "Same Window",
+                            "value": "_self"
+                        },
+                        {
+                            "text": "New Window",
+                            "value": "_blank"
+                        }
+                    ]
+                }
+            },
+            "schema": {
+                "default_value": "_self"
+            }
+        },
+        {
+            "field": "parent",
+            "type": "uuid",
+            "meta": {
+                "interface": "select-dropdown-m2o",
+                "special": [
+                    "m2o"
+                ]
+            }
+        },
+        {
+            "field": "sort",
+            "type": "integer",
+            "meta": {
+                "interface": "input",
+                "special": [
+                    "sort"
+                ]
+            }
+        }
+    ],
+    "campaign_masters": [
+        {
+            "field": "id",
+            "type": "uuid",
+            "meta": {
+                "special": [
+                    "uuid"
+                ],
+                "interface": "input",
+                "readonly": true,
+                "hidden": true
+            }
+        },
+        {
+            "field": "status",
+            "type": "string",
+            "meta": {
+                "interface": "select-dropdown",
+                "options": {
+                    "choices": [
+                        {
+                            "text": "Active",
+                            "value": "active"
+                        },
+                        {
+                            "text": "Paused",
+                            "value": "paused"
+                        },
+                        {
+                            "text": "Completed",
+                            "value": "completed"
+                        }
+                    ]
+                },
+                "width": "half"
+            },
+            "schema": {
+                "default_value": "active"
+            }
+        },
+        {
+            "field": "site",
+            "type": "uuid",
+            "meta": {
+                "interface": "select-dropdown-m2o",
+                "special": [
+                    "m2o"
+                ],
+                "width": "half",
+                "note": "Leave empty for global campaign"
+            }
+        },
+        {
+            "field": "name",
+            "type": "string",
+            "meta": {
+                "interface": "input",
+                "required": true
+            }
+        },
+        {
+            "field": "headline_spintax_root",
+            "type": "text",
+            "meta": {
+                "interface": "input-multiline",
+                "required": true,
+                "note": "Use {option1|option2} syntax"
+            }
+        },
+        {
+            "field": "niche_variables",
+            "type": "json",
+            "meta": {
+                "interface": "input-code",
+                "options": {
+                    "language": "json"
+                },
+                "note": "Variables like {target}, {service}"
+            }
+        },
+        {
+            "field": "location_mode",
+            "type": "string",
+            "meta": {
+                "interface": "select-dropdown",
+                "options": {
+                    "choices": [
+                        {
+                            "text": "None",
+                            "value": "none"
+                        },
+                        {
+                            "text": "State",
+                            "value": "state"
+                        },
+                        {
+                            "text": "County",
+                            "value": "county"
+                        },
+                        {
+                            "text": "City",
+                            "value": "city"
+                        }
+                    ]
+                }
+            },
+            "schema": {
+                "default_value": "none"
+            }
+        },
+        {
+            "field": "location_target",
+            "type": "uuid",
+            "meta": {
+                "interface": "select-dropdown-m2o",
+                "special": [
+                    "m2o"
+                ],
+                "note": "Target state/county/city"
+            }
+        },
+        {
+            "field": "batch_count",
+            "type": "integer",
+            "meta": {
+                "interface": "input",
+                "note": "Number of articles to generate per batch"
+            },
+            "schema": {
+                "default_value": 1
+            }
+        },
+        {
+            "field": "date_created",
+            "type": "timestamp",
+            "meta": {
+                "special": [
+                    "date-created"
+                ],
+                "interface": "datetime",
+                "readonly": true
+            }
+        }
+    ],
+    "headline_inventory": [
+        {
+            "field": "id",
+            "type": "uuid",
+            "meta": {
+                "special": [
+                    "uuid"
+                ],
+                "interface": "input",
+                "readonly": true,
+                "hidden": true
+            }
+        },
+        {
+            "field": "campaign",
+            "type": "uuid",
+            "meta": {
+                "interface": "select-dropdown-m2o",
+                "special": [
+                    "m2o"
+                ],
+                "required": true
+            }
+        },
+        {
+            "field": "final_title_text",
+            "type": "string",
+            "meta": {
+                "interface": "input",
+                "required": true
+            }
+        },
+        {
+            "field": "status",
+            "type": "string",
+            "meta": {
+                "interface": "select-dropdown",
+                "options": {
+                    "choices": [
+                        {
+                            "text": "Available",
+                            "value": "available"
+                        },
+                        {
+                            "text": "Used",
+                            "value": "used"
+                        }
+                    ]
+                }
+            },
+            "schema": {
+                "default_value": "available"
+            }
+        },
+        {
+            "field": "used_on_article",
+            "type": "uuid",
+            "meta": {
+                "interface": "select-dropdown-m2o",
+                "special": [
+                    "m2o"
+                ]
+            }
+        },
+        {
+            "field": "date_created",
+            "type": "timestamp",
+            "meta": {
+                "special": [
+                    "date-created"
+                ],
+                "interface": "datetime",
+                "readonly": true
+            }
+        }
+    ],
+    "content_fragments": [
+        {
+            "field": "id",
+            "type": "uuid",
+            "meta": {
+                "special": [
+                    "uuid"
+                ],
+                "interface": "input",
+                "readonly": true,
+                "hidden": true
+            }
+        },
+        {
+            "field": "campaign",
+            "type": "uuid",
+            "meta": {
+                "interface": "select-dropdown-m2o",
+                "special": [
+                    "m2o"
+                ],
+                "required": true
+            }
+        },
+        {
+            "field": "fragment_type",
+            "type": "string",
+            "meta": {
+                "interface": "select-dropdown",
+                "required": true,
+                "options": {
+                    "choices": [
+                        {
+                            "text": "Intro Hook",
+                            "value": "intro_hook"
+                        },
+                        {
+                            "text": "Pillar 1: Keywords",
+                            "value": "pillar_1_keyword"
+                        },
+                        {
+                            "text": "Pillar 2: Uniqueness",
+                            "value": "pillar_2_uniqueness"
+                        },
+                        {
+                            "text": "Pillar 3: Relevance",
+                            "value": "pillar_3_relevance"
+                        },
+                        {
+                            "text": "Pillar 4: Quality",
+                            "value": "pillar_4_quality"
+                        },
+                        {
+                            "text": "Pillar 5: Authority",
+                            "value": "pillar_5_authority"
+                        },
+                        {
+                            "text": "Pillar 6: Backlinks",
+                            "value": "pillar_6_backlinks"
+                        },
+                        {
+                            "text": "FAQ Section",
+                            "value": "faq_section"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "field": "content_body",
+            "type": "text",
+            "meta": {
+                "interface": "input-rich-text-html",
+                "required": true,
+                "note": "Use {variables} and {spintax|options}"
+            }
+        },
+        {
+            "field": "word_count",
+            "type": "integer",
+            "meta": {
+                "interface": "input",
+                "readonly": true
+            }
+        },
+        {
+            "field": "date_created",
+            "type": "timestamp",
+            "meta": {
+                "special": [
+                    "date-created"
+                ],
+                "interface": "datetime",
+                "readonly": true
+            }
+        }
+    ],
+    "generated_articles": [
+        {
+            "field": "id",
+            "type": "uuid",
+            "meta": {
+                "special": [
+                    "uuid"
+                ],
+                "interface": "input",
+                "readonly": true,
+                "hidden": true
+            }
+        },
+        {
+            "field": "site",
+            "type": "uuid",
+            "meta": {
+                "interface": "select-dropdown-m2o",
+                "special": [
+                    "m2o"
+                ],
+                "required": true
+            }
+        },
+        {
+            "field": "campaign",
+            "type": "uuid",
+            "meta": {
+                "interface": "select-dropdown-m2o",
+                "special": [
+                    "m2o"
+                ]
+            }
+        },
+        {
+            "field": "headline",
+            "type": "string",
+            "meta": {
+                "interface": "input",
+                "required": true
+            }
+        },
+        {
+            "field": "meta_title",
+            "type": "string",
+            "meta": {
+                "interface": "input",
+                "note": "Max 70 characters"
+            }
+        },
+        {
+            "field": "meta_description",
+            "type": "text",
+            "meta": {
+                "interface": "input-multiline",
+                "note": "Max 160 characters"
+            }
+        },
+        {
+            "field": "full_html_body",
+            "type": "text",
+            "meta": {
+                "interface": "input-rich-text-html"
+            }
+        },
+        {
+            "field": "word_count",
+            "type": "integer",
+            "meta": {
+                "interface": "input",
+                "readonly": true
+            }
+        },
+        {
+            "field": "is_published",
+            "type": "boolean",
+            "meta": {
+                "interface": "boolean"
+            },
+            "schema": {
+                "default_value": false
+            }
+        },
+        {
+            "field": "featured_image",
+            "type": "uuid",
+            "meta": {
+                "interface": "file-image",
+                "special": [
+                    "file"
+                ]
+            }
+        },
+        {
+            "field": "location_state",
+            "type": "string",
+            "meta": {
+                "interface": "input"
+            }
+        },
+        {
+            "field": "location_county",
+            "type": "string",
+            "meta": {
+                "interface": "input"
+            }
+        },
+        {
+            "field": "location_city",
+            "type": "string",
+            "meta": {
+                "interface": "input"
+            }
+        },
+        {
+            "field": "date_created",
+            "type": "timestamp",
+            "meta": {
+                "special": [
+                    "date-created"
+                ],
+                "interface": "datetime",
+                "readonly": true
+            }
+        },
+        {
+            "field": "date_updated",
+            "type": "timestamp",
+            "meta": {
+                "special": [
+                    "date-updated"
+                ],
+                "interface": "datetime",
+                "readonly": true
+            }
+        }
+    ],
+    "locations_states": [
+        {
+            "field": "id",
+            "type": "uuid",
+            "meta": {
+                "special": [
+                    "uuid"
+                ],
+                "interface": "input",
+                "readonly": true,
+                "hidden": true
+            }
+        },
+        {
+            "field": "name",
+            "type": "string",
+            "meta": {
+                "interface": "input",
+                "required": true
+            }
+        },
+        {
+            "field": "code",
+            "type": "string",
+            "meta": {
+                "interface": "input",
+                "required": true,
+                "note": "Two-letter state code"
+            }
+        },
+        {
+            "field": "country_code",
+            "type": "string",
+            "meta": {
+                "interface": "input"
+            },
+            "schema": {
+                "default_value": "US"
+            }
+        }
+    ],
+    "locations_counties": [
+        {
+            "field": "id",
+            "type": "uuid",
+            "meta": {
+                "special": [
+                    "uuid"
+                ],
+                "interface": "input",
+                "readonly": true,
+                "hidden": true
+            }
+        },
+        {
+            "field": "name",
+            "type": "string",
+            "meta": {
+                "interface": "input",
+                "required": true
+            }
+        },
+        {
+            "field": "state",
+            "type": "uuid",
+            "meta": {
+                "interface": "select-dropdown-m2o",
+                "special": [
+                    "m2o"
+                ],
+                "required": true
+            }
+        },
+        {
+            "field": "fips_code",
+            "type": "string",
+            "meta": {
+                "interface": "input"
+            }
+        },
+        {
+            "field": "population",
+            "type": "integer",
+            "meta": {
+                "interface": "input"
+            }
+        }
+    ],
+    "locations_cities": [
+        {
+            "field": "id",
+            "type": "uuid",
+            "meta": {
+                "special": [
+                    "uuid"
+                ],
+                "interface": "input",
+                "readonly": true,
+                "hidden": true
+            }
+        },
+        {
+            "field": "name",
+            "type": "string",
+            "meta": {
+                "interface": "input",
+                "required": true
+            }
+        },
+        {
+            "field": "county",
+            "type": "uuid",
+            "meta": {
+                "interface": "select-dropdown-m2o",
+                "special": [
+                    "m2o"
+                ],
+                "required": true
+            }
+        },
+        {
+            "field": "state",
+            "type": "uuid",
+            "meta": {
+                "interface": "select-dropdown-m2o",
+                "special": [
+                    "m2o"
+                ],
+                "required": true
+            }
+        },
+        {
+            "field": "lat",
+            "type": "float",
+            "meta": {
+                "interface": "input"
+            }
+        },
+        {
+            "field": "lng",
+            "type": "float",
+            "meta": {
+                "interface": "input"
+            }
+        },
+        {
+            "field": "population",
+            "type": "integer",
+            "meta": {
+                "interface": "input"
+            }
+        },
+        {
+            "field": "postal_code",
+            "type": "string",
+            "meta": {
+                "interface": "input"
+            }
+        },
+        {
+            "field": "ranking",
+            "type": "integer",
+            "meta": {
+                "interface": "input",
+                "note": "Rank within county by population"
+            }
+        }
+    ],
+    "leads": [
+        {
+            "field": "id",
+            "type": "uuid",
+            "meta": {
+                "special": [
+                    "uuid"
+                ],
+                "interface": "input",
+                "readonly": true,
+                "hidden": true
+            }
+        },
+        {
+            "field": "site",
+            "type": "uuid",
+            "meta": {
+                "interface": "select-dropdown-m2o",
+                "special": [
+                    "m2o"
+                ],
+                "required": true
+            }
+        },
+        {
+            "field": "name",
+            "type": "string",
+            "meta": {
+                "interface": "input"
+            }
+        },
+        {
+            "field": "email",
+            "type": "string",
+            "meta": {
+                "interface": "input",
+                "required": true
+            }
+        },
+        {
+            "field": "phone",
+            "type": "string",
+            "meta": {
+                "interface": "input"
+            }
+        },
+        {
+            "field": "message",
+            "type": "text",
+            "meta": {
+                "interface": "input-multiline"
+            }
+        },
+        {
+            "field": "source",
+            "type": "string",
+            "meta": {
+                "interface": "input"
+            }
+        },
+        {
+            "field": "date_created",
+            "type": "timestamp",
+            "meta": {
+                "special": [
+                    "date-created"
+                ],
+                "interface": "datetime",
+                "readonly": true
+            }
+        }
+    ],
+    "image_templates": [
+        {
+            "field": "id",
+            "type": "uuid",
+            "meta": {
+                "special": [
+                    "uuid"
+                ],
+                "interface": "input",
+                "readonly": true,
+                "hidden": true
+            }
+        },
+        {
+            "field": "site",
+            "type": "uuid",
+            "meta": {
+                "interface": "select-dropdown-m2o",
+                "special": [
+                    "m2o"
+                ],
+                "note": "Leave empty for global template"
+            }
+        },
+        {
+            "field": "name",
+            "type": "string",
+            "meta": {
+                "interface": "input",
+                "required": true
+            }
+        },
+        {
+            "field": "svg_source",
+            "type": "text",
+            "meta": {
+                "interface": "input-code",
+                "options": {
+                    "language": "xml"
+                },
+                "required": true
+            }
+        },
+        {
+            "field": "preview",
+            "type": "uuid",
+            "meta": {
+                "interface": "file-image",
+                "special": [
+                    "file"
+                ]
+            }
+        },
+        {
+            "field": "is_default",
+            "type": "boolean",
+            "meta": {
+                "interface": "boolean"
+            },
+            "schema": {
+                "default_value": false
+            }
+        },
+        {
+            "field": "date_created",
+            "type": "timestamp",
+            "meta": {
+                "special": [
+                    "date-created"
+                ],
+                "interface": "datetime",
+                "readonly": true
+            }
+        }
+    ]
+}

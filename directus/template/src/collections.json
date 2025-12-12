@@ -1,0 +1,243 @@
+[
+    {
+        "collection": "sites",
+        "meta": {
+            "icon": "domain",
+            "note": "Multi-tenant sites/domains",
+            "singleton": false
+        }
+    },
+    {
+        "collection": "pages",
+        "meta": {
+            "icon": "article",
+            "note": "Site pages with block builder",
+            "singleton": false
+        }
+    },
+    {
+        "collection": "posts",
+        "meta": {
+            "icon": "edit_note",
+            "note": "Blog posts and articles",
+            "singleton": false
+        }
+    },
+    {
+        "collection": "globals",
+        "meta": {
+            "icon": "settings",
+            "note": "Site-wide settings and branding",
+            "singleton": false
+        }
+    },
+    {
+        "collection": "navigation",
+        "meta": {
+            "icon": "menu",
+            "note": "Site navigation menus",
+            "singleton": false
+        }
+    },
+    {
+        "collection": "authors",
+        "meta": {
+            "icon": "person",
+            "note": "Content authors",
+            "singleton": false
+        }
+    },
+    {
+        "collection": "leads",
+        "meta": {
+            "icon": "contact_mail",
+            "note": "Captured leads from forms",
+            "singleton": false
+        }
+    },
+    {
+        "collection": "newsletter_subscribers",
+        "meta": {
+            "icon": "email",
+            "note": "Newsletter subscribers",
+            "singleton": false
+        }
+    },
+    {
+        "collection": "forms",
+        "meta": {
+            "icon": "dynamic_form",
+            "note": "Custom form definitions",
+            "singleton": false
+        }
+    },
+    {
+        "collection": "form_submissions",
+        "meta": {
+            "icon": "inbox",
+            "note": "Form submission records",
+            "singleton": false
+        }
+    },
+    {
+        "collection": "campaign_masters",
+        "meta": {
+            "icon": "campaign",
+            "note": "SEO content campaigns",
+            "singleton": false,
+            "group": "seo_engine"
+        }
+    },
+    {
+        "collection": "headline_inventory",
+        "meta": {
+            "icon": "title",
+            "note": "Generated headlines from spintax",
+            "singleton": false,
+            "group": "seo_engine"
+        }
+    },
+    {
+        "collection": "content_fragments",
+        "meta": {
+            "icon": "extension",
+            "note": "Modular content blocks for article assembly",
+            "singleton": false,
+            "group": "seo_engine"
+        }
+    },
+    {
+        "collection": "generated_articles",
+        "meta": {
+            "icon": "auto_awesome",
+            "note": "AI-assembled SEO articles",
+            "singleton": false,
+            "group": "seo_engine"
+        }
+    },
+    {
+        "collection": "image_templates",
+        "meta": {
+            "icon": "image",
+            "note": "SVG templates for feature images",
+            "singleton": false
+        }
+    },
+    {
+        "collection": "locations_states",
+        "meta": {
+            "icon": "map",
+            "note": "US States",
+            "singleton": false,
+            "group": "locations"
+        }
+    },
+    {
+        "collection": "locations_counties",
+        "meta": {
+            "icon": "location_city",
+            "note": "US Counties",
+            "singleton": false,
+            "group": "locations"
+        }
+    },
+    {
+        "collection": "locations_cities",
+        "meta": {
+            "icon": "place",
+            "note": "US Cities (top 50 per county)",
+            "singleton": false,
+            "group": "locations"
+        }
+    },
+    {
+        "collection": "block_hero",
+        "meta": {
+            "icon": "view_carousel",
+            "note": "Hero section block",
+            "singleton": false,
+            "group": "blocks"
+        }
+    },
+    {
+        "collection": "block_richtext",
+        "meta": {
+            "icon": "subject",
+            "note": "Rich text content block",
+            "singleton": false,
+            "group": "blocks"
+        }
+    },
+    {
+        "collection": "block_columns",
+        "meta": {
+            "icon": "view_column",
+            "note": "Multi-column layout block",
+            "singleton": false,
+            "group": "blocks"
+        }
+    },
+    {
+        "collection": "block_media",
+        "meta": {
+            "icon": "perm_media",
+            "note": "Image/video block",
+            "singleton": false,
+            "group": "blocks"
+        }
+    },
+    {
+        "collection": "block_steps",
+        "meta": {
+            "icon": "format_list_numbered",
+            "note": "Numbered steps/process block",
+            "singleton": false,
+            "group": "blocks"
+        }
+    },
+    {
+        "collection": "block_quote",
+        "meta": {
+            "icon": "format_quote",
+            "note": "Quote/testimonial block",
+            "singleton": false,
+            "group": "blocks"
+        }
+    },
+    {
+        "collection": "block_gallery",
+        "meta": {
+            "icon": "photo_library",
+            "note": "Image gallery block",
+            "singleton": false,
+            "group": "blocks"
+        }
+    },
+    {
+        "collection": "block_faq",
+        "meta": {
+            "icon": "help",
+            "note": "FAQ accordion block",
+            "singleton": false,
+            "group": "blocks"
+        }
+    },
+    {
+        "collection": "block_form",
+        "meta": {
+            "icon": "contact_page",
+            "note": "Lead capture form block",
+            "singleton": false,
+            "group": "blocks"
+        }
+    },
+    {
+        "collection": "block_posts",
+        "meta": {
+            "icon": "library_books",
+            "note": "Posts listing block",
+            "singleton": false,
+            "group": "blocks"
+        }
+    }
+]

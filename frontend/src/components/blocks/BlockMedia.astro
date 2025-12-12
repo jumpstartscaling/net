@@ -1,0 +1,51 @@
+---
+interface Props {
+  media_url: string;
+  media_type?: 'image' | 'video';
+  caption?: string;
+  alt?: string;
+  size?: 'sm' | 'md' | 'lg' | 'full';
+  rounded?: boolean;
+  shadow?: boolean;
+}
+
+const { 
+  media_url, 
+  media_type = 'image',
+  caption, 
+  alt,
+  size = 'lg',
+  rounded = true,
+  shadow = true
+} = Astro.props;
+
+const sizeClasses = {
+  sm: 'max-w-md',
+  md: 'max-w-2xl',
+  lg: 'max-w-4xl',
+  full: 'max-w-full'
+};
+---
+
+<figure class={`${sizeClasses[size]} mx-auto my-12 px-6`}>
+  {media_type === 'video' ? (
+    <video 
+      src={media_url}
+      controls
+      class={`w-full ${rounded ? 'rounded-xl' : ''} ${shadow ? 'shadow-2xl' : ''}`}
+    />
+  ) : (
+    <img 
+      src={media_url}
+      alt={alt || caption || ''}
+      loading="lazy"
+      class={`w-full h-auto ${rounded ? 'rounded-xl' : ''} ${shadow ? 'shadow-2xl' : ''} transition-transform duration-300 hover:scale-[1.02]`}
+    />
+  )}
+  
+  {caption && (
+    <figcaption class="mt-4 text-center text-gray-600 dark:text-gray-400 text-sm italic">
+      {caption}
+    </figcaption>
+  )}
+</figure>
