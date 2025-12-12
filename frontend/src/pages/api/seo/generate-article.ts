@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getDirectusClient, readItems, createItem, updateItem } from '@/lib/directus/client';
 import { parseSpintaxRandom, injectVariables } from '@/lib/seo/cartesian';
+import { generateFeaturedImage, type ImageTemplate } from '@/lib/seo/image-generator';
 import type { VariableMap } from '@/types/cartesian';
 
 /**
@@ -203,7 +204,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
                 ? fragments[0].replace(/<[^>]*>/g, '').substring(0, 155)
                 : metaTitle;
 
-            // Create article record
+            // Generate featured image from template
+            const featuredImage = generateFeaturedImage({
+                title: processedHeadline,
+                subtitle: locationVars.city
+                    ? `${locationVars.city}, ${locationVars.state_code || locationVars.state}`
+                    : undefined
+            });
+
+            // Create article record with featured image
             const article = await directus.request(
                 createItem('generated_articles', {
                     site: siteId || campaign.site,
@@ -216,7 +225,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
                     is_published: false,
                     location_city: locationVars.city || null,
                     location_county: locationVars.county || null,
-                    location_state: locationVars.state || null
+                    location_state: locationVars.state || null,
+                    featured_image_svg: featuredImage.svg,
+                    featured_image_filename: featuredImage.filename,
+                    featured_image_alt: featuredImage.alt
                 })
             );
 
