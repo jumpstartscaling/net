@@ -4,6 +4,9 @@ interface ImportMetaEnv {
     readonly PUBLIC_DIRECTUS_URL: string;
     readonly DIRECTUS_ADMIN_TOKEN: string;
     readonly PUBLIC_PLATFORM_DOMAIN: string;
+    readonly DEV: boolean;
+    readonly PROD: boolean;
+    readonly MODE: string;
 }
 
 interface ImportMeta {
