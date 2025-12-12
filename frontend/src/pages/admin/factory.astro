@@ -5,10 +5,10 @@
  * The main control panel for the SEO Content Factory.
  * Uses React islands for interactive components.
  */
-import Layout from '../../layouts/Layout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
-<Layout title="Factory Command Center">
+<BaseLayout title="Factory Command Center">
   <div class="factory-dashboard">
     <!-- Header -->
     <header class="dashboard-header">
@@ -150,7 +150,7 @@ import Layout from '../../layouts/Layout.astro';
       </div>
     </div>
   </div>
-</Layout>
+</BaseLayout>
 
 <style>
   .factory-dashboard {
