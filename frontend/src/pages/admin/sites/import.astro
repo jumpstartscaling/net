@@ -1,0 +1,18 @@
+---
+import Layout from '@/layouts/AdminLayout.astro';
+import WPImporter from '@/components/admin/wordpress/WPImporter';
+---
+
+<Layout title="Import WordPress Site">
+  <div class="p-6 space-y-6">
+    <div class="flex items-center gap-2 text-slate-400 text-sm">
+        <a href="/admin/sites" class="hover:text-blue-400">Sites</a>
+        <span>/</span>
+        <span class="text-white">Import Wizard</span>
+    </div>
+
+    <h1 class="text-3xl font-bold text-slate-100">Content Import & Refactor</h1>
+
+    <WPImporter client:load />
+  </div>
+</Layout>

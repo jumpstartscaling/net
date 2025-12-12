@@ -76,7 +76,63 @@ export const POST: APIRoute = async ({ request }) => {
             generatedCount++;
         }
 
-        // 4. Generate Standard Batch
+        // 4. REFACTOR MODE (WordPress Import)
+        if (mode === 'refactor') {
+            console.log("♻️ Executing Refactor Mode...");
+            const queue = filters.items || [];
+            
+            // Loop through queue items starting from current offset
+            while (generatedCount + offset < queue.length) {
+                const item = queue[generatedCount + offset];
+                
+                // Context for Refactor
+                // We use a generic 'Business' avatar for now or try to infer from content?
+                // Let's stick to a safe default: "Scaling Founder"
+                const avatarItem = await client.request(readItem('avatars' as any, 'scaling_founder')); 
+                const city = { city: 'Online', state: 'World' }; // Generic
+
+                const context = {
+                    avatar: avatarItem,
+                    niche: 'Business',
+                    city: city,
+                    site: site,
+                    // Use a generic article structure
+                    template: { structure_json: ['block_03_fix_first_scale_second', 'block_04_market_domination'] }
+                };
+
+                // Generate with Overrides
+                const article = await engine.generateArticle(context, {
+                    slug: item.slug, // PRESERVE SLUG
+                    title: `Refactored: ${item.title}` // Indicate change
+                });
+
+                // Save
+                await client.request(createItem('generated_articles' as any, {
+                    site_id: siteId,
+                    title: article.title,
+                    slug: article.slug,
+                    html_content: article.html_content,
+                    meta_desc: article.meta_desc,
+                    is_published: true, 
+                    job_id: jobId
+                }));
+                generatedCount++;
+            }
+             
+            // Complete safely
+             await client.request(updateItem('generation_jobs' as any, jobId, {
+                current_offset: offset + generatedCount,
+                status: 'Complete'
+            }));
+
+            return new Response(JSON.stringify({
+                generated: generatedCount,
+                completed: true
+            }), { status: 200 });
+        }
+
+
+        // 5. Generate Standard Batch
         // We will loop until batchSize is met or limit reached.
 
         // Load Resources needed for randomization
@@ -133,7 +189,7 @@ export const POST: APIRoute = async ({ request }) => {
             generatedCount++;
         }
 
-        // 5. Update Job
+        // 6. Update Job standard
         await client.request(updateItem('generation_jobs' as any, jobId, {
             current_offset: offset + generatedCount,
             status: (offset + generatedCount >= limit) ? 'Complete' : 'Processing'

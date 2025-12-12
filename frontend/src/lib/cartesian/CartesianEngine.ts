@@ -26,8 +26,9 @@ export class CartesianEngine {
 
     /**
      * Generate a single article based on specific inputs.
+     * @param overrides Optional overrides for slug, title, etc.
      */
-    async generateArticle(context: GenerationContext) {
+    async generateArticle(context: GenerationContext, overrides?: any) {
         const { avatar, niche, city, site, template } = context;
         const variant = await this.getAvatarVariant(avatar.id, 'neutral'); // Default to neutral or specific
 
@@ -51,19 +52,9 @@ export class CartesianEngine {
                 universal = result[0] || {};
             } catch (e) { console.error(`Block not found: ${blockId}`); }
 
-            // Fetch Personalized Expansion
-            let personal: any = {};
-            try {
-                // Need a way to match block_id + avatar_id. 
-                // Our schema imported flat structure? 
-                // Ideally we query the offer_blocks_personalized collection
-                // filtering by block_related_id AND avatar_related_id
-                // For prototype, we might have stored it loosely.
-                // Let's assume we can fetch.
-            } catch (e) { }
+            // Fetch Personalized Expansion (Skipped for MVP)
 
-            // MERGE (Simplified for now - using universal only + placeholder)
-            // Real merge adds personal pains to universal pains
+            // MERGE 
             const mergedBlock = {
                 id: blockId,
                 title: universal.title,
@@ -84,12 +75,12 @@ export class CartesianEngine {
         const html = HTMLRenderer.renderArticle(blocksData);
 
         // 4. Generate Meta
-        const metaTitle = this.generateMetaTitle(context, variant);
+        const metaTitle = overrides?.title || this.generateMetaTitle(context, variant);
 
         return {
             title: metaTitle,
             html_content: html,
-            slug: this.generateSlug(metaTitle),
+            slug: overrides?.slug || this.generateSlug(metaTitle),
             meta_desc: "Generated description..." // Implementation TBD
         };
     }
@@ -129,17 +120,17 @@ export class CartesianEngine {
         // Handle Spintax Content & Components
         if (block.spintax) {
             let content = SpintaxParser.parse(block.spintax);
-            
+
             // Dynamic Component Replacement
             if (content.includes('{{COMPONENT_AVATAR_GRID}}')) {
-                 content = content.replace('{{COMPONENT_AVATAR_GRID}}', this.generateAvatarGrid());
+                content = content.replace('{{COMPONENT_AVATAR_GRID}}', this.generateAvatarGrid());
             }
             if (content.includes('{{COMPONENT_OPTIN_FORM}}')) {
-                 content = content.replace('{{COMPONENT_OPTIN_FORM}}', this.generateOptinForm());
+                content = content.replace('{{COMPONENT_OPTIN_FORM}}', this.generateOptinForm());
             }
 
             content = GrammarEngine.resolve(content, variant);
-            resolvedBlock.content = content; 
+            resolvedBlock.content = content;
         }
 
         return resolvedBlock;
@@ -150,7 +141,7 @@ export class CartesianEngine {
             "Scaling Founder", "Marketing Director", "Ecom Owner", "SaaS CEO", "Local Biz Owner",
             "Real Estate Agent", "Coach/Consultant", "Agency Owner", "Startup CTO", "Enterprise VP"
         ];
-        
+
         let html = '<div class="grid grid-cols-2 md:grid-cols-5 gap-4 my-8">';
         avatars.forEach(a => {
             html += `
