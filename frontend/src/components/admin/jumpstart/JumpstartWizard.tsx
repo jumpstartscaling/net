@@ -71,9 +71,36 @@ export default function JumpstartWizard() {
     };
 
     // 4. IGNITION
-    const handleLaunch = () => {
+    const handleLaunch = async () => {
         setStep('launch');
         addLog("🚀 IGNITION! Starting Mass Generation & Deployment...");
+
+        // Loop through Inventory and trigger generation + deployment
+        // In real massive scale, we'd trigger a backend job.
+        // For 'Jumpstart Test' on < 200 items, we can loop client-side or fire a batch job.
+
+        try {
+            // Using the 'Refactor' endpoint we built in Phase 5
+            // But needing to add 'deploy: true' flag
+            const res = await fetch('/api/generate-content', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    mode: 'jumpstart_test',
+                    siteUrl,
+                    auth: btoa(`${username}:${appPassword}`),
+                    items: inventory?.items || [] // We need to store items from inventory scan
+                })
+            });
+
+            if (res.ok) {
+                addLog("✅ Jumpstart Job Queued. Monitor Progress above.");
+            } else {
+                addLog("❌ Ignition Error. Check credentials.");
+            }
+        } catch (e) {
+            addLog(`❌ Error: ${e.message}`);
+        }
     };
 
     return (
