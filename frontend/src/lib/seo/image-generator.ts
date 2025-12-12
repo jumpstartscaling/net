@@ -139,9 +139,10 @@ export function generateFeaturedImage(input: ImageGeneratorInput): GeneratedImag
         .replace(/{subtitle}/g, escapeXml(input.subtitle || template.subtitle_text || ''));
 
     // Generate base64 data URI for inline use
-    const base64 = typeof Buffer !== 'undefined'
-        ? Buffer.from(svg).toString('base64')
-        : btoa(unescape(encodeURIComponent(svg)));
+    // Use TextEncoder for Node 18+ and browser compatibility
+    const encoder = new TextEncoder();
+    const bytes = encoder.encode(svg);
+    const base64 = btoa(String.fromCharCode(...bytes));
     const dataUri = `data:image/svg+xml;base64,${base64}`;
 
     return {

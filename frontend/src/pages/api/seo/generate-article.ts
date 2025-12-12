@@ -1,3 +1,4 @@
+// @ts-ignore - Astro types available at build time
 import type { APIRoute } from 'astro';
 import { getDirectusClient, readItems, createItem, updateItem } from '@/lib/directus/client';
 import { parseSpintaxRandom, injectVariables } from '@/lib/seo/cartesian';
