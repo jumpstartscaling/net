@@ -1,25 +1,18 @@
 /**
  * Spark Platform - US Location Data Loader
  * 
- * This script loads US states, counties, and top cities into Directus.
+ * This script loads US states into Directus.
  * 
  * Usage: node scripts/load_locations.js
  */
 
-require('dotenv').config();
-const { createDirectus, rest, staticToken, createItem, readItems } = require('@directus/sdk');
-const fs = require('fs');
-const path = require('path');
-
-const DIRECTUS_URL = process.env.DIRECTUS_URL || 'http://localhost:8055';
-const DIRECTUS_TOKEN = process.env.DIRECTUS_ADMIN_TOKEN;
+const DIRECTUS_URL = process.env.PUBLIC_URL || process.env.DIRECTUS_URL || 'http://localhost:8055';
+const DIRECTUS_TOKEN = process.env.ADMIN_TOKEN || process.env.DIRECTUS_ADMIN_TOKEN;
 
 if (!DIRECTUS_TOKEN) {
-    console.error('❌ DIRECTUS_ADMIN_TOKEN is required');
+    console.error('❌ ADMIN_TOKEN or DIRECTUS_ADMIN_TOKEN is required');
     process.exit(1);
 }
-
-const directus = createDirectus(DIRECTUS_URL).with(rest()).with(staticToken(DIRECTUS_TOKEN));
 
 // US States data
 const US_STATES = [
@@ -76,104 +69,74 @@ const US_STATES = [
     { name: 'District of Columbia', code: 'DC' }
 ];
 
+async function createItem(collection, data) {
+    const response = await fetch(`${DIRECTUS_URL}/items/${collection}`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${DIRECTUS_TOKEN}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.errors?.[0]?.message || response.statusText);
+    }
+    return response.json();
+}
+
+async function getItems(collection, limit = 1) {
+    const response = await fetch(`${DIRECTUS_URL}/items/${collection}?limit=${limit}`, {
+        headers: {
+            'Authorization': `Bearer ${DIRECTUS_TOKEN}`
+        }
+    });
+    if (!response.ok) {
+        return { data: [] };
+    }
+    return response.json();
+}
+
 async function loadLocations() {
-    console.log('🚀 Loading US location data...\n');
+    console.log('🚀 Loading US location data...');
+    console.log(`   Directus URL: ${DIRECTUS_URL}\n`);
 
     // Check if data already loaded
-    const existingStates = await directus.request(
-        readItems('locations_states', { limit: 1 })
-    );
-
-    if (existingStates.length > 0) {
-        console.log('📊 Location data already loaded. Skipping...');
+    try {
+        const existing = await getItems('locations_states', 1);
+        if (existing.data?.length > 0) {
+            console.log('📊 Location data already loaded. Skipping...');
+            return;
+        }
+    } catch (err) {
+        console.log('⚠️  locations_states collection may not exist. Run import_template.js first.');
         return;
     }
 
     // Load states
     console.log('🗺️  Loading states...');
-    const stateMap = new Map();
 
     for (const state of US_STATES) {
         try {
-            const result = await directus.request(
-                createItem('locations_states', {
-                    name: state.name,
-                    code: state.code,
-                    country_code: 'US'
-                })
-            );
-            stateMap.set(state.code, result.id);
+            await createItem('locations_states', {
+                name: state.name,
+                code: state.code,
+                country_code: 'US'
+            });
             console.log(`  ✅ ${state.name} (${state.code})`);
         } catch (err) {
-            console.log(`  ❌ ${state.name}: ${err.message}`);
-        }
-    }
-
-    // Check if we have the full locations.json file
-    const locationsFile = path.join(__dirname, '../template/src/locations.json');
-
-    if (fs.existsSync(locationsFile)) {
-        console.log('\n📦 Loading counties and cities from locations.json...');
-        const locations = JSON.parse(fs.readFileSync(locationsFile, 'utf8'));
-
-        // Load counties
-        const countyMap = new Map();
-        console.log(`  Loading ${locations.counties?.length || 0} counties...`);
-
-        for (const county of (locations.counties || [])) {
-            const stateId = stateMap.get(county.state_code);
-            if (!stateId) continue;
-
-            try {
-                const result = await directus.request(
-                    createItem('locations_counties', {
-                        name: county.name,
-                        state: stateId,
-                        fips_code: county.fips_code,
-                        population: county.population
-                    })
-                );
-                countyMap.set(county.fips_code, result.id);
-            } catch (err) {
-                // Silently continue on duplicate
+            if (err.message?.includes('already exists') || err.message?.includes('duplicate')) {
+                console.log(`  ⏭️  ${state.name} (exists)`);
+            } else {
+                console.log(`  ❌ ${state.name}: ${err.message}`);
             }
         }
-        console.log(`  ✅ Counties loaded`);
-
-        // Load cities
-        console.log(`  Loading cities (top 50 per county)...`);
-
-        let cityCount = 0;
-        for (const city of (locations.cities || [])) {
-            const countyId = countyMap.get(city.county_fips);
-            const stateId = stateMap.get(city.state_code);
-            if (!countyId || !stateId) continue;
-
-            try {
-                await directus.request(
-                    createItem('locations_cities', {
-                        name: city.name,
-                        county: countyId,
-                        state: stateId,
-                        lat: city.lat,
-                        lng: city.lng,
-                        population: city.population,
-                        postal_code: city.postal_code,
-                        ranking: city.ranking
-                    })
-                );
-                cityCount++;
-            } catch (err) {
-                // Silently continue on duplicate
-            }
-        }
-        console.log(`  ✅ ${cityCount} cities loaded`);
-    } else {
-        console.log('\n⚠️  Full locations.json not found. Only states loaded.');
-        console.log('   Download full US location data from GeoNames and run this script again.');
     }
 
     console.log('\n✨ Location data import complete!');
 }
 
-loadLocations().catch(console.error);
+loadLocations().catch((err) => {
+    console.error('❌ Import failed:', err);
+    process.exit(1);
+});
