@@ -1,0 +1,18 @@
+{
+    "name": "spark-backend-scripts",
+    "version": "1.0.0",
+    "description": "Scripts for Cartesian Engine data management",
+    "main": "index.js",
+    "scripts": {
+        "init-schema": "ts-node scripts/init_schema.ts"
+    },
+    "dependencies": {
+        "@directus/sdk": "^13.0.0",
+        "dotenv": "^16.0.0"
+    },
+    "devDependencies": {
+        "ts-node": "^10.9.1",
+        "typescript": "^5.0.0",
+        "@types/node": "^20.0.0"
+    }
+}

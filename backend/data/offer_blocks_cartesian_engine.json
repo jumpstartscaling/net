@@ -1,0 +1,25 @@
+{
+    "meta": {
+        "file_type": "offer_blocks_cartesian_engine",
+        "version": "2.1",
+        "description": "Orchestrates the Cartesian Permutation Logic (n^k) by linking specialized dictionaries."
+    },
+    "cartesian_generator": {
+        "description": "Engine for generating long-tail SEO phrases and hooks by multiplying Spintax x AvatarNiche x City.",
+        "logic_flow": [
+            "1. Load Spintax Dictionaries (adjectives, verbs, etc.)",
+            "2. Load Context: Avatar Niches (The 'What')",
+            "3. Load Context: Geo Cities (The 'Where')",
+            "4. Load Pattern: Select Formula from cartesian_patterns",
+            "5. Execute Cross-Product Loop: Pattern x Spintax x Niche x City",
+            "6. Resolve Grammar Tokens ([[A_AN]], [[PRONOUN]])"
+        ],
+        "linked_resources": {
+            "spintax_source": "spintax_dictionaries.json",
+            "avatar_source": "avatar_intelligence.json",
+            "geo_source": "geo_intelligence.json",
+            "pattern_source": "cartesian_patterns.json",
+            "grammar_source": "master_meta.json"
+        }
+    }
+}

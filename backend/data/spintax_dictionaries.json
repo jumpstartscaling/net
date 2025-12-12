@@ -1,0 +1,52 @@
+{
+    "meta": {
+        "file_type": "spintax_dictionaries",
+        "version": "2.0",
+        "description": "Shared dictionaries for Spintax variables."
+    },
+    "dictionaries": {
+        "adjectives_quality": [
+            "Top-Rated",
+            "Premier",
+            "Elite",
+            "Exclusive",
+            "The #1",
+            "High-Performance"
+        ],
+        "adjectives_growth": [
+            "Scaling",
+            "Fast-Growing",
+            "Disruptive",
+            "Modern",
+            "Next-Gen"
+        ],
+        "verbs_action": [
+            "Dominate",
+            "Scale",
+            "Disrupt",
+            "Own",
+            "Capture"
+        ],
+        "verbs_solution": [
+            "Fix",
+            "Automate",
+            "Optimize",
+            "Streamline",
+            "Repair"
+        ],
+        "outcomes": [
+            "Revenue",
+            "ROI",
+            "Lead Flow",
+            "Patient Volume",
+            "Deal Flow"
+        ],
+        "timelines": [
+            "in 30 Days",
+            "This Quarter",
+            "Before Q4",
+            "Instantly",
+            "Overnight"
+        ]
+    }
+}

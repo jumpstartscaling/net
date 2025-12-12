@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "file_type": "master_meta",
+    "schema_version": "3.0",
+    "last_updated": "2024-06-14",
+    "description": "Global metadata, grammar token map, and system-wide schema for the Cartesian Offer Engine for scalable programmatic SEO assets."
+  },
+  "grammar_tokens": {
+    "A_AN": "[[A_AN:WORD]] -> 'a' or 'an' based on the phonetic start of WORD",
+    "PRONOUN": "[[PRONOUN:AVATAR]] -> he, she, or they, per avatar gender",
+    "PPRONOUN": "[[PPRONOUN:AVATAR]] -> him, her, or them, per avatar gender",
+    "POSPRONOUN": "[[POSPRONOUN:AVATAR]] -> his, her, or their, per avatar gender",
+    "ISARE": "[[ISARE:AVATAR]] -> is or are, per singular/plural/neutral context",
+    "HAS_HAVE": "[[HAS_HAVE:AVATAR]] -> has or have",
+    "DOES_DO": "[[DOES_DO:AVATAR]] -> does or do",
+    "CITY": "[[CITY]] -> injected City string",
+    "STATE": "[[STATE]] -> injected State string",
+    "COUNTY": "[[COUNTY]] -> injected County string",
+    "NICHE": "[[NICHE]] -> injected avatar business niche"
+  },
+  "schema": {
+    "avatar_intelligence": "Defines all avatars, their niches, gender variants, and focus areas.",
+    "geo_intelligence": "Defines all location clusters, cities, states, counties, zip/neighborhood info.",
+    "spintax_dictionaries": "Lists adjectives, verbs, transitions, timeframes, etc, for unlimited headline/permutation combos.",
+    "cartesian_patterns": "Long-tail SEO formulas with grammar tokens and spintax for full $n^k$ headline engine.",
+    "offer_blocks_universal": "Each universal offer block with global pain/solution/value bullets and grammar tokens.",
+    "offer_blocks_avatar_personalized": "Per-avatar offer block expansions: pain/solution/value bullets using pronoun, niche, geo logic.",
+    "offer_blocks_cartesian_engine": "The full Cartesian product: spintax x avatar_niche x geo x grammar-token, generating infinite variations."
+  },
+  "usage_notes": [
+    "Always resolve grammar tokens before rendering final output for SEO or user-facing interfaces.",
+    "Spintax expands first, then grammar tokens resolve for entity-aware copy.",
+    "Geo variables (city, state, county) are injected per page—do not hard-code.",
+    "Avatars determine the gender/number logic for all pronouns and verb agreements.",
+    "All pattern formulas can be mapped to avatar_niche x geo cluster for hyperlocal content and offers."
+  ]
+}

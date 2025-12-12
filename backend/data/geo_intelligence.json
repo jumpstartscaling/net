@@ -1,0 +1,74 @@
+{
+    "meta": {
+        "file_type": "geographic_intelligence",
+        "version": "2.1",
+        "note": "Cities array acts as the 'Location' variable in Cartesian generation."
+    },
+    "clusters": {
+        "tech_native": {
+            "cluster_name": "The Silicon Valleys",
+            "cities": [
+                {
+                    "city": "Atherton",
+                    "state": "CA",
+                    "zip_focus": "94027"
+                },
+                {
+                    "city": "Palo Alto",
+                    "state": "CA",
+                    "zip_focus": "94301"
+                },
+                {
+                    "city": "Medina",
+                    "state": "WA",
+                    "zip_focus": "98039"
+                },
+                {
+                    "city": "Austin",
+                    "state": "TX",
+                    "neighborhood": "Westlake"
+                }
+            ]
+        },
+        "financial_power": {
+            "cluster_name": "The Wall Street Corridors",
+            "cities": [
+                {
+                    "city": "Greenwich",
+                    "state": "CT",
+                    "zip_focus": "06830"
+                },
+                {
+                    "city": "Tribeca",
+                    "state": "NY",
+                    "neighborhood": "Manhattan"
+                },
+                {
+                    "city": "Charlotte",
+                    "state": "NC",
+                    "neighborhood": "Myers Park"
+                }
+            ]
+        },
+        "new_money_growth": {
+            "cluster_name": "The Growth Havens",
+            "cities": [
+                {
+                    "city": "Miami",
+                    "state": "FL",
+                    "neighborhood": "Coral Gables"
+                },
+                {
+                    "city": "Scottsdale",
+                    "state": "AZ",
+                    "zip_focus": "85253"
+                },
+                {
+                    "city": "Nashville",
+                    "state": "TN",
+                    "neighborhood": "Brentwood"
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,20 @@
+---
+import Layout from '@/layouts/AdminLayout.astro';
+import LeadList from '@/components/admin/leads/LeadList';
+---
+
+<Layout title="Leads & Inquiries">
+  <div class="p-6 space-y-6">
+    <div class="flex justify-between items-center">
+      <div>
+        <h1 class="text-3xl font-bold text-slate-100">Leads</h1>
+        <p class="text-slate-400">View form submissions and inquiries.</p>
+      </div>
+      <button class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+        Export CSV
+      </button>
+    </div>
+
+    <LeadList client:load />
+  </div>
+</Layout>

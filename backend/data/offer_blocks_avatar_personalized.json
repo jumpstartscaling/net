@@ -1,0 +1,1729 @@
+{
+    "meta": {
+        "file_type": "offer_blocks_avatar_personalized",
+        "version": "2.1",
+        "total_permutations": 100
+    },
+    "blocks": {
+        "block_01_zapier_fix": {
+            "scaling_founder": {
+                "pains": [
+                    "Your dev team is costing you $10k/mo just to patch broken Zaps.",
+                    "You're terrified to scale ads because the backend infrastructure might snap.",
+                    "Your CFO is asking why software costs are up 300% this quarter."
+                ],
+                "solutions": [
+                    "We replace spaghetti Zaps with robust n8n workflows.",
+                    "Implement server-side queues to handle ad scaling load.",
+                    "Consolidate 5+ SaaS tools into one purpose-built script."
+                ],
+                "value_points": [
+                    "Reduce dev costs by 80%",
+                    "Scale ads to $50k/day without breakage",
+                    "CFO-approved cost efficiency"
+                ]
+            },
+            "elite_consultant": {
+                "pains": [
+                    "You are personally debugging tech instead of closing $10k deals.",
+                    "Leads are getting cold because your 'automation' has a 4-hour delay.",
+                    "You feel trapped by a tech stack you built but don't understand."
+                ],
+                "solutions": [
+                    "White-glove implementation so you never touch Zapier again.",
+                    "Instant lead routing (sub-500ms) to your phone.",
+                    "Simplified dashboard showing you only what matters."
+                ],
+                "value_points": [
+                    "Reclaim 10+ hours of founder time weekly",
+                    "Double connection rates on inbound leads",
+                    "Total peace of mind"
+                ]
+            },
+            "saas_overloader": {
+                "pains": [
+                    "Your onboarding sequence breaks, causing immediate churn.",
+                    "You're paying per-task fees on high-volume user events.",
+                    "Your trial-to-paid data isn't syncing to your CRM correctly."
+                ],
+                "solutions": [
+                    "Event-driven architecture handles product usage spikes.",
+                    "Self-hosted automation (unlimited tasks, fixed cost).",
+                    "Bidirectional sync between Stripe, CRM, and Product."
+                ],
+                "value_points": [
+                    "Increase activation rate by 15%",
+                    "Save $5k/mo in Zapier task fees",
+                    "Perfect data integrity"
+                ]
+            },
+            "high_end_agency_owner": {
+                "pains": [
+                    "Your client fulfillment is delayed because onboarding zaps failed.",
+                    "You can't prove ROI to clients because the reporting automation broke.",
+                    "Your team is wasting 20 hours a week on manual data entry."
+                ],
+                "solutions": [
+                    "Automated client onboarding flows that never fail.",
+                    "Live client reporting dashboards fed by API.",
+                    "Full backend automation for fulfillment tasks."
+                ],
+                "value_points": [
+                    "Faster time-to-value for clients",
+                    "Client retention increases due to transparency",
+                    "Team focuses on strategy, not data entry"
+                ]
+            },
+            "medical_practice_ceo": {
+                "pains": [
+                    "Patient data is being passed through non-compliant tools.",
+                    "You are losing appointments because confirmation texts aren't firing.",
+                    "Your front desk is overwhelmed manually entering leads from Facebook."
+                ],
+                "solutions": [
+                    "HIPAA-compliant data handling workflows.",
+                    "Reliable SMS/Email confirmations via Twilio API.",
+                    "Direct EMR integration from ads."
+                ],
+                "value_points": [
+                    "100% HIPAA Compliance",
+                    "Reduce no-show rate by 30%",
+                    "Front desk saves 2 hours daily"
+                ]
+            },
+            "ecom_high_roller": {
+                "pains": [
+                    "Order data isn't syncing to your fulfillment center fast enough.",
+                    "You're paying massive Zapier overages every time you have a viral TikTok.",
+                    "Abandoned cart sequences are triggering too late to recover revenue."
+                ],
+                "solutions": [
+                    "Real-time order webhook processing.",
+                    "Scalable infrastructure designed for viral spikes.",
+                    "Instant trigger abandoned cart flows via Klaviyo API."
+                ],
+                "value_points": [
+                    "Same-day shipping capability restored",
+                    "Zero penalty cost for viral success",
+                    "Recover 15% more lost revenue"
+                ]
+            },
+            "coaching_empire_builder": {
+                "pains": [
+                    "Your webinar attendees aren't getting their login links.",
+                    "High-ticket applications are getting lost in the ether.",
+                    "You're paying for 10,000 tasks just to move email addresses around."
+                ],
+                "solutions": [
+                    "Fail-safe webinar registration automations.",
+                    "Application CRM pipelines that alert sales instantly.",
+                    "Efficient batch processing for large lists."
+                ],
+                "value_points": [
+                    "Maximize webinar show-up rates",
+                    "Never lose a high-ticket app again",
+                    "Cut automation costs by half"
+                ]
+            },
+            "multi_location_ceo": {
+                "pains": [
+                    "You can't see which franchise location is actually following up.",
+                    "Centralized reporting is impossible with your current broken stack.",
+                    "Leads are being routed to the wrong city, wasting ad spend."
+                ],
+                "solutions": [
+                    "Central 'Air Traffic Control' for lead routing.",
+                    "Unified HQ dashboard pulling data from all locations.",
+                    "Geo-fenced routing logic."
+                ],
+                "value_points": [
+                    "Franchisee accountability",
+                    "Global view of brand performance",
+                    "100% accurate lead distribution"
+                ]
+            },
+            "real_estate_power_player": {
+                "pains": [
+                    "Your Zillow leads are sitting cold for hours before reaching your CRM.",
+                    "You're losing commissions because follow-up texts didn't send.",
+                    "Your ISA team is complaining about duplicate data entry."
+                ],
+                "solutions": [
+                    "Speed-to-lead automation (Instant transfer).",
+                    "Automated ISA text nurturing sequences.",
+                    "Clean two-way sync with your MLS/CRM."
+                ],
+                "value_points": [
+                    "Convert more internet leads",
+                    "Never miss a commission due to tech failure",
+                    "Happy, efficient sales team"
+                ]
+            },
+            "enterprise_innovator": {
+                "pains": [
+                    "IT security won't approve your current 'duct-tape' automation stack.",
+                    "Data silos are preventing cross-departmental collaboration.",
+                    "You're spending enterprise budget on consumer-grade tools that crash."
+                ],
+                "solutions": [
+                    "SOC2 compliant enterprise automation architecture.",
+                    "Unified Data Lake integration.",
+                    "Enterprise-grade SLA and stability."
+                ],
+                "value_points": [
+                    "Pass IT security audits easily",
+                    "Break down data silos",
+                    "Reliability at scale"
+                ]
+            }
+        },
+        "block_02_social_proof": {
+            "scaling_founder": {
+                "pains": [
+                    "You've been burned by 'experts' who had never managed a $50k/mo budget.",
+                    "Agencies use your budget to learn instead of bringing proven strategies.",
+                    "You need results yesterday, not a 3-month 'onboarding phase'."
+                ],
+                "solutions": [
+                    "We show you data from 10+ similar exits.",
+                    "Proven playbooks deployed day one.",
+                    "Rapid implementation cycles."
+                ],
+                "value_points": [
+                    "Confidence in execution",
+                    "Faster time to ROI",
+                    "No 'learning on your dime'"
+                ]
+            },
+            "elite_consultant": {
+                "pains": [
+                    "Your brand reputation is too valuable to trust to amateurs.",
+                    "You need a partner who understands the nuance of high-ticket sales.",
+                    "You've seen agencies destroy the personal brands of your peers."
+                ],
+                "solutions": [
+                    "Brand-safe marketing protocols.",
+                    "Experience selling $25k+ offers.",
+                    "Reputation management focus."
+                ],
+                "value_points": [
+                    "Protect your personal brand",
+                    "Attract premium clients",
+                    "Zero reputation risk"
+                ]
+            },
+            "saas_overloader": {
+                "pains": [
+                    "Agencies don't understand the difference between SaaS and Ecom.",
+                    "You need proof they can lower CAC, not just get 'clicks'.",
+                    "You can't afford to lose another quarter to a bad hire."
+                ],
+                "solutions": [
+                    "SaaS-specific metrics (LTV:CAC, MRR).",
+                    "Focus on activation, not just signup.",
+                    "Quarterly roadmap alignment."
+                ],
+                "value_points": [
+                    "Speak your language",
+                    "Profitable user acquisition",
+                    "Hit quarterly targets"
+                ]
+            },
+            "high_end_agency_owner": {
+                "pains": [
+                    "You know the game, so you can smell a fake agency from a mile away.",
+                    "You need a white-label partner that won't embarrass you in front of clients.",
+                    "You need reliability because your own retention depends on it."
+                ],
+                "solutions": [
+                    "Proprietary agency-grade SOPs.",
+                    "Totally invisible white-label service.",
+                    "Bauer-standard SLA."
+                ],
+                "value_points": [
+                    "Partner quality you respect",
+                    "Protect your client relationships",
+                    "Scale your agency faster"
+                ]
+            },
+            "medical_practice_ceo": {
+                "pains": [
+                    "Marketers who don't understand patient privacy laws (HIPAA).",
+                    "Agencies that treat your medical practice like a pizza shop.",
+                    "Fear of aggressive marketing tactics hurting your local reputation."
+                ],
+                "solutions": [
+                    "HIPAA-certified media buyers.",
+                    "Practice-growth specific strategies.",
+                    "Ethical, professional ad copy."
+                ],
+                "value_points": [
+                    "Zero compliance headaches",
+                    "Attract ideal patients",
+                    "Maintain community trust"
+                ]
+            },
+            "ecom_high_roller": {
+                "pains": [
+                    "Media buyers who panic when they see your daily ad spend volatility.",
+                    "Agencies that claim to know TikTok but only run Facebook ads.",
+                    "Partners who don't understand the logistics of inventory vs. ad scale."
+                ],
+                "solutions": [
+                    "Experience managing $10k+ daily spend.",
+                    "Native content teams for TikTok.",
+                    "Inventory-aware scaling logic."
+                ],
+                "value_points": [
+                    "Scale without panic",
+                    "Dominate new channels",
+                    "Align ads with operations"
+                ]
+            },
+            "coaching_empire_builder": {
+                "pains": [
+                    "Funnel builders who create generic pages that don't convert cold traffic.",
+                    "Copywriters who don't understand your unique voice and methodology.",
+                    "Agencies that can't handle the pressure of a live launch."
+                ],
+                "solutions": [
+                    "Direct response copywriting experts.",
+                    "Voice-matching AI training.",
+                    "Launch-tested war room support."
+                ],
+                "value_points": [
+                    "Cold traffic conversion",
+                    "Authentic brand voice",
+                    "Record-breaking launches"
+                ]
+            },
+            "multi_location_ceo": {
+                "pains": [
+                    "Agencies that can handle one location but crumble under 50+.",
+                    "Lack of experience dealing with franchise-level politics and reporting.",
+                    "Vendors who can't standardize results across different demographics."
+                ],
+                "solutions": [
+                    "Multi-account architecture expertise.",
+                    "Franchise-friendly reporting portals.",
+                    "Geo-agnostic growth frameworks."
+                ],
+                "value_points": [
+                    "Scale to 100+ locations",
+                    "Happy franchisees",
+                    "Predictable growth everywhere"
+                ]
+            },
+            "real_estate_power_player": {
+                "pains": [
+                    "Lead gen companies that sell the same leads to 5 other agents.",
+                    "Marketers who don't understand the luxury price point.",
+                    "Agencies that generate high volume but zero quality."
+                ],
+                "solutions": [
+                    "Exclusive lead generation (Owned assets).",
+                    "Luxury aesthetic design team.",
+                    "High-intent qualifying funnels."
+                ],
+                "value_points": [
+                    "Own your pipeline",
+                    "Attract HNW clients",
+                    "Stop chasing tire-kickers"
+                ]
+            },
+            "enterprise_innovator": {
+                "pains": [
+                    "Vendors who can't pass your procurement and security compliance.",
+                    "Small shops that don't have the bandwidth to support your scale.",
+                    "Partners who don't understand enterprise sales cycles."
+                ],
+                "solutions": [
+                    "Enterprise-ready compliance packet.",
+                    "Scalable resource allocation.",
+                    "ABM & Long-cycle tracking."
+                ],
+                "value_points": [
+                    "Procurement approved fast",
+                    "Support massive scale",
+                    "Drive pipeline velocity"
+                ]
+            }
+        },
+        "block_03_fix_first_scale_second": {
+            "scaling_founder": {
+                "pains": [
+                    "You try to scale to $50k/mo but your profit margin vanishes.",
+                    "Your website conversion rate drops the moment traffic increases.",
+                    "You don't trust your numbers enough to push the 'spend' button."
+                ],
+                "solutions": [
+                    "Unit economic analysis before scaling.",
+                    "Load-tested conversion funnels.",
+                    "Real-time P&L dashboards."
+                ],
+                "value_points": [
+                    "Profitable scaling",
+                    "Consistent conversion rates",
+                    "Financial confidence"
+                ]
+            },
+            "elite_consultant": {
+                "pains": [
+                    "You get more leads, but they are lower quality and waste your time.",
+                    "Your calendar fills up with 'no-shows' when you turn on ads.",
+                    "Your manual follow-up process breaks when volume doubles."
+                ],
+                "solutions": [
+                    "Strict pre-qualification gates.",
+                    "Automated reminder & nurture sequences.",
+                    " scalable intake systems."
+                ],
+                "value_points": [
+                    "Only talk to qualified buyers",
+                    "Full calendar, zero waste",
+                    "Scale without burnout"
+                ]
+            },
+            "saas_overloader": {
+                "pains": [
+                    "You acquire users faster, but churn increases just as fast.",
+                    "Your server infrastructure crashes during marketing pushes.",
+                    "You're paying for traffic that your onboarding flow can't convert."
+                ],
+                "solutions": [
+                    "Retention-focused acquisition targeting.",
+                    "Scalable server architecture consulting.",
+                    "Onboarding flow optimization."
+                ],
+                "value_points": [
+                    "Lower churn rate",
+                    "100% Uptime during growth",
+                    "Higher activation rate"
+                ]
+            },
+            "high_end_agency_owner": {
+                "pains": [
+                    "Selling more clients just creates a delivery bottleneck.",
+                    "Your operations break every time you add 5 new retainers.",
+                    "You're scaling chaos instead of scaling profit."
+                ],
+                "solutions": [
+                    "Delivery systemization consulting.",
+                    "Automated client setup workflows.",
+                    "Profit-first operational design."
+                ],
+                "value_points": [
+                    "Smooth delivery at scale",
+                    "Operational calmness",
+                    "Higher margins"
+                ]
+            },
+            "medical_practice_ceo": {
+                "pains": [
+                    "More leads just means more overwhelmed front-desk staff.",
+                    "You're booking appointments that don't show up.",
+                    "Your intake process is paper-heavy and slows everything down."
+                ],
+                "solutions": [
+                    "Automated patient scheduling tools.",
+                    "Digital intake forms & pre-arrival workflows.",
+                    "Front-desk automation training."
+                ],
+                "value_points": [
+                    "Happy staff",
+                    "Full schedule",
+                    "Paperless efficiency"
+                ]
+            },
+            "ecom_high_roller": {
+                "pains": [
+                    "Scaling spend ruins your ROAS because your AOV is too low.",
+                    "Your site speed tanks when you send TikTok traffic.",
+                    "You're selling inventory you can't ship fast enough."
+                ],
+                "solutions": [
+                    "Bundle & Upsell strategy optimization.",
+                    "Headless commerce speed optimization.",
+                    "Inventory-synced ad management."
+                ],
+                "value_points": [
+                    "Higher AOV",
+                    "Blazing fast site",
+                    "Never oversell stock"
+                ]
+            },
+            "coaching_empire_builder": {
+                "pains": [
+                    "Your webinar software caps out or crashes during big launches.",
+                    "You're getting leads but your email warming sequence is broken.",
+                    "Your sales team is overwhelmed with unqualified apps."
+                ],
+                "solutions": [
+                    "Enterprise-grade webinar platforms.",
+                    "Deliverability-focused email infrastructure.",
+                    "AI-driven lead scoring."
+                ],
+                "value_points": [
+                    "Flawless launches",
+                    "Inbox placement",
+                    "Efficient sales team"
+                ]
+            },
+            "multi_location_ceo": {
+                "pains": [
+                    "You scale ads but local managers aren't trained to handle the calls.",
+                    "Money is wasted because leads aren't routed to the nearest open store.",
+                    "Your CRM creates duplicates instead of updating existing records."
+                ],
+                "solutions": [
+                    "Local staff sales training scripts.",
+                    "Smart geo-routing technology.",
+                    "Clean data merging logic."
+                ],
+                "value_points": [
+                    "Better close rates locally",
+                    "Efficient ad spend",
+                    "Clean customer database"
+                ]
+            },
+            "real_estate_power_player": {
+                "pains": [
+                    "You're generating leads but have no automated nurture to warm them.",
+                    "You're busy showing homes and missing the new incoming calls.",
+                    "Your database is a mess of uncontacted opportunities."
+                ],
+                "solutions": [
+                    "12-month automated nurture campaigns.",
+                    "AI Receptionist for instant response.",
+                    "Database reactivation campaigns."
+                ],
+                "value_points": [
+                    "Passive lead warming",
+                    "Instant response 24/7",
+                    "Found money in database"
+                ]
+            },
+            "enterprise_innovator": {
+                "pains": [
+                    "You launch campaigns but sales ops can't process the data.",
+                    "Your legacy CRM fields don't match your new marketing forms.",
+                    "Scaling requires manual data cleaning that costs thousands."
+                ],
+                "solutions": [
+                    "Sales Ops & MarkOps alignment workshops.",
+                    "Custom CRM integration development.",
+                    "Automated data hygiene pipelies."
+                ],
+                "value_points": [
+                    "Sales & Marketing harmony",
+                    "Seamless data flow",
+                    "Lower operational costs"
+                ]
+            }
+        },
+        "block_04_market_domination": {
+            "scaling_founder": {
+                "pains": [
+                    "You're spending 20 hours a week managing ads instead of being CEO.",
+                    "Competitors with worse products are outspending and outranking you.",
+                    "You feel invisible in a crowded market despite having a better offer."
+                ],
+                "solutions": [
+                    "Full-service ad management.",
+                    "Competitor conquesting campaigns.",
+                    "Brand awareness & retargeting layers."
+                ],
+                "value_points": [
+                    "Be the CEO again",
+                    "Dominate market share",
+                    "Become the category king"
+                ]
+            },
+            "elite_consultant": {
+                "pains": [
+                    "You're the best kept secret in your industry (and that's not good).",
+                    "Your organic reach is dying and you don't know how to run paid.",
+                    "You see inferior consultants getting the speaking gigs you deserve."
+                ],
+                "solutions": [
+                    "Paid amplification of thought leadership.",
+                    "Omnipresence retargeting strategy.",
+                    "Authority-building ad formats."
+                ],
+                "value_points": [
+                    "Industry fame",
+                    "Consistent reach",
+                    "Command higher fees"
+                ]
+            },
+            "saas_overloader": {
+                "pains": [
+                    "Your CAC is twice as high as the industry average.",
+                    "You're relying on one channel (like LinkedIn) and it's risky.",
+                    "You don't have the creative bandwidth to test new ad angles."
+                ],
+                "solutions": [
+                    "Cross-channel diversification (FB, Google, TT).",
+                    "Creative testing factory.",
+                    "CAC-focused bidding strategies."
+                ],
+                "value_points": [
+                    "Lower CAC",
+                    "Platform risk mitigation",
+                    "Winning creative always"
+                ]
+            },
+            "high_end_agency_owner": {
+                "pains": [
+                    "You're great at client work but terrible at your own marketing.",
+                    "You rely on referrals which is unpredictable and unscalable.",
+                    "Your own case studies aren't being leveraged in ads."
+                ],
+                "solutions": [
+                    "Done-for-you agency growth engine.",
+                    "Referral-independent pipeline.",
+                    "Case study amplification system."
+                ],
+                "value_points": [
+                    "Practice what you preach",
+                    "Predictable growth",
+                    "Leverage your results"
+                ]
+            },
+            "medical_practice_ceo": {
+                "pains": [
+                    "Your practice appears below competitors with worse reviews on Google.",
+                    "You're invisible to new patients moving into the area.",
+                    "Your waiting room is empty while the clinic down the street is full."
+                ],
+                "solutions": [
+                    "Local SEO domination.",
+                    "New mover targeting campaigns.",
+                    "Review generation & management."
+                ],
+                "value_points": [
+                    "Rank #1 locally",
+                    "Capture new market",
+                    "Full waiting room"
+                ]
+            },
+            "ecom_high_roller": {
+                "pains": [
+                    "You're totally dependent on Facebook and terrified of a ban.",
+                    "You can't crack TikTok or YouTube ads.",
+                    "Your brand looks small compared to the giants in your niche."
+                ],
+                "solutions": [
+                    "Multi-platform ad buying.",
+                    "Native UGC content production.",
+                    "Big-brand retargeting capability."
+                ],
+                "value_points": [
+                    "Sleep well at night",
+                    "Unlock new traffic",
+                    "Look like a giant"
+                ]
+            },
+            "coaching_empire_builder": {
+                "pains": [
+                    "Your ad costs are rising and your funnel isn't converting enough.",
+                    "You're struggling to fill your high-ticket programs consistently.",
+                    "You need a 'machine' that brings in students while you sleep."
+                ],
+                "solutions": [
+                    "Funnel optimization & testing.",
+                    "Evergreen webinar funnels.",
+                    "Automated enrollment systems."
+                ],
+                "value_points": [
+                    "Maintain margins",
+                    "Consistent enrollments",
+                    "Passive income machine"
+                ]
+            },
+            "multi_location_ceo": {
+                "pains": [
+                    "Your brand presence is fragmented and inconsistent across cities.",
+                    "Local franchisees are running rogue ads that hurt the brand.",
+                    "You're losing market share to digitally savvy competitors."
+                ],
+                "solutions": [
+                    "Brand-controlled ad templates.",
+                    "Centralized ad account management.",
+                    "Competitor displacement campaigns."
+                ],
+                "value_points": [
+                    "Unified brand image",
+                    "Brand safety",
+                    "Market leadership"
+                ]
+            },
+            "real_estate_power_player": {
+                "pains": [
+                    "You're relying on Zillow/Realtor.com instead of owning your lead flow.",
+                    "You're not showing up when luxury buyers search in your area.",
+                    "Your personal brand isn't matching your service level online."
+                ],
+                "solutions": [
+                    "Own your traffic source.",
+                    "Luxury search intent targeting.",
+                    "Premium personal brand ads."
+                ],
+                "value_points": [
+                    "Independence from portals",
+                    "Attract luxury buyers",
+                    "Premium perception"
+                ]
+            },
+            "enterprise_innovator": {
+                "pains": [
+                    "Your enterprise moves too slow to capitalize on market trends.",
+                    "Your marketing looks 'corporate' and boring compared to startups.",
+                    "You're struggling to attribute B2B leads to specific campaigns."
+                ],
+                "solutions": [
+                    "Agile marketing pods.",
+                    "Modern B2B creative strategy.",
+                    "Full-funnel attribution modeling."
+                ],
+                "value_points": [
+                    "Speed to market",
+                    "Modern brand image",
+                    "Clear ROI"
+                ]
+            }
+        },
+        "block_05_stop_wasting_dollars": {
+            "scaling_founder": {
+                "pains": [
+                    "Burning runway capital on experiments that don't work.",
+                    "Your investor updates are awkward because acquisition costs are up.",
+                    "You're cutting product budget to pay for inefficient marketing."
+                ],
+                "solutions": [
+                    "Proven experiment frameworks.",
+                    "CFO-aligned efficiency reporting.",
+                    "Optimization to free up budget."
+                ],
+                "value_points": [
+                    "Extend runway",
+                    "Happy investors",
+                    "Fund product dev"
+                ]
+            },
+            "elite_consultant": {
+                "pains": [
+                    "Spending $500 to get on a call with someone who has no money.",
+                    "Wasting time creating content that nobody sees.",
+                    "Paying for 'likes' that don't turn into consulting contracts."
+                ],
+                "solutions": [
+                    "Income-targeting layers.",
+                    "Distribution-first content strategy.",
+                    "Conversion-focused objective setting."
+                ],
+                "value_points": [
+                    "High-value calls only",
+                    "Content ROI",
+                    "Real revenue"
+                ]
+            },
+            "saas_overloader": {
+                "pains": [
+                    "Paying for signups that never activate their account.",
+                    "Bidding on keywords that are too broad and expensive.",
+                    "Retargeting users who have already converted (waste)."
+                ],
+                "solutions": [
+                    "Activation-optimized bidding.",
+                    "Exact-match keyword sculpting.",
+                    "Dynamic exclusion audiences."
+                ],
+                "value_points": [
+                    "Pay for users, not leads",
+                    "Lower CPC",
+                    "Zero waste"
+                ]
+            },
+            "high_end_agency_owner": {
+                "pains": [
+                    "Running ads for yourself that generate bad leads you have to filter.",
+                    "Eating into your agency margins with inefficient client acquisition.",
+                    "Spending billable hours fixing your own broken campaigns."
+                ],
+                "solutions": [
+                    "Lead scoring & filtering (MQL/SQL).",
+                    "Niche-specific targeting.",
+                    "Outsourced ad management."
+                ],
+                "value_points": [
+                    "Clean pipeline",
+                    "Protect margins",
+                    "Focus on clients"
+                ]
+            },
+            "medical_practice_ceo": {
+                "pains": [
+                    "Advertising to people 50 miles away who will never visit.",
+                    "Paying for clicks for services you don't even offer.",
+                    "Wasting budget on 'brand awareness' without getting appointments."
+                ],
+                "solutions": [
+                    "Tight geo-fencing radius.",
+                    "Service-specific ad groups.",
+                    "Appointment-optimization only."
+                ],
+                "value_points": [
+                    "Hyper-local efficiency",
+                    "Relevant traffic",
+                    "Tangible ROI"
+                ]
+            },
+            "ecom_high_roller": {
+                "pains": [
+                    "Showing ads to people who just bought yesterday.",
+                    "Spending heavily on products that are out of stock.",
+                    "Not excluding low-value locations or demographics."
+                ],
+                "solutions": [
+                    "Smart exclusion logic.",
+                    "Inventory-feed integration.",
+                    "LTV-based bidding."
+                ],
+                "value_points": [
+                    "Better customer experience",
+                    "Smart spend",
+                    "Higher profitability"
+                ]
+            },
+            "coaching_empire_builder": {
+                "pains": [
+                    "Paying $30 per lead for people who just want freebies.",
+                    "Ads running to a broken checkout page.",
+                    "Scaling a funnel that is actually losing money per customer."
+                ],
+                "solutions": [
+                    "Buyer-intent targeting.",
+                    "Funnel uptime monitoring.",
+                    "Unit economics tracking."
+                ],
+                "value_points": [
+                    "Acquire buyers",
+                    "Revenue protection",
+                    "Profitable scaling"
+                ]
+            },
+            "multi_location_ceo": {
+                "pains": [
+                    "Location A is overspending while Location B is starving for leads.",
+                    "No shared learnings between locations leading to repeated mistakes.",
+                    "Paying double because different franchisees bid on same keywords."
+                ],
+                "solutions": [
+                    "Budget balancing algorithms.",
+                    "Cross-location data sharing.",
+                    "Unified keyword strategy."
+                ],
+                "value_points": [
+                    "Balanced growth",
+                    "System-wide efficiency",
+                    "Lower aggregate costs"
+                ]
+            },
+            "real_estate_power_player": {
+                "pains": [
+                    "Paying for 'home value' leads that are just looky-loos.",
+                    "Spending budget on zip codes that don't have luxury inventory.",
+                    "Generating leads that other agents in your office already have."
+                ],
+                "solutions": [
+                    "Intent-based seller targeting.",
+                    "MLS-data backed geo-targeting.",
+                    "Deduplication logic."
+                ],
+                "value_points": [
+                    "Motivated sellers",
+                    "Target rich areas",
+                    "Exclusive leads"
+                ]
+            },
+            "enterprise_innovator": {
+                "pains": [
+                    "Departmental overlap causing you to bid against yourself.",
+                    "Spending Q4 budget just to 'use it or lose it' efficiently.",
+                    "Lack of visibility into where the agency fees are actually going."
+                ],
+                "solutions": [
+                    "Global account consolidation.",
+                    "Strategic Q4 investment planning.",
+                    "Transparent fee structures."
+                ],
+                "value_points": [
+                    "Eliminate cannibalization",
+                    "Smart capital deployment",
+                    "Total financial clarity"
+                ]
+            }
+        },
+        "block_06_start_building_systems": {
+            "scaling_founder": {
+                "pains": [
+                    "Your business breaks if you go on vacation.",
+                    "Revenue is unpredictable, making hiring impossible.",
+                    "You're reacting to the market instead of controlling it."
+                ],
+                "solutions": [
+                    "Automated revenue systems.",
+                    "Predictable forecasting models.",
+                    "Proactive market control strategy."
+                ],
+                "value_points": [
+                    "Freedom to leave",
+                    "Confident hiring",
+                    "Command the market"
+                ]
+            },
+            "elite_consultant": {
+                "pains": [
+                    "You are the bottleneck for every single sale.",
+                    "Your income is tied 1:1 to your hours worked.",
+                    "You have no asset to sell if you ever wanted to exit."
+                ],
+                "solutions": [
+                    "Sales team delegtion systems.",
+                    "Productized service models.",
+                    "Asset-building marketing."
+                ],
+                "value_points": [
+                    "Remove yourself",
+                    "Decouple time/money",
+                    "Build equity"
+                ]
+            },
+            "saas_overloader": {
+                "pains": [
+                    "User acquisition is manual and relies on your personal network.",
+                    "You have no automated way to nurture free trials.",
+                    "Growth is spiky and scares investors."
+                ],
+                "solutions": [
+                    "Automated acquisition channels.",
+                    "Product-led growth (PLG) nurture.",
+                    "Smooth, linear growth curves."
+                ],
+                "value_points": [
+                    "Systematic growth",
+                    "Passive conversion",
+                    "Investor confidence"
+                ]
+            },
+            "high_end_agency_owner": {
+                "pains": [
+                    "You're reinventing the wheel for every new client acquisition.",
+                    "Your pipeline dries up when you get busy with delivery.",
+                    "You have no 'faucet' to turn on when you need more deals."
+                ],
+                "solutions": [
+                    "Standardized acquisition playbooks.",
+                    "Always-on lead gen.",
+                    "Predictable deal flow faucet."
+                ],
+                "value_points": [
+                    "Efficiency",
+                    "Never go hungry",
+                    "On-demand growht"
+                ]
+            },
+            "medical_practice_ceo": {
+                "pains": [
+                    "You rely on word-of-mouth which you can't control.",
+                    "Your front desk has no system for following up with old leads.",
+                    "You don't know where your next patient is coming from."
+                ],
+                "solutions": [
+                    "Controlable patient acquisition channels.",
+                    "Automated reactivation database.",
+                    "Attribution tracking."
+                ],
+                "value_points": [
+                    "Predictable volume",
+                    "Maximize lifetime value",
+                    "Clarity"
+                ]
+            },
+            "ecom_high_roller": {
+                "pains": [
+                    "You rely on viral hits instead of consistent customer acquisition.",
+                    "You have no backend system to increase LTV automatically.",
+                    "You're renting your customers from Facebook instead of owning them."
+                ],
+                "solutions": [
+                    "Consistent paid media architecture.",
+                    "Automated LTV email flows.",
+                    "First-party data ownership."
+                ],
+                "value_points": [
+                    "Stability",
+                    "Higher profit per user",
+                    "Asset ownership"
+                ]
+            },
+            "coaching_empire_builder": {
+                "pains": [
+                    "You're launching constantly just to maintain revenue (launch fatigue).",
+                    "You have no 'evergreen' funnel that works without you.",
+                    "Sales drop to zero if you stop posting on Instagram."
+                ],
+                "solutions": [
+                    "Evergreen funnel construction.",
+                    "Automated webinars.",
+                    "Paid traffic replacing organic grind."
+                ],
+                "value_points": [
+                    "End launch fatigue",
+                    "Sales while you sleep",
+                    "Freedom from content"
+                ]
+            },
+            "multi_location_ceo": {
+                "pains": [
+                    "Every location does marketing differently (chaos).",
+                    "No centralized dashboard to see system-wide health.",
+                    "Franchisees are begging for a 'playbook' you don't have."
+                ],
+                "solutions": [
+                    "Centralized marketing SOPs.",
+                    "Global health dashboard.",
+                    "Franchise growth playbook."
+                ],
+                "value_points": [
+                    "Order & Standardiztion",
+                    "Executive visibility",
+                    "Franchisee Usage"
+                ]
+            },
+            "real_estate_power_player": {
+                "pains": [
+                    "You're chasing deals instead of having them come to you.",
+                    "You have no system to stay top-of-mind with past clients.",
+                    "Your business looks like a hustle, not a corporation."
+                ],
+                "solutions": [
+                    "Inbound lead attraction systems.",
+                    "Automated sphere-of-influence nurture.",
+                    "Professional corporate branding."
+                ],
+                "value_points": [
+                    "Attract vs Chase",
+                    "Referral consistency",
+                    "Enterprise value"
+                ]
+            },
+            "enterprise_innovator": {
+                "pains": [
+                    "Processes are manual, slow, and error-prone.",
+                    "Teams are working in silos with no unified system.",
+                    "You can't forecast growth because the data is disconnected."
+                ],
+                "solutions": [
+                    "Marketing automation orchestration.",
+                    "Unified revenue operations (RevOps).",
+                    "Integrated data warehousing."
+                ],
+                "value_points": [
+                    "Speed & Accuracy",
+                    "Collaboration",
+                    "Accurate Forecasts"
+                ]
+            }
+        },
+        "block_07_dedicated_growth_unit": {
+            "scaling_founder": {
+                "pains": [
+                    "You spend all day on Slack managing contractors.",
+                    "Nobody on your team cares about the 'big picture' profit.",
+                    "You're the only one checking if the funnel is actually working."
+                ],
+                "solutions": [
+                    "We manage the talent, you manage the vision.",
+                    "Profit-share incentives alignment.",
+                    "Proactive performance monitoring."
+                ],
+                "value_points": [
+                    "Get your time back",
+                    "True partnership",
+                    "Peace of mind"
+                ]
+            },
+            "elite_consultant": {
+                "pains": [
+                    "You're trying to be the CEO, CMO, and CTO all at once.",
+                    "You're wasting your genius zone on tech support.",
+                    "You're lonely at the top without a strategic partner."
+                ],
+                "solutions": [
+                    "Fractional C-Suite team.",
+                    "We handle tech, you handle talent.",
+                    "Strategic advisory board."
+                ],
+                "value_points": [
+                    "Focus on genius zone",
+                    "Tech freedom",
+                    "Executive support"
+                ]
+            },
+            "saas_overloader": {
+                "pains": [
+                    "You can't afford a full-time CMO, Head of Growth, and Dev.",
+                    "Your current team is too junior to handle complex growth ops.",
+                    "You need senior-level strategy without the $200k salary."
+                ],
+                "solutions": [
+                    "Fractional Growth Team.",
+                    "Senior expertise on demand.",
+                    "Cost-effective executive strategy."
+                ],
+                "value_points": [
+                    "Enterprise talent",
+                    "Budget efficiency",
+                    "High-level execution"
+                ]
+            },
+            "high_end_agency_owner": {
+                "pains": [
+                    "Your internal team is maxed out on client work.",
+                    "You can't treat your own agency like a client effectively.",
+                    "You need an 'agency for the agency'."
+                ],
+                "solutions": [
+                    "Dedicated growth pod.",
+                    "External accountability.",
+                    "Agency-specific growth team."
+                ],
+                "value_points": [
+                    "Capacity relief",
+                    "Prioritized growth",
+                    "Peer expertise"
+                ]
+            },
+            "medical_practice_ceo": {
+                "pains": [
+                    "Your office manager is trying to run Facebook ads (badly).",
+                    "You have nobody to hold accountable for marketing ROI.",
+                    "You're paying a retainer but getting no strategic advice."
+                ],
+                "solutions": [
+                    "Expert medical marketing team.",
+                    "Accountable account director.",
+                    "Quarterly strategic reviews."
+                ],
+                "value_points": [
+                    "Professional execution",
+                    "Clear accountability",
+                    "Strategic path"
+                ]
+            },
+            "ecom_high_roller": {
+                "pains": [
+                    "Your media buyer doesn't talk to your email marketer.",
+                    "You lack a 'Growth Lead' to orchestrate the channels.",
+                    "Strategy is fragmented, killing your omnichannel potential."
+                ],
+                "solutions": [
+                    "Unified growth pod.",
+                    "Growth Lead orchestration.",
+                    "Holistic strategy."
+                ],
+                "value_points": [
+                    "Channel synergy",
+                    "Orchestrated growth",
+                    "Maximized LTV"
+                ]
+            },
+            "coaching_empire_builder": {
+                "pains": [
+                    "Your VA is overwhelmed trying to run your tech stack.",
+                    "You're missing opportunities because nobody is watching the data.",
+                    "You need a partner, not just a task-doer."
+                ],
+                "solutions": [
+                    "Technical RevOps team.",
+                    "Daily data monitoring.",
+                    "Strategic growth partner."
+                ],
+                "value_points": [
+                    "Tech stability",
+                    "Optimized opportunities",
+                    " Strategic lift"
+                ]
+            },
+            "multi_location_ceo": {
+                "pains": [
+                    "Corporate marketing is disconnected from local reality.",
+                    "You need a central team to support all franchisees.",
+                    "In-house hiring for this level of talent is too slow."
+                ],
+                "solutions": [
+                    "Field-aware marketing team.",
+                    "Centralized support hub.",
+                    "Immediate expert deployment."
+                ],
+                "value_points": [
+                    "Local relevance",
+                    "Scalable support",
+                    "Speed to value"
+                ]
+            },
+            "real_estate_power_player": {
+                "pains": [
+                    "You have an assistant, but not a marketing director.",
+                    "You need high-level strategy to break into the ultra-luxury market.",
+                    "You're tired of managing vendors instead of selling homes."
+                ],
+                "solutions": [
+                    "Fractional Marketing Director.",
+                    "Luxury market strategy.",
+                    "Vendor consolidation."
+                ],
+                "value_points": [
+                    "Executive leadership",
+                    "Market penetration",
+                    "Focus on sales"
+                ]
+            },
+            "enterprise_innovator": {
+                "pains": [
+                    "Internal IT is too slow to support marketing agility.",
+                    "You need a 'SWAT team' to execute fast outside of bureaucracy.",
+                    "You lack specialized talent for new channels like TikTok."
+                ],
+                "solutions": [
+                    "Agile external unit.",
+                    "Bureaucracy-free execution.",
+                    "Specialist talent access."
+                ],
+                "value_points": [
+                    "Speed",
+                    "Agility",
+                    "Innovation"
+                ]
+            }
+        },
+        "block_08_elite_media_buying": {
+            "scaling_founder": {
+                "pains": [
+                    "Your CPA fluctuates wildly and nobody knows why.",
+                    "You're not testing enough creative variations to find a winner.",
+                    "You're missing out on new placements like Reels or Shorts."
+                ],
+                "solutions": [
+                    "Rigorous CPA stabilization protocols.",
+                    "High-volume creative testing.",
+                    "Alpha-beta platform testing."
+                ],
+                "value_points": [
+                    "Stable costs",
+                    "Finding winners",
+                    "First-mover advantage"
+                ]
+            },
+            "elite_consultant": {
+                "pains": [
+                    "Your ads attract 'freebie seekers' instead of premium clients.",
+                    "You're not using retargeting to close the 98% who don't buy.",
+                    "Your messaging gets diluted by generic ad copy."
+                ],
+                "solutions": [
+                    "Premium audience targeting.",
+                    "Full-funnel retargeting.",
+                    "High-status copywriting."
+                ],
+                "value_points": [
+                    "Better clients",
+                    "Higher conversion",
+                    "Brand authority"
+                ]
+            },
+            "saas_overloader": {
+                "pains": [
+                    "You're bidding on expensive keywords without a negative keyword strategy.",
+                    "Your display ads are showing up on spammy websites.",
+                    "You're not leveraging lookalike audiences from your best users."
+                ],
+                "solutions": [
+                    "Negative keyword sculpting.",
+                    "Brand safety filtering.",
+                    "LTV-based lookalikes."
+                ],
+                "value_points": [
+                    "Cost efficiency",
+                    "Brand protection",
+                    "High-quality users"
+                ]
+            },
+            "high_end_agency_owner": {
+                "pains": [
+                    "You know good media buying, so bad performance infuriates you.",
+                    "You need advanced strategies like cross-channel sequencing.",
+                    "You can't find a buyer who understands B2B nuance."
+                ],
+                "solutions": [
+                    "Expert-level buying.",
+                    "Sequenced omni-channel flows.",
+                    "B2B-specialized buyers."
+                ],
+                "value_points": [
+                    "Peer-level competence",
+                    "Sophisticated strategy",
+                    "B2B results"
+                ]
+            },
+            "medical_practice_ceo": {
+                "pains": [
+                    "Ads targeting the wrong zip codes or demographics.",
+                    "Using stock photos that look fake and untrustworthy.",
+                    "Not bidding on 'near me' intent keywords effectively."
+                ],
+                "solutions": [
+                    "Precision geo-targeting.",
+                    "Authentic photoshoot production.",
+                    "Hyper-local SEO/SEM."
+                ],
+                "value_points": [
+                    "Relevant patients",
+                    "Trust & Credibility",
+                    "Capture intent"
+                ]
+            },
+            "ecom_high_roller": {
+                "pains": [
+                    "Not using dynamic product ads properly.",
+                    "Failing to capitalize on Q4/holiday spikes.",
+                    "Ad spend doesn't scale with inventory levels."
+                ],
+                "solutions": [
+                    "DPA optimization.",
+                    "Seasonal peak scaling protocols.",
+                    "Inventory-aware bidding."
+                ],
+                "value_points": [
+                    "Higher CTR",
+                    "Max Q4 revenue",
+                    "Operational balance"
+                ]
+            },
+            "coaching_empire_builder": {
+                "pains": [
+                    "Your ads get high CTR but low conversion (clickbait).",
+                    "You're burning out your warm audience without adding cold traffic.",
+                    "Your ad frequency is too high, annoying your prospects."
+                ],
+                "solutions": [
+                    "Conversion-focused creative.",
+                    "Cold traffic scale strategies.",
+                    "Frequency management."
+                ],
+                "value_points": [
+                    "Sales, not clicks",
+                    "Sustainable scale",
+                    "Brand health"
+                ]
+            },
+            "multi_location_ceo": {
+                "pains": [
+                    "Not using geo-fencing effectively around competitors.",
+                    "Local ad accounts are messy and unorganized.",
+                    "Unable to shift budget quickly to underperforming locations."
+                ],
+                "solutions": [
+                    "Competitor geo-conquesting.",
+                    "Structured account hierarchy.",
+                    "Agile budget allocation."
+                ],
+                "value_points": [
+                    "Steal market share",
+                    "Clarity & Control",
+                    "Resource agility"
+                ]
+            },
+            "real_estate_power_player": {
+                "pains": [
+                    "Running generic 'just listed' ads instead of lifestyle branding.",
+                    "Not retargeting open house visitors.",
+                    "Wasting money on leads looking for rentals."
+                ],
+                "solutions": [
+                    "Lifestyle video ads.",
+                    "Offline-to-online retargeting.",
+                    "Renter exclusion layers."
+                ],
+                "value_points": [
+                    "Brand distinction",
+                    "Capture everything",
+                    "Buyer focus"
+                ]
+            },
+            "enterprise_innovator": {
+                "pains": [
+                    "Buying strategy doesn't account for long sales cycles.",
+                    "Not using Account Based Marketing (ABM) features.",
+                    "Brand safety concerns limiting performance."
+                ],
+                "solutions": [
+                    "Long-window attribution.",
+                    "LinkedIn/Programmatic ABM.",
+                    "Enterprise brand safety suite."
+                ],
+                "value_points": [
+                    "Pipeline realism",
+                    "Target key accounts",
+                    "Risk-free scale"
+                ]
+            }
+        },
+        "block_09_sovereign_capi": {
+            "scaling_founder": {
+                "pains": [
+                    "You can't make financial decisions because the data is wrong.",
+                    "You might be turning off your best ads because they look like losers.",
+                    "Investors don't trust your CAC numbers."
+                ],
+                "solutions": [
+                    "Server-side financial reconcilliation.",
+                    "Accurate attribution modeling.",
+                    "Audited data pipelines."
+                ],
+                "value_points": [
+                    "Financial clarity",
+                    "Optimize correctly",
+                    "Investor trust"
+                ]
+            },
+            "elite_consultant": {
+                "pains": [
+                    "You don't know which webinar slide is actually converting.",
+                    "High-ticket sales happen offline, so ads get zero credit.",
+                    "You're guessing which channel brings the whales."
+                ],
+                "solutions": [
+                    "Granular funnel tracking.",
+                    "Offline conversion import (OCI).",
+                    "Whale-client attribution."
+                ],
+                "value_points": [
+                    "Optimize content",
+                    "Credit where due",
+                    "Find more whales"
+                ]
+            },
+            "saas_overloader": {
+                "pains": [
+                    "Trial signups aren't matching back to ad clicks.",
+                    "You can't track LTV by traffic source.",
+                    "Stripe data and Google Analytics show completely different numbers."
+                ],
+                "solutions": [
+                    "Click-to-subscription tracking.",
+                    "Source-based LTV cohorts.",
+                    "Single source of truth."
+                ],
+                "value_points": [
+                    "Match rate",
+                    "LTV optimization",
+                    "Data confidence"
+                ]
+            },
+            "high_end_agency_owner": {
+                "pains": [
+                    "Clients are firing you because your reports don't match their revenue.",
+                    "You're spending hours manually reconciling spreadsheets.",
+                    "You look incompetent when data is missing."
+                ],
+                "solutions": [
+                    "Revenue-match reporting.",
+                    "Automated data warehousing.",
+                    "Client-facing truth dashboards."
+                ],
+                "value_points": [
+                    "Retain clients",
+                    "Save time",
+                    "Professionalism"
+                ]
+            },
+            "medical_practice_ceo": {
+                "pains": [
+                    "You don't know if a booked appointment came from Google or Facebook.",
+                    "Patient privacy blocks standard tracking methods.",
+                    "You can't calculate the ROI of your marketing spend."
+                ],
+                "solutions": [
+                    "Source-specific booking tracking.",
+                    "HIPAA-compliant analytics.",
+                    "ROI calculators."
+                ],
+                "value_points": [
+                    "Know what works",
+                    "Compliance",
+                    "Financial logic"
+                ]
+            },
+            "ecom_high_roller": {
+                "pains": [
+                    "Facebook attributes every sale to itself (over-reporting).",
+                    "You're losing signal on your most profitable mobile customers.",
+                    " Attribution windows are messing up your daily budget decisions."
+                ],
+                "solutions": [
+                    "Independent attribution auditing.",
+                    "First-party ID resolution.",
+                    "Custom attribution windows."
+                ],
+                "value_points": [
+                    "Real numbers",
+                    "Recover signal",
+                    "Better decisions"
+                ]
+            },
+            "coaching_empire_builder": {
+                "pains": [
+                    "Application calls aren't feeding back to the pixel.",
+                    "You don't know if your YouTube ads or emails closed the deal.",
+                    "You're scaling the wrong funnel because tracking is broken."
+                ],
+                "solutions": [
+                    "CRM-to-Pixel feedback loops.",
+                    "Multi-touch attribution.",
+                    "Funnel-integrity monitoring."
+                ],
+                "value_points": [
+                    "Smarter pixel",
+                    "Budget efficiency",
+                    "Scale the winner"
+                ]
+            },
+            "multi_location_ceo": {
+                "pains": [
+                    "You can't attribute foot traffic to digital ad spend.",
+                    " Franchisees claim ads don't work because they can't 'see' the lead.",
+                    "Cross-location attribution is a nightmare."
+                ],
+                "solutions": [
+                    "Store-visit lift measurement.",
+                    "Lead-to-sale CRM matching.",
+                    "Location-grouped reporting."
+                ],
+                "value_points": [
+                    "Prove value",
+                    "Franchisee buy-in",
+                    "Regional clarity"
+                ]
+            },
+            "real_estate_power_player": {
+                "pains": [
+                    "Leads call you directly and the ad platform never knows.",
+                    "Closing happens 3 months later, losing the data trail.",
+                    "You don't know which ad brings higher commission deals."
+                ],
+                "solutions": [
+                    "Call tracking integration.",
+                    "Long-window offline imports.",
+                    "Revenue-based ad optimization."
+                ],
+                "value_points": [
+                    "Capture all value",
+                    "See the long game",
+                    "Optimize for commission"
+                ]
+            },
+            "enterprise_innovator": {
+                "pains": [
+                    "Multiple touchpoints across long cycles are lost.",
+                    "Data privacy compliance is blocking your tracking scripts.",
+                    "You have no single source of truth for marketing performance."
+                ],
+                "solutions": [
+                    "Full-customer journey mapping.",
+                    "Server-side privacy compliant tracking.",
+                    "Enterprise data warehouse."
+                ],
+                "value_points": [
+                    "Journey visibility",
+                    "Compliance",
+                    "One truth"
+                ]
+            }
+        },
+        "block_10_marketing_audit": {
+            "scaling_founder": {
+                "pains": [
+                    "You have a 'Frankenstein' tech stack that needs an exorcism.",
+                    "You suspect you're bleeding money but don't know where.",
+                    "You need a roadmap, not just another tool."
+                ],
+                "solutions": [
+                    "Tech stack consolidation plan.",
+                    "Budget leakage audit.",
+                    "Strategic Growth Roadmap."
+                ],
+                "value_points": [
+                    "Clean stack",
+                    "Stop the bleeding",
+                    "Clear path forward"
+                ]
+            },
+            "elite_consultant": {
+                "pains": [
+                    "Your brand message feels stale and needs a refresh.",
+                    "You're not sure if your pricing is right for the current market.",
+                    "You need an outside set of eyes on your sales process."
+                ],
+                "solutions": [
+                    "Brand messaging audit.",
+                    "Pricing elasticity analysis.",
+                    "Sales process review."
+                ],
+                "value_points": [
+                    "Fresh message",
+                    "Optimized pricing",
+                    "Higher close rate"
+                ]
+            },
+            "saas_overloader": {
+                "pains": [
+                    "You don't know why users are dropping off during onboarding.",
+                    "You need a technical audit of your tracking setup.",
+                    "You're unsure which growth lever to pull next."
+                ],
+                "solutions": [
+                    "Onboarding friction log.",
+                    "Tracking implementation audit.",
+                    "Growth lever prioritization."
+                ],
+                "value_points": [
+                    "Fix the leaks",
+                    "Trust data",
+                    "Focus execution"
+                ]
+            },
+            "high_end_agency_owner": {
+                "pains": [
+                    "You're too close to your own business to see the flaws.",
+                    "Your own funnel is cobwebs and needs a dusting.",
+                    "You need a peer review of your strategy."
+                ],
+                "solutions": [
+                    "Objective agency health check.",
+                    "Funnel modernization plan.",
+                    "Strategy peer review."
+                ],
+                "value_points": [
+                    "Perspective",
+                    "Modernization",
+                    "Validation"
+                ]
+            },
+            "medical_practice_ceo": {
+                "pains": [
+                    "You're worried about compliance vulnerabilities.",
+                    "You don't know if your website is actually patient-friendly.",
+                    "You suspect your front desk is dropping the ball."
+                ],
+                "solutions": [
+                    "Compliance vulnerability scan.",
+                    "UX/UI patient journey audit.",
+                    "Mystery shopper front-desk test."
+                ],
+                "value_points": [
+                    "Safety",
+                    "Better experience",
+                    "Plug staff leaks"
+                ]
+            },
+            "ecom_high_roller": {
+                "pains": [
+                    "You need a CRO audit to find the leaks in your checkout.",
+                    "You want to know if your email flows are leaving money on the table.",
+                    "You need a technical check on your site speed and pixel."
+                ],
+                "solutions": [
+                    "Cart abandonment CRO audit.",
+                    "Email revenue gap analysis.",
+                    "Site performance technical review."
+                ],
+                "value_points": [
+                    "Higher conversion",
+                    "Found revenue",
+                    "Faster site"
+                ]
+            },
+            "coaching_empire_builder": {
+                "pains": [
+                    "You need to know why your webinar show-up rate is low.",
+                    "Your offer needs a stress test before you scale ad spend.",
+                    "You want to see where you compare to industry benchmarks."
+                ],
+                "solutions": [
+                    "Webinar funnel diagnostic.",
+                    "Offer stress-test framework.",
+                    "Industry benchmarking report."
+                ],
+                "value_points": [
+                    "Fix the funnel",
+                    "Confident scaling",
+                    "Know where you stand"
+                ]
+            },
+            "multi_location_ceo": {
+                "pains": [
+                    "You need to audit which locations are underperforming and why.",
+                    "You need a consistency check across all local listings.",
+                    "You want to identify the 'rogue' franchisees."
+                ],
+                "solutions": [
+                    "Location performance matrix.",
+                    "Local SEO consistency audit.",
+                    "Brand compliance scan."
+                ],
+                "value_points": [
+                    "Identify laggards",
+                    "Uniform presence",
+                    "Brand control"
+                ]
+            },
+            "real_estate_power_player": {
+                "pains": [
+                    "You need to see if your personal brand resonates with luxury buyers.",
+                    "You want to audit your follow-up speed and quality.",
+                    "You need to know if your ad spend is actually efficient."
+                ],
+                "solutions": [
+                    "Luxury brand perception audit.",
+                    "Lead response time analysis.",
+                    "Ad spend efficiency audit."
+                ],
+                "value_points": [
+                    "Brand alignment",
+                    "Better service",
+                    "Efficient spend"
+                ]
+            },
+            "enterprise_innovator": {
+                "pains": [
+                    "You need a compliance and security audit of your marketing stack.",
+                    "You need to map out data flows across departments.",
+                    "You want to identify redundancy to save budget."
+                ],
+                "solutions": [
+                    "Security & Compliance review.",
+                    "Data flow mapping.",
+                    "Redundancy identification."
+                ],
+                "value_points": [
+                    "Security",
+                    "Clarity",
+                    "Cost savings"
+                ]
+            }
+        }
+    }
+}

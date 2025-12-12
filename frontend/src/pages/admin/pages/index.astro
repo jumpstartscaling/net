@@ -1,0 +1,21 @@
+---
+import Layout from '@/layouts/AdminLayout.astro';
+import PageList from '@/components/admin/pages/PageList';
+---
+
+<Layout title="Page Management">
+  <div class="p-6 space-y-6">
+    <div class="flex justify-between items-center">
+      <div>
+        <h1 class="text-3xl font-bold text-slate-100">Pages</h1>
+        <p class="text-slate-400">Manage static pages across your sites.</p>
+      </div>
+      <a href="/admin/pages/new" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+        New Page
+      </a>
+    </div>
+
+    <PageList client:load />
+  </div>
+</Layout>

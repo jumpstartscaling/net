@@ -133,109 +133,95 @@ export type FragmentType =
     | 'pillar_6_backlinks'
     | 'faq_section';
 
+// ... (Existing types preserved above)
+
+// Cartesian Engine Types
+export interface GenerationJob {
+    id: string;
+    site_id: string | Site;
+    target_quantity: number;
+    status: 'Pending' | 'Processing' | 'Complete' | 'Failed';
+    filters: Record<string, any>; // { avatars: [], niches: [], cities: [], patterns: [] }
+    current_offset: number;
+    date_created?: string;
+}
+
+export interface ArticleTemplate {
+    id: string;
+    name: string;
+    structure_json: string[]; // Array of block IDs
+}
+
+export interface Avatar {
+    id: string; // key
+    base_name: string;
+    business_niches: string[];
+    wealth_cluster: string;
+}
+
+export interface AvatarVariant {
+    id: string;
+    avatar_id: string;
+    variants_json: Record<string, string>;
+}
+
+export interface GeoCluster {
+    id: string;
+    cluster_name: string;
+}
+
+export interface GeoLocation {
+    id: string;
+    cluster: string | GeoCluster;
+    city: string;
+    state: string;
+    zip_focus?: string;
+}
+
+export interface SpintaxDictionary {
+    id: string;
+    category: string;
+    words: string[];
+}
+
+export interface CartesianPattern {
+    id: string;
+    pattern_id: string;
+    category: string;
+    formula: string;
+}
+
+export interface OfferBlockUniversal {
+    id: string;
+    block_id: string;
+    title: string;
+    hook_generator: string;
+    universal_pains: string[];
+    universal_solutions: string[];
+    universal_value_points: string[];
+    cta_spintax: string;
+}
+
+export interface OfferBlockPersonalized {
+    id: string;
+    block_related_id: string;
+    avatar_related_id: string;
+    pains: string[];
+    solutions: string[];
+    value_points: string[];
+}
+
+// Updated GeneratedArticle to match Init Schema
 export interface GeneratedArticle {
     id: string;
-    site: string | Site;
-    campaign?: string | CampaignMaster;
-    headline: string;
-    meta_title: string;
-    meta_description: string;
-    full_html_body: string;
-    word_count: number;
-    is_published: boolean;
-    featured_image?: string;
-    location_state?: string;
-    location_county?: string;
-    location_city?: string;
-    date_created?: string;
-    date_updated?: string;
-}
-
-export interface ImageTemplate {
-    id: string;
-    site?: string | Site;
-    name: string;
-    svg_source: string;
-    preview?: string;
-    is_default: boolean;
-    date_created?: string;
-}
-
-// Location Types
-export interface LocationState {
-    id: string;
-    name: string;
-    code: string;
-    country_code: string;
-}
-
-export interface LocationCounty {
-    id: string;
-    name: string;
-    state: string | LocationState;
-    fips_code?: string;
-    population?: number;
-}
-
-export interface LocationCity {
-    id: string;
-    name: string;
-    county: string | LocationCounty;
-    state: string | LocationState;
-    lat?: number;
-    lng?: number;
-    population?: number;
-    postal_code?: string;
-    ranking?: number;
-}
-
-// Lead Capture Types
-export interface Lead {
-    id: string;
-    site: string | Site;
-    name: string;
-    email: string;
-    phone?: string;
-    message?: string;
-    source?: string;
-    date_created?: string;
-}
-
-export interface NewsletterSubscriber {
-    id: string;
-    site: string | Site;
-    email: string;
-    status: 'subscribed' | 'unsubscribed';
-    date_created?: string;
-}
-
-// Form Builder Types
-export interface Form {
-    id: string;
-    site: string | Site;
-    name: string;
-    fields: FormField[];
-    submit_action: 'email' | 'webhook' | 'both';
-    submit_email?: string;
-    submit_webhook?: string;
-    success_message?: string;
-    redirect_url?: string;
-}
-
-export interface FormField {
-    name: string;
-    label: string;
-    type: 'text' | 'email' | 'phone' | 'textarea' | 'select' | 'checkbox';
-    required: boolean;
-    options?: string[];
-    placeholder?: string;
-}
-
-export interface FormSubmission {
-    id: string;
-    form: string | Form;
-    site: string | Site;
-    data: Record<string, any>;
+    site_id: number; // or string depending on schema
+    title: string;
+    slug: string;
+    html_content: string;
+    generation_hash: string;
+    meta_desc?: string;
+    is_published?: boolean;
+    sync_status?: string;
     date_created?: string;
 }
 
@@ -249,14 +235,29 @@ export interface SparkSchema {
     globals: Globals[];
     navigation: Navigation[];
     authors: Author[];
+
+    // Legacy SEO Engine (Keep for compatibility if needed)
     campaign_masters: CampaignMaster[];
     headline_inventory: HeadlineInventory[];
     content_fragments: ContentFragment[];
-    generated_articles: GeneratedArticle[];
     image_templates: ImageTemplate[];
     locations_states: LocationState[];
     locations_counties: LocationCounty[];
     locations_cities: LocationCity[];
+
+    // New Cartesian Engine
+    generation_jobs: GenerationJob[];
+    article_templates: ArticleTemplate[];
+    avatars: Avatar[];
+    avatar_variants: AvatarVariant[];
+    geo_clusters: GeoCluster[];
+    geo_locations: GeoLocation[];
+    spintax_dictionaries: SpintaxDictionary[];
+    cartesian_patterns: CartesianPattern[];
+    offer_blocks_universal: OfferBlockUniversal[];
+    offer_blocks_personalized: OfferBlockPersonalized[];
+    generated_articles: GeneratedArticle[];
+
     leads: Lead[];
     newsletter_subscribers: NewsletterSubscriber[];
     forms: Form[];

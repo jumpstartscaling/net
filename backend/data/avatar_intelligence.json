@@ -1,0 +1,169 @@
+{
+    "meta": {
+        "file_type": "avatar_intelligence",
+        "version": "2.1",
+        "note": "The business_niches array acts as the 'Niche' variable in Cartesian generation."
+    },
+    "avatars": {
+        "scaling_founder": {
+            "base_name": "The Tech Titan",
+            "wealth_cluster": "Tech-Native",
+            "business_niches": [
+                "Vertical SaaS",
+                "AI Infrastructure",
+                "Fintech",
+                "HealthTech",
+                "Cybersecurity",
+                "PropTech",
+                "EdTech",
+                "Micro-VC",
+                "CleanTech",
+                "Robotics"
+            ]
+        },
+        "elite_consultant": {
+            "base_name": "The Elite Consultant",
+            "wealth_cluster": "Professional Services",
+            "business_niches": [
+                "Management Consulting",
+                "Executive Coaching",
+                "Fractional C-Suite",
+                "M&A Advisory",
+                "Brand Strategy",
+                "Legal Defense",
+                "Wealth Management",
+                "Public Relations",
+                "Crisis Management",
+                "Leadership Training"
+            ]
+        },
+        "saas_overloader": {
+            "base_name": "The SaaS Overloader",
+            "wealth_cluster": "Tech-Native",
+            "business_niches": [
+                "MarTech",
+                "DevTools",
+                "HR Tech",
+                "Sales Enablement",
+                "Customer Support AI",
+                "Project Management Tools",
+                "No-Code Platforms",
+                "Video Software",
+                "E-Learning Platforms",
+                "Cloud Hosting"
+            ]
+        },
+        "high_end_agency_owner": {
+            "base_name": "The High-End Agency Owner",
+            "wealth_cluster": "Creative Class",
+            "business_niches": [
+                "Performance Marketing",
+                "CRO Agency",
+                "Design Studio",
+                "Video Production",
+                "SEO Firm",
+                "PPC Agency",
+                "Social Media Management",
+                "Influencer Marketing",
+                "Email Marketing",
+                "Development Shop"
+            ]
+        },
+        "medical_practice_ceo": {
+            "base_name": "The Medical Practice CEO",
+            "wealth_cluster": "Legacy",
+            "business_niches": [
+                "Plastic Surgery",
+                "Dental Practice",
+                "Fertility Center",
+                "Concierge Medicine",
+                "Dermatology Clinic",
+                "MedSpa",
+                "Orthopedics",
+                "Chiropractic Center",
+                "Mental Health Clinic",
+                "Rehab Center"
+            ]
+        },
+        "ecom_high_roller": {
+            "base_name": "The Ecom High-Roller",
+            "wealth_cluster": "New Money",
+            "business_niches": [
+                "DTC Brand",
+                "Amazon FBA",
+                "Dropshipping",
+                "Subscription Box",
+                "Fashion Label",
+                "Supplement Brand",
+                "Beauty Brand",
+                "Home Goods",
+                "Pet Products",
+                "Tech Accessories"
+            ]
+        },
+        "coaching_empire_builder": {
+            "base_name": "The Coaching Empire Builder",
+            "wealth_cluster": "Influencer Economy",
+            "business_niches": [
+                "Business Coaching",
+                "Life Coaching",
+                "Fitness Coaching",
+                "Relationship Coaching",
+                "Financial Coaching",
+                "Spiritual Coaching",
+                "Career Coaching",
+                "Parenting Coaching",
+                "Health Coaching",
+                "Mindset Coaching"
+            ]
+        },
+        "multi_location_ceo": {
+            "base_name": "The Multi-Location CEO",
+            "wealth_cluster": "Franchise & Retail",
+            "business_niches": [
+                "Gym Franchise",
+                "Restaurant Chain",
+                "Retail Store",
+                "Daycare Centers",
+                "Salon Chain",
+                "Urgent Care",
+                "Auto Repair Chain",
+                "HVAC Services",
+                "Plumbing Services",
+                "Cleaning Services"
+            ]
+        },
+        "real_estate_power_player": {
+            "base_name": "The Real Estate Power Player",
+            "wealth_cluster": "Hybrid",
+            "business_niches": [
+                "Luxury Brokerage",
+                "Commercial Leasing",
+                "Land Development",
+                "Property Management",
+                "Vacation Rentals",
+                "Multifamily Investing",
+                "House Flipping",
+                "Real Estate Wholesaling",
+                "Mortgage Lending",
+                "Title Services"
+            ]
+        },
+        "enterprise_innovator": {
+            "base_name": "The Enterprise Innovator",
+            "wealth_cluster": "Corporate Elite",
+            "business_niches": [
+                "Enterprise Software",
+                "Logistics & Supply Chain",
+                "Manufacturing",
+                "Energy",
+                "Telecommunications",
+                "Biotech",
+                "Pharmaceuticals",
+                "Aerospace",
+                "Automotive",
+                "Industrial IoT"
+            ]
+        }
+    }
+}

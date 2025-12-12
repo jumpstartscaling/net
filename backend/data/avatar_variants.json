@@ -1,0 +1,329 @@
+{
+  "meta": {
+    "file_type": "avatar_variants",
+    "version": "1.0",
+    "total_avatars": 10
+  },
+  "avatars": {
+    "scaling_founder": {
+      "base_name": "The Scaling Founder",
+      "variants": {
+        "male": {
+          "pronoun": "he",
+          "ppronoun": "him",
+          "pospronoun": "his",
+          "isare": "is",
+          "has_have": "has",
+          "does_do": "does",
+          "identity": "bottlenecked business owner"
+        },
+        "female": {
+          "pronoun": "she",
+          "ppronoun": "her",
+          "pospronoun": "her",
+          "isare": "is",
+          "has_have": "has",
+          "does_do": "does",
+          "identity": "bottlenecked business owner"
+        },
+        "neutral": {
+          "pronoun": "they",
+          "ppronoun": "them",
+          "pospronoun": "their",
+          "isare": "are",
+          "has_have": "have",
+          "does_do": "do",
+          "identity": "bottlenecked business owner"
+        }
+      }
+    },
+    "elite_consultant": {
+      "base_name": "The Elite Consultant",
+      "variants": {
+        "male": {
+          "pronoun": "he",
+          "ppronoun": "him",
+          "pospronoun": "his",
+          "isare": "is",
+          "has_have": "has",
+          "does_do": "does",
+          "identity": "overbooked consultant"
+        },
+        "female": {
+          "pronoun": "she",
+          "ppronoun": "her",
+          "pospronoun": "her",
+          "isare": "is",
+          "has_have": "has",
+          "does_do": "does",
+          "identity": "overbooked consultant"
+        },
+        "neutral": {
+          "pronoun": "they",
+          "ppronoun": "them",
+          "pospronoun": "their",
+          "isare": "are",
+          "has_have": "have",
+          "does_do": "do",
+          "identity": "overbooked consultant"
+        }
+      }
+    },
+    "saas_overloader": {
+      "base_name": "The SaaS Overloader",
+      "variants": {
+        "male": {
+          "pronoun": "he",
+          "ppronoun": "him",
+          "pospronoun": "his",
+          "isare": "is",
+          "has_have": "has",
+          "does_do": "does",
+          "identity": "overwhelmed SaaS owner"
+        },
+        "female": {
+          "pronoun": "she",
+          "ppronoun": "her",
+          "pospronoun": "her",
+          "isare": "is",
+          "has_have": "has",
+          "does_do": "does",
+          "identity": "overwhelmed SaaS owner"
+        },
+        "neutral": {
+          "pronoun": "they",
+          "ppronoun": "them",
+          "pospronoun": "their",
+          "isare": "are",
+          "has_have": "have",
+          "does_do": "do",
+          "identity": "overwhelmed SaaS owner"
+        }
+      }
+    },
+    "high_end_agency_owner": {
+      "base_name": "The High-End Agency Owner",
+      "variants": {
+        "male": {
+          "pronoun": "he",
+          "ppronoun": "him",
+          "pospronoun": "his",
+          "isare": "is",
+          "has_have": "has",
+          "does_do": "does",
+          "identity": "scaling agency owner"
+        },
+        "female": {
+          "pronoun": "she",
+          "ppronoun": "her",
+          "pospronoun": "her",
+          "isare": "is",
+          "has_have": "has",
+          "does_do": "does",
+          "identity": "scaling agency owner"
+        },
+        "neutral": {
+          "pronoun": "they",
+          "ppronoun": "them",
+          "pospronoun": "their",
+          "isare": "are",
+          "has_have": "have",
+          "does_do": "do",
+          "identity": "scaling agency owner"
+        }
+      }
+    },
+    "medical_practice_ceo": {
+      "base_name": "The Medical Practice CEO",
+      "variants": {
+        "male": {
+          "pronoun": "he",
+          "ppronoun": "him",
+          "pospronoun": "his",
+          "isare": "is",
+          "has_have": "has",
+          "does_do": "does",
+          "identity": "overwhelmed practice owner"
+        },
+        "female": {
+          "pronoun": "she",
+          "ppronoun": "her",
+          "pospronoun": "her",
+          "isare": "is",
+          "has_have": "has",
+          "does_do": "does",
+          "identity": "overwhelmed practice owner"
+        },
+        "neutral": {
+          "pronoun": "they",
+          "ppronoun": "them",
+          "pospronoun": "their",
+          "isare": "are",
+          "has_have": "have",
+          "does_do": "do",
+          "identity": "overwhelmed practice owner"
+        }
+      }
+    },
+    "ecom_high_roller": {
+      "base_name": "The Ecom High-Roller",
+      "variants": {
+        "male": {
+          "pronoun": "he",
+          "ppronoun": "him",
+          "pospronoun": "his",
+          "isare": "is",
+          "has_have": "has",
+          "does_do": "does",
+          "identity": "scaling ecommerce brand owner"
+        },
+        "female": {
+          "pronoun": "she",
+          "ppronoun": "her",
+          "pospronoun": "her",
+          "isare": "is",
+          "has_have": "has",
+          "does_do": "does",
+          "identity": "scaling ecommerce brand owner"
+        },
+        "neutral": {
+          "pronoun": "they",
+          "ppronoun": "them",
+          "pospronoun": "their",
+          "isare": "are",
+          "has_have": "have",
+          "does_do": "do",
+          "identity": "scaling ecommerce brand owner"
+        }
+      }
+    },
+    "coaching_empire_builder": {
+      "base_name": "The Coaching Empire Builder",
+      "variants": {
+        "male": {
+          "pronoun": "he",
+          "ppronoun": "him",
+          "pospronoun": "his",
+          "isare": "is",
+          "has_have": "has",
+          "does_do": "does",
+          "identity": "online coach"
+        },
+        "female": {
+          "pronoun": "she",
+          "ppronoun": "her",
+          "pospronoun": "her",
+          "isare": "is",
+          "has_have": "has",
+          "does_do": "does",
+          "identity": "online coach"
+        },
+        "neutral": {
+          "pronoun": "they",
+          "ppronoun": "them",
+          "pospronoun": "their",
+          "isare": "are",
+          "has_have": "have",
+          "does_do": "do",
+          "identity": "online coach"
+        }
+      }
+    },
+    "multi_location_ceo": {
+      "base_name": "The Multi-Location CEO",
+      "variants": {
+        "male": {
+          "pronoun": "he",
+          "ppronoun": "him",
+          "pospronoun": "his",
+          "isare": "is",
+          "has_have": "has",
+          "does_do": "does",
+          "identity": "franchise operator"
+        },
+        "female": {
+          "pronoun": "she",
+          "ppronoun": "her",
+          "pospronoun": "her",
+          "isare": "is",
+          "has_have": "has",
+          "does_do": "does",
+          "identity": "franchise operator"
+        },
+        "neutral": {
+          "pronoun": "they",
+          "ppronoun": "them",
+          "pospronoun": "their",
+          "isare": "are",
+          "has_have": "have",
+          "does_do": "do",
+          "identity": "franchise operator"
+        }
+      }
+    },
+    "real_estate_power_player": {
+      "base_name": "The Real Estate Power Player",
+      "variants": {
+        "male": {
+          "pronoun": "he",
+          "ppronoun": "him",
+          "pospronoun": "his",
+          "isare": "is",
+          "has_have": "has",
+          "does_do": "does",
+          "identity": "luxury agent"
+        },
+        "female": {
+          "pronoun": "she",
+          "ppronoun": "her",
+          "pospronoun": "her",
+          "isare": "is",
+          "has_have": "has",
+          "does_do": "does",
+          "identity": "luxury agent"
+        },
+        "neutral": {
+          "pronoun": "they",
+          "ppronoun": "them",
+          "pospronoun": "their",
+          "isare": "are",
+          "has_have": "have",
+          "does_do": "do",
+          "identity": "luxury agent"
+        }
+      }
+    },
+    "enterprise_innovator": {
+      "base_name": "The Enterprise Innovator",
+      "variants": {
+        "male": {
+          "pronoun": "he",
+          "ppronoun": "him",
+          "pospronoun": "his",
+          "isare": "is",
+          "has_have": "has",
+          "does_do": "does",
+          "identity": "enterprise operations leader"
+        },
+        "female": {
+          "pronoun": "she",
+          "ppronoun": "her",
+          "pospronoun": "her",
+          "isare": "is",
+          "has_have": "has",
+          "does_do": "does",
+          "identity": "enterprise operations leader"
+        },
+        "neutral": {
+          "pronoun": "they",
+          "ppronoun": "them",
+          "pospronoun": "their",
+          "isare": "are",
+          "has_have": "have",
+          "does_do": "do",
+          "identity": "enterprise operations leader"
+        }
+      }
+    }
+  }
+}

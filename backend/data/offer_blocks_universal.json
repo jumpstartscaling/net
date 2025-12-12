@@ -1,0 +1,237 @@
+{
+    "meta": {
+        "file_type": "offer_blocks_universal",
+        "version": "2.1",
+        "total_blocks": 10
+    },
+    "offer_blocks": {
+        "block_01_zapier_fix": {
+            "id": "block_01_zapier_fix",
+            "title": "The $1,000 Fix",
+            "hook": "Stop the bleeding and start scaling.",
+            "universal_pain_points": [
+                "Monthly automation bills that scale faster than your actual profit.",
+                "Crucial data getting 'Lost in Zapier' causing lead leakage.",
+                "Paying 5 different SaaS subscriptions for what should be one simple script."
+            ],
+            "universal_solutions": [
+                "Migrate entire automation stack to self-hosted n8n",
+                "Eliminate per-task billing and unpredictable SaaS overages",
+                "Ensure zero-latency automation for lead routing"
+            ],
+            "universal_value_points": [
+                "Fixed cost $20/mo",
+                "99.8% automation uptime",
+                "Stronger infrastructure foundation for scaling ads"
+            ],
+            "spintax": "{Stop the bleeding|End the cash drain|Stop wasting money} and {start scaling|grow profitably|build a real foundation}.\nThe $1,000 Fix is real. {Kill|Eliminate|Slash} your Zapier bills & {guarantee|ensure} your ads actually convert.\nAt {{AGENCY_NAME}}, we {rebuild|overhaul|fix} the infrastructure your last agency {ignored|messed up|forgot about}:\n– Migrate {costly|bloated} automation to n8n\n– {Repair|Fix|Patch} leaky funnels\n– Code {precise|100% accurate} Google Ads attribution\n{Start My Free Custom Scaling Blueprint|Get Your Audit} → {{AGENCY_URL}}"
+        },
+        "block_02_social_proof": {
+            "id": "block_02_social_proof",
+            "title": "Proof. Not Promises.",
+            "hook": "Why high-volume businesses trust us.",
+            "universal_pain_points": [
+                "Sick of agencies that talk a big game but have zero case studies.",
+                "Fear of being the 'guinea pig' for a new agency's learning curve.",
+                "Previous marketing partners who hid data when performance dipped."
+            ],
+            "universal_solutions": [
+                "Leverage verified case studies from your exact niche",
+                "Transparent reporting dashboards updated in real-time",
+                "Performance guarantees tied to revenue, not vanity metrics"
+            ],
+            "universal_value_points": [
+                "Reduced risk of vendor selection",
+                "Full visibility into where budget goes",
+                "Proven methodologies deployed immediately"
+            ],
+            "spintax": "Why {high-volume|market-leading|top-tier} businesses trust {{AGENCY_NAME}}:\n{120+|Over 100|Hundreds of} businesses helped\nClients in {8 countries|multiple global markets}\n{$100k|Six-figure} adspend managed a month\n{3x ROI|Triple digit returns} first month return\n{Stop Wasting Money|End the guesswork} → {Get My Free Blueprint|See The Case Studies}"
+        },
+        "block_03_fix_first_scale_second": {
+            "id": "block_03_fix_first_scale_second",
+            "title": "We Fix First, Scale Second",
+            "hook": "Before scaling, we fix the revenue killers.",
+            "universal_pain_points": [
+                "Pouring water into a leaky bucket (scaling broken funnels).",
+                "Scaling ad spend only to see CPA skyrocket immediately.",
+                "The anxiety of spending more money when your foundation is shaky."
+            ],
+            "universal_solutions": [
+                "Comprehensive funnel audit before increasing budget",
+                "Conversion Rate Optimization (CRO) to maximize traffic value",
+                "Foundation-first approach to sustainable scaling"
+            ],
+            "universal_value_points": [
+                "Lower CAC immediately",
+                "Higher ROAS on every dollar spent",
+                "Peace of mind knowing the backend handles volume"
+            ],
+            "spintax": "Before {scaling|spending more money|increasing budget}:\nWe {fix|repair|solve} the three {revenue killers|profit leaks|growth blockers}:\n– {Code-Level|Technical} Funnel Repairs\n– Google Ads {Profit Engine|Optimization}\n– Automation {Cost Cutter|Efficiency Audit}\n{Fix My Funnel|Repair My Stack} & {Cut My Tech Bill|Save Money Now} → {{AGENCY_URL}}"
+        },
+        "block_04_market_domination": {
+            "id": "block_04_market_domination",
+            "title": "Done-For-You Market Domination",
+            "hook": "Tired of spending on ads that flop?",
+            "universal_pain_points": [
+                "Watching competitors dominate while your ads sit in 'learning phase'.",
+                "Creative fatigue making your best ads stop working after 2 weeks.",
+                "The exhaustion of constantly trying to 'hack' the algorithm."
+            ],
+            "universal_solutions": [
+                "Omnichannel strategy covering Facebook, Google, and TikTok",
+                "Rapid creative testing framework to battle fatigue",
+                "Algorithm-proof marketing logic based on fundamentals"
+            ],
+            "universal_value_points": [
+                "Consistent lead flow across platforms",
+                "Always-on winning creative rotation",
+                "Long-term asset value building"
+            ],
+            "spintax": "{Tired of|Sick of|Done with} spending {|huge budgets} on ads that {flop|fail|don't convert}?\n{{AGENCY_NAME}} {builds|engineers}, {scales|grows}, and {optimizes|fine-tunes} campaigns that {dominate|own} your niche.\n– Facebook / Google / TikTok ads\n– {Lead funnels|High-converting pages}\n– Automation & CRM\n– SEO that {ranks|actually works}\n{Get My Free Growth Strategy Call|Book A Dominance Call} → {{AGENCY_URL}}"
+        },
+        "block_05_stop_wasting_dollars": {
+            "id": "block_05_stop_wasting_dollars",
+            "title": "Stop Wasting Advertising Dollars",
+            "hook": "Does wasting ad dollars keep you up at night?",
+            "universal_pain_points": [
+                "Clicking refresh on your ad manager hoping for a miracle.",
+                "Paying for clicks that are clearly bots or unqualified leads.",
+                "The sinking feeling that 50% of your budget is effectively burning."
+            ],
+            "universal_solutions": [
+                "Bot filtering and click-fraud protection",
+                "Negative keyword lists to exclude low-quality traffic",
+                "Audience exclusion to stop retargeting converters"
+            ],
+            "universal_value_points": [
+                "Zero budget waste on bots",
+                "Higher quality leads for sales teams",
+                "Efficient spend utilization"
+            ],
+            "spintax": "Does {wasting ad dollars|burning budget|losing money on ads} keep you up at night?\nLet {{AGENCY_NAME}} {show you how to|help you} get {more leads|better results} — {without wasting money|efficiently|profitably}.\nYES! I Want {More Leads|Profitable Ads} → {{AGENCY_URL}}"
+        },
+        "block_06_start_building_systems": {
+            "id": "block_06_start_building_systems",
+            "title": "Stop Buying Leads. Start Building Systems.",
+            "hook": "We replace chaotic ad spend with predictable systems.",
+            "universal_pain_points": [
+                "Feast or famine revenue cycles.",
+                "Depending on 'unicorn' ads rather than a reliable machine.",
+                "Lead flow stops the second you turn off the ads."
+            ],
+            "universal_solutions": [
+                "Build owned media assets (SEO, Email List)",
+                "Automated nurture sequences that work 24/7",
+                "Systematized acquisition playbooks"
+            ],
+            "universal_value_points": [
+                "Predictable monthly revenue",
+                "Business asset value increases",
+                "Freedom from day-to-day ad management panic"
+            ],
+            "spintax": "We {replace|swap} chaotic ad spend with {predictable|reliable|consistent} acquisition systems.\nWe audit, we build, we {automate|optimize}.\n{Full infrastructure|Complete ecosystem}. No fluff.\n{Start Your Systems Audit|Build My Machine} → {{AGENCY_URL}}"
+        },
+        "block_07_dedicated_growth_unit": {
+            "id": "block_07_dedicated_growth_unit",
+            "title": "Your Dedicated Growth Unit",
+            "hook": "Outsource your RevOps to a single, accountable partner.",
+            "universal_pain_points": [
+                "Managing 5 different freelancers who blame each other.",
+                "The 'Integrator' gap: you have tools but nobody to connect them.",
+                "Paying agency fees but still doing all the project management yourself."
+            ],
+            "universal_solutions": [
+                "Unified team managing Strategy, Ads, and Automation",
+                "Single point of accountability (Account Director)",
+                "Holistic view of the entire revenue engine"
+            ],
+            "universal_value_points": [
+                "No more vendor blame games",
+                "Execution speed increases 10x",
+                "Strategic alignment across all channels"
+            ],
+            "spintax": "{Outsource|Delegate} your RevOps to a {single|dedicated}, {accountable|expert} partner.\nYou get:\n– Lead Architect (Strategy)\n– Systems Engineer (Automation + n8n)\n– Data Scientist (Attribution)\n– Risk Officer (HIPAA/FTC)\n{Request the P&L Partnership Brief|See How We Partner} → {{AGENCY_URL}}"
+        },
+        "block_08_elite_media_buying": {
+            "id": "block_08_elite_media_buying",
+            "title": "Elite Media Buying",
+            "hook": "We turn ad spend into a precise revenue engine.",
+            "universal_pain_points": [
+                "Media buyers who just 'boost posts' and call it marketing.",
+                "Agencies that set it and forget it while collecting a fee.",
+                "Creative that looks like everyone else's generic ads."
+            ],
+            "universal_solutions": [
+                "Data-driven bid strategies (Target CPA/ROAS)",
+                "Creative strategy aligned with buyer psychology",
+                "Advanced audience segmentation and lookalikes"
+            ],
+            "universal_value_points": [
+                "Scalable ad spend with stable returns",
+                "High-converting creative assets",
+                "Competitive advantage in auctions"
+            ],
+            "spintax": "Most firms {operate|run ads} at the {commodity|amateur} level.\n{{AGENCY_NAME}} manages {cash flow|profitability}.\nWe {turn|transform} ad spend into a {precise|predictable} revenue engine.\nReal-time optimization.\nMarket domination.\n{Start My Media Scaling Blueprint|Scale My Ads} → {{AGENCY_URL}}"
+        },
+        "block_09_sovereign_capi": {
+            "id": "block_09_sovereign_capi",
+            "title": "The Sovereign CAPI Advantage",
+            "hook": "40% of your data is disappearing. We fix that.",
+            "universal_pain_points": [
+                "Ad platforms reporting 100 sales when your bank says 60.",
+                "Fear that iOS14+ killed your ability to target effectively.",
+                "Flying blind because you can't trust your dashboard."
+            ],
+            "universal_solutions": [
+                "Server-Side Tracking (CAPI) implementation",
+                "Offline Conversion Import (OCI)",
+                "First-party data capture strategy"
+            ],
+            "universal_value_points": [
+                "99% Data Accuracy restored",
+                "Signal resilience against browser blocks",
+                "Confident budget allocation decisions"
+            ],
+            "spintax": "40% of your {data|conversions|revenue signal} is {disappearing|vanishing}.\nWe {fix|solve} that {permanently|forever}.\nOur Sovereign CAPI Infrastructure delivers:\n– {99.8% accuracy|Perfect matching}\n– {Verified revenue|Bank-level data}\n– CFO-level reporting\n{Fix My Tracking|Audit My Data} → {{AGENCY_URL}}"
+        },
+        "block_10_marketing_audit": {
+            "id": "block_10_marketing_audit",
+            "title": "Stop Guessing. Get The Audit.",
+            "hook": "The first step to fixing your marketing is knowing what's broken.",
+            "universal_pain_points": [
+                "Trying random tactics hoping something sticks.",
+                "Not knowing if your problem is the offer, the ad, or the funnel.",
+                "Feeling overwhelmed by the complexity of modern marketing."
+            ],
+            "universal_solutions": [
+                "Full-stack technical audit (Ads, Site, Tracking)",
+                "Competitor analysis and benchmarking",
+                "Clear, prioritized roadmap for fixes"
+            ],
+            "universal_value_points": [
+                "Clarity on exactly what to fix first",
+                "No more wasted budget on wrong tactics",
+                "Actionable plan to improve ROI"
+            ],
+            "spintax": "The first step to {fixing|repairing} your marketing is {knowing|identifying} what's broken.\n{Stop Guessing|End the confusion}.\nGet a full, {comprehensive|deep-dive} audit of your:\n– Funnel performance\n– Tech stack health\n– Ad account efficiency\n{Get My Free Audit|Reveal The Flaws} → {{AGENCY_URL}}"
+        },
+        "block_11_avatar_showcase": {
+            "id": "block_11_avatar_showcase",
+            "title": "Who We Help",
+            "hook": "Industries we have scaled to 8-figures.",
+            "universal_pain_points": [],
+            "universal_solutions": [],
+            "universal_value_points": [],
+            "spintax": "We specialize in high-growth verticals.\n{{COMPONENT_AVATAR_GRID}}"
+        },
+        "block_12_consultation_form": {
+            "id": "block_12_consultation_form",
+            "title": "Book Your Strategy Call",
+            "hook": "Let's build your growth roadmap.",
+            "universal_pain_points": [],
+            "universal_solutions": [],
+            "universal_value_points": [],
+            "spintax": "Ready to scale? Fill out the form below.\n{{COMPONENT_OPTIN_FORM}}"
+        }
+    }
+}
