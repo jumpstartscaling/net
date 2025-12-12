@@ -10,7 +10,7 @@ import { getDirectusClient, readItems, aggregate } from '@/lib/directus/client';
  * 
  * GET /api/client/dashboard?site_id={id}
  */
-export const GET: APIRoute = async ({ url }) => {
+export const GET: APIRoute = async ({ url }: { url: URL }) => {
     try {
         const siteId = url.searchParams.get('site_id');
 
