@@ -1,13 +1,11 @@
 /**
  * Spark Platform - Directus Schema Import Script
- * 
- * This script imports the collections, fields, and relations from the template
- * into a fresh Directus instance.
- * 
- * Usage: node scripts/import_template.js
+ * Uses only fetch API - no external dependencies
  */
 
-import { createDirectus, rest, staticToken } from '@directus/sdk';
+const DIRECTUS_URL = process.env.PUBLIC_URL || process.env.DIRECTUS_URL || 'http://localhost:8055';
+const DIRECTUS_TOKEN = process.env.ADMIN_TOKEN || process.env.DIRECTUS_ADMIN_TOKEN;
+
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -15,12 +13,10 @@ import { dirname, join } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const DIRECTUS_URL = process.env.PUBLIC_URL || process.env.DIRECTUS_URL || 'http://localhost:8055';
-const DIRECTUS_TOKEN = process.env.ADMIN_TOKEN || process.env.DIRECTUS_ADMIN_TOKEN;
-
 if (!DIRECTUS_TOKEN) {
-    console.error('❌ ADMIN_TOKEN or DIRECTUS_ADMIN_TOKEN is required');
-    console.log('Set it in your environment or run: export ADMIN_TOKEN=your-token');
+    console.error('❌ ADMIN_TOKEN is required');
+    console.log('Run: export ADMIN_TOKEN="your-token-here"');
+    console.log('Get token from: Directus Admin → Settings → Access Tokens');
     process.exit(1);
 }
 
@@ -40,65 +36,34 @@ try {
     process.exit(1);
 }
 
-const directus = createDirectus(DIRECTUS_URL).with(rest()).with(staticToken(DIRECTUS_TOKEN));
-
-async function createCollection(collection) {
-    const response = await fetch(`${DIRECTUS_URL}/collections`, {
-        method: 'POST',
+async function apiRequest(method, endpoint, body = null) {
+    const options = {
+        method,
         headers: {
             'Authorization': `Bearer ${DIRECTUS_TOKEN}`,
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(collection)
-    });
-    if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.errors?.[0]?.message || response.statusText);
-    }
-    return response.json();
-}
+        }
+    };
+    if (body) options.body = JSON.stringify(body);
 
-async function createField(collectionName, field) {
-    const response = await fetch(`${DIRECTUS_URL}/fields/${collectionName}`, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${DIRECTUS_TOKEN}`,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(field)
-    });
-    if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.errors?.[0]?.message || response.statusText);
-    }
-    return response.json();
-}
+    const response = await fetch(`${DIRECTUS_URL}${endpoint}`, options);
+    const data = await response.json();
 
-async function createRelation(relation) {
-    const response = await fetch(`${DIRECTUS_URL}/relations`, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${DIRECTUS_TOKEN}`,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(relation)
-    });
     if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.errors?.[0]?.message || response.statusText);
+        throw new Error(data.errors?.[0]?.message || response.statusText);
     }
-    return response.json();
+    return data;
 }
 
 async function importSchema() {
     console.log('🚀 Starting Spark Platform schema import...');
-    console.log(`   Directus URL: ${DIRECTUS_URL}\n`);
+    console.log(`   URL: ${DIRECTUS_URL}\n`);
 
     // Create collections
     console.log('📦 Creating collections...');
     for (const collection of collections) {
         try {
-            await createCollection(collection);
+            await apiRequest('POST', '/collections', collection);
             console.log(`  ✅ ${collection.collection}`);
         } catch (err) {
             if (err.message?.includes('already exists')) {
@@ -114,7 +79,7 @@ async function importSchema() {
     for (const [collectionName, collectionFields] of Object.entries(fields)) {
         for (const field of collectionFields) {
             try {
-                await createField(collectionName, field);
+                await apiRequest('POST', `/fields/${collectionName}`, field);
                 console.log(`  ✅ ${collectionName}.${field.field}`);
             } catch (err) {
                 if (err.message?.includes('already exists')) {
@@ -130,7 +95,7 @@ async function importSchema() {
     console.log('\n🔗 Creating relations...');
     for (const relation of relations) {
         try {
-            await createRelation(relation);
+            await apiRequest('POST', '/relations', relation);
             console.log(`  ✅ ${relation.collection}.${relation.field} → ${relation.related_collection}`);
         } catch (err) {
             if (err.message?.includes('already exists')) {
@@ -144,7 +109,7 @@ async function importSchema() {
     console.log('\n✨ Schema import complete!');
 }
 
-importSchema().catch((err) => {
+importSchema().catch(err => {
     console.error('❌ Import failed:', err);
     process.exit(1);
 });
