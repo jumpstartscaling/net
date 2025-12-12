@@ -130,10 +130,60 @@
         }
     });
 
-    // Auto-track outbound link clicks
+    // Auto-track outbound link clicks AND click-to-call
     document.addEventListener('click', function (e) {
         const link = e.target.closest('a');
-        if (link && link.hostname !== window.location.hostname) {
+        if (!link) return;
+
+        // Track click-to-call (tel: links)
+        if (link.href && link.href.startsWith('tel:')) {
+            const phoneNumber = link.href.replace('tel:', '');
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Fire call conversion to our API
+            fetch(API_BASE + '/api/track/call-click', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    site_id: SITE_ID,
+                    phone_number: phoneNumber,
+                    page_url: window.location.href,
+                    page_title: document.title,
+                    utm_source: urlParams.get('utm_source'),
+                    utm_medium: urlParams.get('utm_medium'),
+                    utm_campaign: urlParams.get('utm_campaign'),
+                    gclid: urlParams.get('gclid'),
+                    fbclid: urlParams.get('fbclid'),
+                    visitor_id: VISITOR_ID,
+                    session_id: SESSION_ID
+                }),
+                keepalive: true
+            }).catch(() => { });
+
+            // Also track as event
+            window.sparkTrack('call_click', {
+                category: 'conversion',
+                label: phoneNumber
+            });
+
+            // Fire to Google Ads if gtag exists
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'conversion', {
+                    'send_to': 'AW-CONVERSION_ID/CONVERSION_LABEL',
+                    'value': 75,
+                    'currency': 'USD'
+                });
+            }
+
+            // Fire to Facebook if fbq exists
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'Contact', { value: 75, currency: 'USD' });
+            }
+            return;
+        }
+
+        // Track outbound links
+        if (link.hostname !== window.location.hostname) {
             window.sparkTrack('outbound_click', {
                 category: 'engagement',
                 label: link.href
