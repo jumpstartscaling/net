@@ -12,18 +12,18 @@ import {
 } from '@directus/sdk';
 import type { SparkSchema } from '@/types/schema';
 
-const PUBLIC_URL = import.meta.env.PUBLIC_DIRECTUS_URL || 'http://localhost:8055';
+const PUBLIC_URL = import.meta.env.PUBLIC_DIRECTUS_URL || 'https://spark.jumpstartscaling.com';
 
-// Internal URL (SSR only) - try process.env first to bypass build-time replacement, then fallback to docker default
-let INTERNAL_URL = 'http://directus:8055';
-if (typeof process !== 'undefined' && process.env && process.env.INTERNAL_DIRECTUS_URL) {
-    INTERNAL_URL = process.env.INTERNAL_DIRECTUS_URL;
-}
+// Internal URL (SSR only) - used when running server-side requests
+const INTERNAL_URL = typeof process !== 'undefined' && process.env?.INTERNAL_DIRECTUS_URL
+    ? process.env.INTERNAL_DIRECTUS_URL
+    : 'https://spark.jumpstartscaling.com';
 
 const DIRECTUS_TOKEN = import.meta.env.DIRECTUS_ADMIN_TOKEN || (typeof process !== 'undefined' && process.env ? process.env.DIRECTUS_ADMIN_TOKEN : '') || '';
 
 // Select URL based on environment (Server vs Client)
-const DIRECTUS_URL = (typeof window === 'undefined') ? INTERNAL_URL : PUBLIC_URL;
+// Always use the public URL to ensure consistent access
+const DIRECTUS_URL = PUBLIC_URL;
 
 /**
  * Creates a typed Directus client for the Spark Platform
