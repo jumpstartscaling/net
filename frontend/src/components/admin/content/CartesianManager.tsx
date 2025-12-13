@@ -4,32 +4,12 @@ import { getDirectusClient } from '@/lib/directus/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
-export default function CartesianManager() {
-    const [patterns, setPatterns] = useState([]);
-    const [loading, setLoading] = useState(true);
+interface Props {
+    initialPatterns?: any[];
+}
 
-    useEffect(() => {
-        loadData();
-    }, []);
-
-    const loadData = async () => {
-        try {
-            const directus = await getDirectusClient();
-            const response = await directus.request({
-                method: 'GET',
-                path: '/items/cartesian_patterns'
-            });
-            setPatterns(response.data || []);
-            setLoading(false);
-        } catch (error) {
-            console.error('Error loading cartesian patterns:', error);
-            setLoading(false);
-        }
-    };
-
-    if (loading) {
-        return <div className="text-white">Loading Cartesian Patterns...</div>;
-    }
+export default function CartesianManager({ initialPatterns = [] }: Props) {
+    const [patterns, setPatterns] = useState(initialPatterns);
 
     return (
         <div className="space-y-6">

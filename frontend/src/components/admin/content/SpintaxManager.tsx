@@ -4,32 +4,12 @@ import { getDirectusClient } from '@/lib/directus/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
-export default function SpintaxManager() {
-    const [dictionaries, setDictionaries] = useState([]);
-    const [loading, setLoading] = useState(true);
+interface Props {
+    initialDictionaries?: any[];
+}
 
-    useEffect(() => {
-        loadData();
-    }, []);
-
-    const loadData = async () => {
-        try {
-            const directus = await getDirectusClient();
-            const response = await directus.request({
-                method: 'GET',
-                path: '/items/spintax_dictionaries'
-            });
-            setDictionaries(response.data || []);
-            setLoading(false);
-        } catch (error) {
-            console.error('Error loading spintax dictionaries:', error);
-            setLoading(false);
-        }
-    };
-
-    if (loading) {
-        return <div className="text-white">Loading Spintax Dictionaries...</div>;
-    }
+export default function SpintaxManager({ initialDictionaries = [] }: Props) {
+    const [dictionaries, setDictionaries] = useState(initialDictionaries);
 
     return (
         <div className="space-y-6">

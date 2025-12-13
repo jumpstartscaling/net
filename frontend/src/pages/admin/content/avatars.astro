@@ -2,6 +2,11 @@
 ---
 import Layout from '@/layouts/AdminLayout.astro';
 import AvatarManager from '@/components/admin/content/AvatarManager';
+import { getDirectusClient, readItems } from '@/lib/directus/client';
+
+const directus = getDirectusClient();
+const avatars = await directus.request(readItems('avatar_intelligence')).catch(() => []);
+const variants = await directus.request(readItems('avatar_variants')).catch(() => []);
 ---
 <Layout title="Avatars Intelligence">
   <div class="p-8">
@@ -9,6 +14,6 @@ import AvatarManager from '@/components/admin/content/AvatarManager';
       <h1 class="text-3xl font-bold text-white mb-2">Avatar Intelligence</h1>
       <p class="text-gray-400">Manage your 10 base avatars, variants, and business niches.</p>
     </div>
-    <AvatarManager client:load />
+    <AvatarManager client:load initialAvatars={avatars} initialVariants={variants} />
   </div>
 </Layout>

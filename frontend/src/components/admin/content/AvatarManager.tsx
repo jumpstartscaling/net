@@ -4,52 +4,20 @@ import { getDirectusClient } from '@/lib/directus/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
-export default function AvatarManager() {
-    const [avatars, setAvatars] = useState([]);
-    const [variants, setVariants] = useState([]);
-    const [loading, setLoading] = useState(true);
+interface Props {
+    initialAvatars?: any[];
+    initialVariants?: any[];
+}
+
+export default function AvatarManager({ initialAvatars = [], initialVariants = [] }: Props) {
+    const [avatars, setAvatars] = useState(initialAvatars);
+    const [variants, setVariants] = useState(initialVariants);
     const [selectedAvatar, setSelectedAvatar] = useState(null);
-
-    useEffect(() => {
-        loadData();
-    }, []);
-
-    const loadData = async () => {
-        try {
-            const directus = await getDirectusClient();
-
-            // Load avatars
-            const avatarData = await directus.request({
-                method: 'GET',
-                path: '/items/avatar_intelligence'
-            });
-            setAvatars(avatarData.data || []);
-
-            // Load variants
-            const variantData = await directus.request({
-                method: 'GET',
-                path: '/items/avatar_variants'
-            });
-            setVariants(variantData.data || []);
-
-            setLoading(false);
-        } catch (error) {
-            console.error('Error loading avatars:', error);
-            setLoading(false);
-        }
-    };
 
     const getVariantsForAvatar = (avatarKey) => {
         return variants.filter(v => v.avatar_key === avatarKey);
     };
 
-    if (loading) {
-        return (
-            <div className="flex items-center justify-center h-64">
-                <div className="text-white">Loading avatars...</div>
-            </div>
-        );
-    }
 
     return (
         <div className="space-y-6">

@@ -4,32 +4,12 @@ import { getDirectusClient } from '@/lib/directus/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
-export default function GeoManager() {
-    const [clusters, setClusters] = useState([]);
-    const [loading, setLoading] = useState(true);
+interface Props {
+    initialClusters?: any[];
+}
 
-    useEffect(() => {
-        loadData();
-    }, []);
-
-    const loadData = async () => {
-        try {
-            const directus = await getDirectusClient();
-            const response = await directus.request({
-                method: 'GET',
-                path: '/items/geo_intelligence'
-            });
-            setClusters(response.data || []);
-            setLoading(false);
-        } catch (error) {
-            console.error('Error loading geo clusters:', error);
-            setLoading(false);
-        }
-    };
-
-    if (loading) {
-        return <div className="text-white">Loading Geo Intelligence...</div>;
-    }
+export default function GeoManager({ initialClusters = [] }: Props) {
+    const [clusters, setClusters] = useState(initialClusters);
 
     return (
         <div className="space-y-6">
