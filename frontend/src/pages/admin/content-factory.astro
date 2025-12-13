@@ -1,16 +1,9 @@
 ---
 import Layout from '@/layouts/AdminLayout.astro';
-import ContentFactoryDashboard from '@/components/admin/cartesian/ContentFactoryDashboard';
+import ContentFactoryDashboard from '@/components/admin/content/ContentFactoryDashboard';
 ---
-
-<Layout title="Cartesian Content Factory">
-  <div class="p-6">
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-slate-900">Cartesian Content Factory</h1>
-      <p class="text-slate-600">Mission Control for High-Volume Content Generation</p>
-    </div>
-
-    <!-- React Application Root -->
-    <ContentFactoryDashboard client:only="react" />
+<Layout title="Factory Command Center">
+  <div class="p-8">
+    <ContentFactoryDashboard client:load />
   </div>
 </Layout>
