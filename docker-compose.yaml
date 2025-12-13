@@ -19,8 +19,6 @@ services:
       - 'DB_DATABASE=${POSTGRESQL_DATABASE:-directus}'
       - DB_USER=$SERVICE_USER_POSTGRESQL
       - DB_PASSWORD=$SERVICE_PASSWORD_POSTGRESQL
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
       - WEBSOCKETS_ENABLED=true
     labels:
       - "traefik.enable=true"
@@ -41,8 +39,6 @@ services:
       retries: 10
     depends_on:
       postgresql:
-        condition: service_healthy
-      redis:
         condition: service_healthy
     networks:
       - coolify
