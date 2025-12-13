@@ -19,9 +19,14 @@ services:
       - 'DB_DATABASE=${POSTGRESQL_DATABASE:-directus}'
       - DB_USER=$SERVICE_USER_POSTGRESQL
       - DB_PASSWORD=$SERVICE_PASSWORD_POSTGRESQL
-      - REDIS_HOST=redis
       - REDIS_PORT=6379
       - WEBSOCKETS_ENABLED=true
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.directus.rule=Host(`net1.jumpstartscaling.com`)"
+      - "traefik.http.routers.directus.entrypoints=websecure"
+      - "traefik.http.routers.directus.tls.certresolver=letsencrypt"
+      - "traefik.http.services.directus.loadbalancer.server.port=8055"
     healthcheck:
       test:
         - CMD
@@ -74,9 +79,15 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     environment:
-      - PUBLIC_DIRECTUS_URL=http://directus:8055
+      - PUBLIC_DIRECTUS_URL=https://net1.jumpstartscaling.com
       - DIRECTUS_ADMIN_TOKEN=${DIRECTUS_ADMIN_TOKEN:-}
-      - PUBLIC_PLATFORM_DOMAIN=${PLATFORM_DOMAIN:-localhost}
+      - PUBLIC_PLATFORM_DOMAIN=launch.jumpstartscaling.com
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`launch.jumpstartscaling.com`)"
+      - "traefik.http.routers.frontend.entrypoints=websecure"
+      - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.frontend.loadbalancer.server.port=4321"
     depends_on:
       - directus
 

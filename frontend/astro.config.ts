@@ -5,6 +5,7 @@ import node from '@astrojs/node';
 
 // Spark Platform - Multi-Tenant SSR Configuration
 export default defineConfig({
+  site: 'https://launch.jumpstartscaling.com',
   output: 'server',
   adapter: node({
     mode: 'standalone'
