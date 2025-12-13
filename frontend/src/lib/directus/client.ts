@@ -20,6 +20,8 @@ if (typeof process !== 'undefined' && process.env && process.env.INTERNAL_DIRECT
     INTERNAL_URL = process.env.INTERNAL_DIRECTUS_URL;
 }
 
+const DIRECTUS_TOKEN = import.meta.env.DIRECTUS_ADMIN_TOKEN || (typeof process !== 'undefined' && process.env ? process.env.DIRECTUS_ADMIN_TOKEN : '') || '';
+
 // Select URL based on environment (Server vs Client)
 const DIRECTUS_URL = (typeof window === 'undefined') ? INTERNAL_URL : PUBLIC_URL;
 
@@ -28,6 +30,10 @@ const DIRECTUS_URL = (typeof window === 'undefined') ? INTERNAL_URL : PUBLIC_URL
  */
 export function getDirectusClient(token?: string) {
     const client = createDirectus<SparkSchema>(DIRECTUS_URL).with(rest());
+
+    if (token || DIRECTUS_TOKEN) {
+        return client.with(staticToken(token || DIRECTUS_TOKEN));
+    }
 
     if (token || DIRECTUS_TOKEN) {
         return client.with(staticToken(token || DIRECTUS_TOKEN));
