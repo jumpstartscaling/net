@@ -12,8 +12,11 @@ import {
 } from '@directus/sdk';
 import type { SparkSchema } from '@/types/schema';
 
-const DIRECTUS_URL = import.meta.env.PUBLIC_DIRECTUS_URL || 'http://localhost:8055';
-const DIRECTUS_TOKEN = import.meta.env.DIRECTUS_ADMIN_TOKEN || '';
+const PUBLIC_URL = import.meta.env.PUBLIC_DIRECTUS_URL || 'http://localhost:8055';
+const INTERNAL_URL = import.meta.env.INTERNAL_DIRECTUS_URL || PUBLIC_URL;
+
+// Select URL based on environment (Server vs Client)
+const DIRECTUS_URL = (typeof window === 'undefined') ? INTERNAL_URL : PUBLIC_URL;
 
 /**
  * Creates a typed Directus client for the Spark Platform
