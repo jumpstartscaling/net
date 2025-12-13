@@ -56,7 +56,8 @@ export default function SiteEditor({ id }: SiteEditorProps) {
             const client = getDirectusClient();
             // @ts-ignore
             await client.request(updateItem('sites', id, {
-                // Update basic fields if changed (add logic later)
+                name: site.name,
+                domain: site.domain,
                 status: site.status,
                 settings: features
             }));
@@ -87,17 +88,21 @@ export default function SiteEditor({ id }: SiteEditorProps) {
                             <Label>Site Name</Label>
                             <Input
                                 value={site.name}
-                                disabled
+                                onChange={(e) => setSite({ ...site, name: e.target.value })}
                                 className="bg-slate-900 border-slate-700"
+                                placeholder="My Awesome Site"
                             />
+                            <p className="text-xs text-slate-500">Internal identifier for this site</p>
                         </div>
                         <div className="space-y-2">
                             <Label>Domain</Label>
                             <Input
                                 value={site.domain}
-                                disabled
+                                onChange={(e) => setSite({ ...site, domain: e.target.value })}
                                 className="bg-slate-900 border-slate-700 font-mono text-blue-400"
+                                placeholder="example.com"
                             />
+                            <p className="text-xs text-slate-500">Your custom domain (without https://)</p>
                         </div>
                     </div>
                 </CardContent>
