@@ -1,17 +1,15 @@
 ---
-import Layout from '@/layouts/AdminLayout.astro';
-import CartesianManager from '@/components/admin/content/CartesianManager';
-import { getDirectusClient, readItems } from '@/lib/directus/client';
-
-const directus = getDirectusClient();
-const patterns = await directus.request(readItems('cartesian_patterns')).catch(() => []);
+import AdminLayout from '@/layouts/AdminLayout.astro';
+import CartesianManagerEnhanced from '@/components/admin/content/CartesianManagerEnhanced';
 ---
-<Layout title="Cartesian Patterns">
+
+<AdminLayout title="Cartesian Patterns">
   <div class="p-8">
     <div class="mb-6">
-      <h1 class="text-3xl font-bold text-white mb-2">Cartesian Patterns</h1>
-      <p class="text-gray-400">Manage headline and content generation formulas.</p>
+      <h1 class="text-3xl font-bold text-white mb-2">🔀 Cartesian Patterns</h1>
+      <p class="text-slate-400">Define content generation patterns using Cartesian product logic</p>
     </div>
-    <CartesianManager client:load initialPatterns={patterns} />
+    
+    <CartesianManagerEnhanced client:load />
   </div>
-</Layout>
+</AdminLayout>

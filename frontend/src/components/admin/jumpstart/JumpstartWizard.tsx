@@ -160,11 +160,14 @@ export default function JumpstartWizard() {
             const job = await client.request(createItem('generation_jobs', {
                 site_id: siteId,
                 status: 'Pending',
-                type: 'Refactor', // or Import
+                type: 'Refactor',
                 target_quantity: inventory.total_posts,
-                filters: {
-                    items: inventory.items, // Store the full list to process
-                    mode: 'refactor'
+                config: {
+                    wordpress_url: siteUrl,
+                    wordpress_auth: appPassword ? `${username}:${appPassword}` : null,
+                    mode: 'refactor',
+                    batch_size: 5,
+                    total_posts: inventory.total_posts
                 }
             }));
             const newJobId = job.id;
@@ -190,7 +193,9 @@ export default function JumpstartWizard() {
                 addLog(`❌ Ignition Error: ${err.message || err.error}`);
             }
         } catch (e) {
-            addLog(`❌ Error: ${e.message}`);
+            const errorMsg = e?.message || e?.error || e?.toString() || 'Unknown error';
+            addLog(`❌ Error: ${errorMsg}`);
+            console.error('Full Jumpstart error:', e);
         }
     };
 
