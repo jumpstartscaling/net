@@ -219,6 +219,34 @@ export async function fetchGeneratedArticles(
 }
 
 /**
+ * Fetch a single generated article by slug
+ */
+export async function fetchGeneratedArticleBySlug(
+    slug: string,
+    siteId: string
+): Promise<any | null> {
+    try {
+        const articles = await directus.request(
+            readItems('generated_articles', {
+                filter: {
+                    _and: [
+                        { slug: { _eq: slug } },
+                        { site: { _eq: siteId } },
+                        { is_published: { _eq: true } }
+                    ]
+                },
+                limit: 1,
+                fields: ['*']
+            })
+        );
+        return articles?.[0] || null;
+    } catch (err) {
+        console.error('Error fetching generated article:', err);
+        return null;
+    }
+}
+
+/**
  * Fetch SEO campaigns
  */
 export async function fetchCampaigns(siteId?: string) {

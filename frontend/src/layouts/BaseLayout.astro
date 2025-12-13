@@ -8,6 +8,7 @@ interface Props {
   globals?: Globals;
   navigation?: Navigation[];
   canonical?: string;
+  schemaJson?: Record<string, any>;
 }
 
 const { 
@@ -16,7 +17,8 @@ const {
   image,
   globals,
   navigation = [],
-  canonical
+  canonical,
+  schemaJson
 } = Astro.props;
 
 const siteUrl = Astro.url.origin;
@@ -62,6 +64,11 @@ const ogImage = image || globals?.logo || '';
     
     <!-- Head Scripts -->
     {globals?.scripts_head && <Fragment set:html={globals.scripts_head} />}
+    
+    <!-- JSON-LD Schema -->
+    {schemaJson && (
+      <script type="application/ld+json" set:html={JSON.stringify(schemaJson)} />
+    )}
     
     <!-- Styles -->
     <style is:global>

@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { fetchPageByPermalink, fetchSiteGlobals, fetchNavigation } from '../lib/directus/fetchers';
+import { fetchPageByPermalink, fetchSiteGlobals, fetchNavigation, fetchGeneratedArticleBySlug } from '../lib/directus/fetchers';
 import BlockHero from '../components/blocks/BlockHero.astro';
 import BlockRichText from '../components/blocks/BlockRichText.astro';
 import BlockColumns from '../components/blocks/BlockColumns.astro';
@@ -13,16 +13,18 @@ import BlockPosts from '../components/blocks/BlockPosts.astro';
 import BlockForm from '../components/blocks/BlockForm.astro';
 
 const siteId = Astro.locals.siteId;
-const permalink = '/' + (Astro.params.slug || '');
+const slug = Astro.params.slug || '';
+const permalink = '/' + slug;
 
 // Fetch data
-const [globals, navigation, page] = await Promise.all([
+const [globals, navigation, page, generatedArticle] = await Promise.all([
   siteId ? fetchSiteGlobals(siteId) : null,
   siteId ? fetchNavigation(siteId) : [],
-  siteId ? fetchPageByPermalink(permalink, siteId) : null
+  siteId ? fetchPageByPermalink(permalink, siteId) : null,
+  siteId ? fetchGeneratedArticleBySlug(slug, siteId) : null
 ]);
 
-if (!page) {
+if (!page && !generatedArticle) {
   return Astro.redirect('/404');
 }
 
@@ -39,20 +41,31 @@ const blockComponents: Record<string, any> = {
   block_posts: BlockPosts,
   block_form: BlockForm,
 };
+
+const activeEntity = page || generatedArticle;
+const isGenerated = !!generatedArticle && !page;
 ---
 
 <BaseLayout 
-  title={page.seo_title || page.title}
-  description={page.seo_description}
-  image={page.seo_image}
+  title={activeEntity.seo_title || activeEntity.meta_title || activeEntity.title || activeEntity.headline}
+  description={activeEntity.seo_description || activeEntity.meta_description}
+  image={activeEntity.seo_image || (activeEntity.featured_image_filename ? `/assets/content/${activeEntity.featured_image_filename}` : undefined)}
   globals={globals}
   navigation={navigation}
+  schemaJson={activeEntity.schema_json}
 >
-  {page.blocks?.map((block) => {
-    const Component = blockComponents[block.collection];
-    if (Component) {
-      return <Component {...block.item} />;
-    }
-    return null;
-  })}
+  {isGenerated ? (
+    <article class="prose dark:prose-invert max-w-none container mx-auto px-4 py-8">
+      <h1 class="text-4xl font-bold mb-6">{activeEntity.headline}</h1>
+      <div set:html={activeEntity.full_html_body} />
+    </article>
+  ) : (
+    page.blocks?.map((block) => {
+      const Component = blockComponents[block.collection];
+      if (Component) {
+        return <Component {...block.item} />;
+      }
+      return null;
+    })
+  )}
 </BaseLayout>

@@ -102,6 +102,7 @@ export interface CampaignMaster {
     location_target?: string;
     batch_count?: number;
     status: 'active' | 'paused' | 'completed';
+    target_word_count?: number;
     date_created?: string;
 }
 
@@ -222,6 +223,7 @@ export interface GeneratedArticle {
     meta_desc?: string;
     is_published?: boolean;
     sync_status?: string;
+    schema_json?: Record<string, any>;
     date_created?: string;
 }
 
@@ -262,4 +264,18 @@ export interface SparkSchema {
     newsletter_subscribers: NewsletterSubscriber[];
     forms: Form[];
     form_submissions: FormSubmission[];
+    link_targets: LinkTarget[];
+}
+
+export interface LinkTarget {
+    id: string;
+    site: string;
+    target_url?: string;
+    target_post?: string;
+    anchor_text: string;
+    anchor_variations?: string[];
+    priority?: number;
+    is_active?: boolean;
+    is_hub?: boolean;
+    max_per_article?: number;
 }

@@ -213,7 +213,26 @@ export const POST: APIRoute = async ({ request, locals }) => {
                     : undefined
             });
 
-            // Create article record with featured image
+            // Generate JSON-LD Schema
+            const schemaJson = {
+                "@context": "https://schema.org",
+                "@type": "Article",
+                "headline": processedHeadline,
+                "description": metaDescription,
+                "wordCount": wordCount,
+                "datePublished": new Date().toISOString(),
+                "author": {
+                    "@type": "Organization",
+                    "name": locationVars.state ? `${locationVars.state} Services` : "Local Service Provider"
+                },
+                "image": featuredImage.filename ? `/assets/content/${featuredImage.filename}` : undefined
+            };
+
+            // Check Word Count Goal
+            const targetWordCount = campaign.target_word_count || 1500;
+            const wordCountStatus = wordCount >= targetWordCount ? 'optimal' : 'under_target';
+
+            // Create article record with featured image and schema
             const article = await directus.request(
                 createItem('generated_articles', {
                     site: siteId || campaign.site,
@@ -223,13 +242,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
                     meta_description: metaDescription,
                     full_html_body: fullHtmlBody,
                     word_count: wordCount,
+                    word_count_status: wordCountStatus,
                     is_published: false,
                     location_city: locationVars.city || null,
                     location_county: locationVars.county || null,
                     location_state: locationVars.state || null,
                     featured_image_svg: featuredImage.svg,
                     featured_image_filename: featuredImage.filename,
-                    featured_image_alt: featuredImage.alt
+                    featured_image_alt: featuredImage.alt,
+                    schema_json: schemaJson
                 })
             );
 

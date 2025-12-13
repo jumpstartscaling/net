@@ -79,15 +79,15 @@ export default function ContentFactoryDashboard() {
             {/* Header Actions */}
             <div className="flex justify-between items-center">
                 <div>
-                    <h2 className="text-xl font-bold text-white">Production Overview</h2>
-                    <p className="text-slate-400">Monitoring Content Velocity & Integrity</p>
+                    <h2 className="text-xl font-bold text-white">Tactical Command Center</h2>
+                    <p className="text-slate-400">Shields (SEO Defense) & Weapons (Content Offense) Status</p>
                 </div>
                 <div className="flex gap-4">
                     <Button variant="outline" className="text-slate-200 border-slate-700 hover:bg-slate-800" onClick={() => window.open(`${DIRECTUS_ADMIN_URL}/content/posts`, '_blank')}>
-                        Manage Articles (Backend)
+                        Manage Arsenal (Posts)
                     </Button>
                     <Button className="bg-blue-600 hover:bg-blue-700" onClick={() => window.open(`${DIRECTUS_ADMIN_URL}`, '_blank')}>
-                        Open Directus Admin ↗
+                        Open HQ (Directus) ↗
                     </Button>
                 </div>
             </div>
@@ -96,7 +96,7 @@ export default function ContentFactoryDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <Card className="bg-slate-900 border-slate-800">
                     <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium text-slate-400">Total Articles</CardTitle>
+                        <CardTitle className="text-sm font-medium text-slate-400">Total Units (Articles)</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold text-white">{stats.total}</div>
@@ -104,7 +104,7 @@ export default function ContentFactoryDashboard() {
                 </Card>
                 <Card className="bg-slate-900 border-slate-800 border-l-4 border-l-purple-500">
                     <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium text-slate-400">Ghost (Staged)</CardTitle>
+                        <CardTitle className="text-sm font-medium text-slate-400">Stealth (Ghost)</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold text-white">{stats.ghost}</div>
@@ -112,7 +112,7 @@ export default function ContentFactoryDashboard() {
                 </Card>
                 <Card className="bg-slate-900 border-slate-800 border-l-4 border-l-green-500">
                     <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium text-slate-400">Indexed (Live)</CardTitle>
+                        <CardTitle className="text-sm font-medium text-slate-400">Deployed (Live)</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold text-white">{stats.indexed}</div>
@@ -120,7 +120,7 @@ export default function ContentFactoryDashboard() {
                 </Card>
                 <Card className="bg-slate-900 border-slate-800 border-l-4 border-l-blue-500">
                     <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium text-slate-400">Active Jobs</CardTitle>
+                        <CardTitle className="text-sm font-medium text-slate-400">Active Operations</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold text-white">{queues.filter(q => q.status === 'Processing').length}</div>
