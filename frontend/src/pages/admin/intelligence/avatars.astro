@@ -1,0 +1,107 @@
+/**
+ * Avatar Intelligence Management
+ * Full CRUD for avatar_intelligence collection
+ */
+
+---
+import AdminLayout from '@/layouts/AdminLayout.astro';
+import { getDirectusClient } from '@/lib/directus/client';
+import { readItems } from '@directus/sdk';
+
+const client = getDirectusClient();
+
+let avatars = [];
+let error = null;
+
+try {
+  avatars = await client.request(readItems('avatar_intelligence', {
+    fields: ['*'],
+    sort: ['base_name'],
+  }));
+} catch (e) {
+  console.error('Error fetching avatars:', e);
+  error = e instanceof Error ? e.message : 'Unknown error';
+}
+---
+
+<AdminLayout title="Avatar Intelligence">
+  <div class="space-y-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+      <div>
+        <h1 class="spark-heading text-3xl">Avatar Intelligence</h1>
+        <p class="text-silver mt-1">Manage persona profiles and variants</p>
+      </div>
+      <div class="flex gap-3">
+        <button class="spark-btn-secondary text-sm">
+          📥 Import CSV
+        </button>
+        <button class="spark-btn-secondary text-sm">
+          📤 Export
+        </button>
+        <a href="/admin/intelligence/avatars/new" class="spark-btn-primary text-sm">
+          ✨ New Avatar
+        </a>
+      </div>
+    </div>
+
+    {error && (
+      <div class="spark-card p-4 border-red-500 text-red-400">
+        Error: {error}
+      </div>
+    )}
+
+    <!-- Stats -->
+    <div class="grid grid-cols-4 gap-4">
+      <div class="spark-card p-6">
+        <div class="spark-label mb-2">Total Avatars</div>
+        <div class="spark-data text-3xl">{avatars.length}</div>
+      </div>
+    </div>
+
+    <!-- Avatars Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {avatars.map((avatar: any) => (
+        <div class="spark-card spark-card-hover p-6">
+          <div class="flex items-start justify-between mb-4">
+            <h3 class="text-white font-semibold text-lg">{avatar.base_name}</h3>
+            <button class="spark-btn-ghost text-xs px-2 py-1">
+              Edit
+            </button>
+          </div>
+          
+          <div class="space-y-2 text-sm">
+            <div>
+              <span class="spark-label">Wealth Cluster:</span>
+              <span class="text-silver ml-2">{avatar.wealth_cluster || 'Not set'}</span>
+            </div>
+            
+            {avatar.business_niches && (
+              <div>
+                <span class="spark-label">Niches:</span>
+                <div class="flex flex-wrap gap-1 mt-1">
+                  {avatar.business_niches.slice(0, 3).map((niche: string) => (
+                    <span class="px-2 py-0.5 bg-graphite border border-edge-subtle rounded text-xs text-silver">
+                      {niche}
+                    </span>
+                  ))}
+                  {avatar.business_niches.length > 3 && (
+                    <span class="px-2 py-0.5 text-xs text-silver/50">
+                      +{avatar.business_niches.length - 3} more
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+      
+      {avatars.length === 0 && !error && (
+        <div class="col-span-full spark-card p-12 text-center">
+          <p class="text-silver/50">No avatars found. Create your first one!</p>
+        </div>
+      )}
+    </div>
+  </div>
+</AdminLayout>

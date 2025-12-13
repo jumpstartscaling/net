@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { getDirectusClient, readItems } from '@/lib/directus/client';
 
 interface SystemStatus {
     coreApi: 'online' | 'offline' | 'checking';
@@ -24,27 +23,38 @@ export default function SystemStatusBar() {
     const [showLogs, setShowLogs] = useState(false);
 
     useEffect(() => {
-        checkSystemStatus();
-        const interval = setInterval(checkSystemStatus, 30000); // Check every 30 seconds
+        checkStatus();
+        const interval = setInterval(checkStatus, 30000);
         return () => clearInterval(interval);
     }, []);
 
-    const checkSystemStatus = async () => {
+    const addLog = (message: string, type: LogEntry['type']) => {
+        const newLog: LogEntry = {
+            time: new Date().toLocaleTimeString(),
+            message,
+            type
+        };
+        setLogs(prev => [newLog, ...prev].slice(0, 50));
+    };
+
+    const checkStatus = async () => {
         try {
-            const client = getDirectusClient();
+            const directusUrl = 'https://spark.jumpstartscaling.com';
 
-            // Test database connection by fetching a single site
-            const sites = await client.request(
-                readItems('sites', { limit: 1 })
-            );
-
-            setStatus({
-                coreApi: 'online',
-                database: 'connected',
-                wpConnection: 'ready'
+            const response = await fetch(`${directusUrl}/server/health`, {
+                method: 'GET',
             });
 
-            addLog('System check passed', 'success');
+            if (response.ok) {
+                setStatus({
+                    coreApi: 'online',
+                    database: 'connected',
+                    wpConnection: 'ready'
+                });
+                addLog('System check passed', 'success');
+            } else {
+                throw new Error(`Health check failed: ${response.status}`);
+            }
         } catch (error) {
             console.error('Status check failed:', error);
             setStatus({
@@ -54,15 +64,6 @@ export default function SystemStatusBar() {
             });
             addLog(`System check failed: ${error instanceof Error ? error.message : 'Unknown error'}`, 'error');
         }
-    };
-
-    const addLog = (message: string, type: LogEntry['type']) => {
-        const newLog: LogEntry = {
-            time: new Date().toLocaleTimeString(),
-            message,
-            type
-        };
-        setLogs(prev => [newLog, ...prev].slice(0, 50)); // Keep last 50 logs
     };
 
     const getStatusColor = (state: string) => {
@@ -96,60 +97,53 @@ export default function SystemStatusBar() {
     };
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 z-50 bg-slate-800 border-t border-slate-700 shadow-lg">
-            {/* Main Status Bar */}
+        <div className="fixed bottom-0 left-0 right-0 z-50 bg-titanium border-t border-edge-normal shadow-xl">
             <div className="container mx-auto px-4 py-3">
                 <div className="flex items-center justify-between gap-4">
-                    {/* Title */}
-                    <h3 className="text-lg font-semibold text-white whitespace-nowrap">
-                        API & Logistics
-                    </h3>
+                    <h3 className="spark-label text-white">API & Logistics</h3>
 
-                    {/* Status Items */}
                     <div className="flex items-center gap-6 flex-1">
                         <div className="flex items-center gap-2 text-sm">
-                            <span className="text-slate-400">Core API</span>
+                            <span className="text-silver">Core API</span>
                             <span className={getStatusColor(status.coreApi)}>
                                 {status.coreApi.charAt(0).toUpperCase() + status.coreApi.slice(1)}
                             </span>
                         </div>
 
                         <div className="flex items-center gap-2 text-sm">
-                            <span className="text-slate-400">Database (Directus</span>
+                            <span className="text-silver">Database (Directus)</span>
                             <span className={getStatusColor(status.database)}>
                                 {status.database.charAt(0).toUpperCase() + status.database.slice(1)}
                             </span>
                         </div>
 
                         <div className="flex items-center gap-2 text-sm">
-                            <span className="text-slate-400">WP Connection</span>
+                            <span className="text-silver">WP Connection</span>
                             <span className={getStatusColor(status.wpConnection)}>
                                 {status.wpConnection.charAt(0).toUpperCase() + status.wpConnection.slice(1)}
                             </span>
                         </div>
                     </div>
 
-                    {/* Toggle Logs Button */}
                     <button
                         onClick={() => setShowLogs(!showLogs)}
-                        className="px-3 py-1.5 text-sm bg-slate-700 hover:bg-slate-600 text-white rounded border border-slate-600 transition-colors whitespace-nowrap"
+                        className="spark-btn-ghost text-sm"
                     >
                         {showLogs ? 'Hide' : 'Show'} Processing Log
                     </button>
                 </div>
             </div>
 
-            {/* Processing Log Panel */}
             {showLogs && (
-                <div className="border-t border-slate-700 bg-slate-900">
+                <div className="border-t border-edge-subtle bg-void">
                     <div className="container mx-auto px-4 py-3 max-h-48 overflow-y-auto">
                         <div className="space-y-1">
                             {logs.length === 0 ? (
-                                <div className="text-sm text-slate-500 italic">No recent activity</div>
+                                <div className="text-sm text-silver/50 italic">No recent activity</div>
                             ) : (
                                 logs.map((log, index) => (
                                     <div key={index} className="flex items-start gap-2 text-sm font-mono">
-                                        <span className="text-slate-500 shrink-0">[{log.time}]</span>
+                                        <span className="text-silver/50 shrink-0">[{log.time}]</span>
                                         <span className={getLogColor(log.type)}>{log.message}</span>
                                     </div>
                                 ))
