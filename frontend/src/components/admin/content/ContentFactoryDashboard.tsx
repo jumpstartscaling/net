@@ -231,7 +231,7 @@ export default function ContentFactoryDashboard() {
                                 <span className="text-slate-500">[{new Date(log.date_created || '').toLocaleTimeString()}]</span>{' '}
                                 <span className={log.action === 'create' ? 'text-green-400' : 'text-blue-400'}>{(log.action || 'INFO').toUpperCase()}</span>{' '}
                                 <span className="text-slate-300">{log.entity_type} #{log.entity_id}</span>{' '}
-                                <span className="text-slate-600">- {log.details ? log.details.substring(0, 50) : ''}...</span>
+                                <span className="text-slate-600">- {typeof log.details === 'string' ? log.details.substring(0, 50) : JSON.stringify(log.details || '').substring(0, 50)}...</span>
                             </div>
                         )) : (
                             <div className="text-slate-600 text-center mt-8">No recent activity</div>
