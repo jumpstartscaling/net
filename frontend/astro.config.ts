@@ -2,8 +2,16 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 import node from '@astrojs/node';
+import partytown from '@astrojs/partytown';
+import sitemap from '@astrojs/sitemap';
+import AstroPWA from '@vite-pwa/astro';
+import { visualizer } from 'rollup-plugin-visualizer';
+import viteCompression from 'vite-plugin-compression';
+import Inspect from 'vite-plugin-inspect';
+// @ts-expect-error - astro-imagetools types are not fully compatible with Astro v4
+import { astroImageTools } from 'astro-imagetools';
 
-// Spark Platform - Multi-Tenant SSR Configuration
+// Spark Platform - Multi-Tenant SSR Configuration with Full Plugin Suite
 export default defineConfig({
   site: 'https://launch.jumpstartscaling.com',
   output: 'server',
@@ -14,6 +22,57 @@ export default defineConfig({
     react(),
     tailwind({
       applyBaseStyles: true
+    }),
+    // SEO: Auto-generate sitemaps
+    sitemap(),
+    // Performance: Run analytics in web worker
+    partytown({
+      config: {
+        forward: ['dataLayer.push']
+      }
+    }),
+    // Image Optimization
+    astroImageTools,
+    // PWA: Offline-capable admin dashboard
+    AstroPWA({
+      registerType: 'autoUpdate',
+      includeAssets: ['favicon.svg'],
+      manifest: {
+        name: 'Spark Admin',
+        short_name: 'Spark',
+        description: 'Content Generation & SEO Platform',
+        theme_color: '#1e293b',
+        background_color: '#0f172a',
+        display: 'standalone',
+        icons: [
+          {
+            src: '/pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: '/pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ]
+      },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,svg,png,ico,txt}'],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/spark\.jumpstartscaling\.com\/items\/.*/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'directus-api-cache',
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 60 // 1 hour
+              }
+            }
+          }
+        ]
+      }
     })
   ],
   server: {
@@ -23,6 +82,24 @@ export default defineConfig({
   vite: {
     optimizeDeps: {
       exclude: ['@directus/sdk']
-    }
+    },
+    // @ts-expect-error - Vite plugin types have minor conflicts between Astro's bundled Vite and external plugins
+    plugins: [
+      // Bundle Analysis: Generate visual report
+      visualizer({
+        open: false,
+        filename: 'bundle-stats.html',
+        gzipSize: true,
+        brotliSize: true
+      }),
+      // Compression: Pre-compress assets
+      viteCompression({
+        algorithm: 'brotliCompress',
+        ext: '.br',
+        threshold: 1024
+      }),
+      // Debug: Inspect Vite transformations
+      Inspect()
+    ]
   }
 });
