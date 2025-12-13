@@ -6,6 +6,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { Button } from "@/components/ui/button";
+import { Edit, Trash2, Plus, ExternalLink } from 'lucide-react';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface CollectionManagerProps {
     collection: string;
@@ -156,9 +166,34 @@ export default function CollectionManager({
                                         : '—'}
                                 </td>
                                 <td className="text-right">
-                                    <button className="spark-btn-ghost text-xs px-2 py-1">
-                                        Edit
-                                    </button>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <button className="spark-btn-ghost text-xs px-2 py-1">
+                                                Actions
+                                            </button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end">
+                                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
+                                            {/* Preview Action for Posts/Pages */}
+                                            {['posts', 'pages', 'generated_articles'].includes(collection) && (
+                                                <DropdownMenuItem
+                                                    onClick={() => {
+                                                        // Fallback site ID since directus schema might vary on how it stores site ref
+                                                        const siteId = (item as any).site || (item as any).site_id || 'default';
+                                                        const url = `https://launch.jumpstartscaling.com/site/${siteId}/preview/${item.id}`;
+                                                        window.open(url, '_blank');
+                                                    }}
+                                                >
+                                                    <ExternalLink className="mr-2 h-4 w-4" /> Preview
+                                                </DropdownMenuItem>
+                                            )}
+
+                                            <DropdownMenuItem onClick={() => handleEdit(item)}>
+                                                <Edit className="mr-2 h-4 w-4" /> Edit
+                                            </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                 </td>
                             </tr>
                         ))}
