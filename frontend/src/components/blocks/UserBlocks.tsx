@@ -12,8 +12,8 @@ export const Text = ({ text, fontSize = 16, textAlign = 'left' }: { text: string
 
     return (
         <div
-            ref={(ref) => connect(drag(ref as HTMLElement))}
-            onClick={() => !hasSelectedNode && setProp(props => props.hasSelectedNode = true)}
+            ref={(ref) => { connect(drag(ref as HTMLElement)); }}
+            onClick={() => !hasSelectedNode && setProp((props: any) => props.hasSelectedNode = true)}
             style={{ fontSize: `${fontSize}px`, textAlign: textAlign as any }}
             className="p-2 hover:outline hover:outline-1 hover:outline-blue-500 relative group"
         >
@@ -36,10 +36,13 @@ export const TextSettings = () => {
             <div className="space-y-2">
                 <Label>Font Size</Label>
                 <Slider
-                    defaultValue={[fontSize || 16]}
+                    defaultValue={fontSize || 16}
                     max={100}
                     step={1}
-                    onValueChange={(val) => setProp(props => props.fontSize = val[0])}
+                    onChange={(e) => {
+                        const val = Number(e.target.value);
+                        setProp((props: any) => props.fontSize = val);
+                    }}
                 />
             </div>
             <div className="space-y-2">
@@ -49,7 +52,7 @@ export const TextSettings = () => {
                         <button
                             key={align}
                             className={`px-2 py-1 border rounded ${textAlign === align ? 'bg-primary text-primary-foreground' : ''}`}
-                            onClick={() => setProp(props => props.textAlign = align)}
+                            onClick={() => setProp((props: any) => props.textAlign = align)}
                         >
                             {align.charAt(0).toUpperCase() + align.slice(1)}
                         </button>
@@ -75,7 +78,7 @@ export const Container = ({ background = "#ffffff", padding = 20, children }: { 
     const { connectors: { connect, drag } } = useNode();
     return (
         <div
-            ref={(ref) => connect(drag(ref as HTMLElement))}
+            ref={(ref) => { connect(drag(ref as HTMLElement)); }}
             style={{ background, padding: `${padding}px` }}
             className="border border-dashed border-gray-200 min-h-[100px]"
         >
@@ -97,16 +100,22 @@ export const ContainerSettings = () => {
                 <Input
                     type="color"
                     value={background}
-                    onChange={(e) => setProp(props => props.background = e.target.value)}
+                    onChange={(e) => {
+                        const val = e.target.value;
+                        setProp((props: any) => props.background = val);
+                    }}
                 />
             </div>
             <div className="space-y-2">
                 <Label>Padding</Label>
                 <Slider
-                    defaultValue={[padding]}
+                    defaultValue={padding}
                     max={100}
                     step={1}
-                    onValueChange={(val) => setProp(props => props.padding = val[0])}
+                    onChange={(e) => {
+                        const val = Number(e.target.value);
+                        setProp((props: any) => props.padding = val);
+                    }}
                 />
             </div>
         </div>
