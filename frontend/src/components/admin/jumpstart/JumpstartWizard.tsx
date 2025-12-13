@@ -133,12 +133,12 @@ export default function JumpstartWizard() {
             const client = getDirectusClient();
 
             // A. Find or Create Site
-            const domain = new URL(siteUrl).hostname;
+            const siteUrlFull = siteUrl.startsWith('http') ? siteUrl : `https://${siteUrl}`;
             let siteId: string | number;
 
-            addLog(`🔎 Checking Site Record for ${domain}...`);
+            addLog(`🔎 Checking Site Record for ${siteUrlFull}...`);
             const existingSites = await client.request(readItems('sites', {
-                filter: { domain: { _eq: domain } },
+                filter: { url: { _eq: siteUrlFull } },
                 limit: 1
             }));
 
@@ -148,9 +148,8 @@ export default function JumpstartWizard() {
             } else {
                 addLog(`✨ Creating new site record...`);
                 const newSite = await client.request(createItem('sites', {
-                    name: domain,
-                    domain: domain,
-                    url: siteUrl
+                    name: new URL(siteUrlFull).hostname,
+                    url: siteUrlFull
                 }));
                 siteId = newSite.id;
             }
