@@ -1,0 +1,73 @@
+{
+  "collections": {
+    "sites": {
+      "accessible": true,
+      "count": 3
+    },
+    "posts": {
+      "accessible": true,
+      "count": 0
+    },
+    "pages": {
+      "accessible": true,
+      "count": 1
+    },
+    "generated_articles": {
+      "accessible": true,
+      "count": 0
+    },
+    "generation_jobs": {
+      "accessible": true,
+      "count": 30
+    },
+    "avatar_intelligence": {
+      "accessible": true,
+      "count": 10
+    },
+    "avatar_variants": {
+      "accessible": true,
+      "count": 30
+    },
+    "geo_intelligence": {
+      "accessible": true,
+      "count": 3
+    },
+    "cartesian_patterns": {
+      "accessible": true,
+      "count": 3
+    },
+    "spintax_dictionaries": {
+      "accessible": true,
+      "count": 6
+    },
+    "campaign_masters": {
+      "accessible": true,
+      "count": 2
+    },
+    "content_fragments": {
+      "accessible": true,
+      "count": 150
+    },
+    "headline_inventory": {
+      "accessible": true,
+      "count": 0
+    }
+  },
+  "relationships": {
+    "sites_posts": true,
+    "sites_pages": true,
+    "campaign_fragments": true,
+    "campaign_headlines": true,
+    "campaign_articles": true,
+    "articles_site_join": "no_data"
+  },
+  "adminPages": {
+    "mission_control": true,
+    "content_factory": true,
+    "work_log": true
+  },
+  "engines": {
+    "cartesian_data_access": true,
+    "job_site_access": "no_pending_jobs"
+  }
+}

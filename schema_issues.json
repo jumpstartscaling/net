@@ -1,0 +1,16 @@
+[
+  {
+    "collection": "content_fragments",
+    "field": "campaign_id",
+    "targetCollection": "campaign_masters",
+    "templateField": "campaign_name",
+    "issue": "Template references non-existent field \"campaign_name\""
+  },
+  {
+    "collection": "headline_inventory",
+    "field": "campaign_id",
+    "targetCollection": "campaign_masters",
+    "templateField": "campaign_name",
+    "issue": "Template references non-existent field \"campaign_name\""
+  }
+]

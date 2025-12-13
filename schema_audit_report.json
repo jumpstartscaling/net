@@ -1,0 +1,1624 @@
+{
+  "collections": [
+    {
+      "name": "avatar_intelligence",
+      "fields": [
+        {
+          "field": "id",
+          "type": "integer",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "avatar_key",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "base_name",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "wealth_cluster",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "business_niches",
+          "type": "json",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "data",
+          "type": "json",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "avatar_variants",
+      "fields": [
+        {
+          "field": "id",
+          "type": "integer",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "avatar_key",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "variant_type",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "data",
+          "type": "json",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "campaign_masters",
+      "fields": [
+        {
+          "field": "id",
+          "type": "uuid",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "site_id",
+          "type": "uuid",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": [
+            "ID field without relational interface"
+          ]
+        },
+        {
+          "field": "name",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "headline_spintax_root",
+          "type": "text",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "niche_variables",
+          "type": "json",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "location_mode",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "location_target",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "batch_count",
+          "type": "integer",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "status",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": [
+            "Status field should use select-dropdown"
+          ]
+        },
+        {
+          "field": "date_created",
+          "type": "dateTime",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "target_word_count",
+          "type": "integer",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "article_template",
+          "type": "uuid",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        }
+      ],
+      "relationships": [
+        {
+          "collection": "campaign_masters",
+          "field": "site_id",
+          "related_collection": "sites",
+          "schema": {
+            "constraint_name": "campaign_masters_site_id_fkey",
+            "table": "campaign_masters",
+            "column": "site_id",
+            "foreign_key_schema": "public",
+            "foreign_key_table": "sites",
+            "foreign_key_column": "id",
+            "on_update": "NO ACTION",
+            "on_delete": "CASCADE"
+          },
+          "meta": null
+        },
+        {
+          "collection": "headline_inventory",
+          "field": "campaign_id",
+          "related_collection": "campaign_masters",
+          "schema": {
+            "constraint_name": "headline_inventory_campaign_id_fkey",
+            "table": "headline_inventory",
+            "column": "campaign_id",
+            "foreign_key_schema": "public",
+            "foreign_key_table": "campaign_masters",
+            "foreign_key_column": "id",
+            "on_update": "NO ACTION",
+            "on_delete": "CASCADE"
+          },
+          "meta": null
+        },
+        {
+          "collection": "content_fragments",
+          "field": "campaign_id",
+          "related_collection": "campaign_masters",
+          "schema": {
+            "constraint_name": "content_fragments_campaign_id_fkey",
+            "table": "content_fragments",
+            "column": "campaign_id",
+            "foreign_key_schema": "public",
+            "foreign_key_table": "campaign_masters",
+            "foreign_key_column": "id",
+            "on_update": "NO ACTION",
+            "on_delete": "CASCADE"
+          },
+          "meta": null
+        }
+      ]
+    },
+    {
+      "name": "cartesian_patterns",
+      "fields": [
+        {
+          "field": "id",
+          "type": "integer",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "pattern_key",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "pattern_type",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "data",
+          "type": "json",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "content_fragments",
+      "fields": [
+        {
+          "field": "id",
+          "type": "uuid",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "campaign_id",
+          "type": "uuid",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": [
+            "ID field without relational interface"
+          ]
+        },
+        {
+          "field": "fragment_type",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "content_body",
+          "type": "text",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "word_count",
+          "type": "integer",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "date_created",
+          "type": "dateTime",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        }
+      ],
+      "relationships": [
+        {
+          "collection": "content_fragments",
+          "field": "campaign_id",
+          "related_collection": "campaign_masters",
+          "schema": {
+            "constraint_name": "content_fragments_campaign_id_fkey",
+            "table": "content_fragments",
+            "column": "campaign_id",
+            "foreign_key_schema": "public",
+            "foreign_key_table": "campaign_masters",
+            "foreign_key_column": "id",
+            "on_update": "NO ACTION",
+            "on_delete": "CASCADE"
+          },
+          "meta": null
+        }
+      ]
+    },
+    {
+      "name": "generated_articles",
+      "fields": [
+        {
+          "field": "id",
+          "type": "uuid",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "site_id",
+          "type": "uuid",
+          "interface": "select-dropdown-m2o",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": true,
+          "issues": []
+        },
+        {
+          "field": "title",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "slug",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "html_content",
+          "type": "text",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "generation_hash",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "meta_desc",
+          "type": "text",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "is_published",
+          "type": "boolean",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "sync_status",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "sitemap_status",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "campaign_id",
+          "type": "uuid",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": [
+            "ID field without relational interface"
+          ]
+        },
+        {
+          "field": "date_created",
+          "type": "dateTime",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "date_updated",
+          "type": "dateTime",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "schema_json",
+          "type": "json",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "word_count_status",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        }
+      ],
+      "relationships": [
+        {
+          "collection": "generated_articles",
+          "field": "site_id",
+          "related_collection": "sites",
+          "schema": {
+            "constraint_name": "generated_articles_site_id_fkey",
+            "table": "generated_articles",
+            "column": "site_id",
+            "foreign_key_schema": "public",
+            "foreign_key_table": "sites",
+            "foreign_key_column": "id",
+            "on_update": "NO ACTION",
+            "on_delete": "CASCADE"
+          },
+          "meta": null
+        }
+      ]
+    },
+    {
+      "name": "generation_jobs",
+      "fields": [
+        {
+          "field": "id",
+          "type": "uuid",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "site_id",
+          "type": "uuid",
+          "interface": "select-dropdown-m2o",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": true,
+          "issues": []
+        },
+        {
+          "field": "target_quantity",
+          "type": "integer",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "status",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": [
+            "Status field should use select-dropdown"
+          ]
+        },
+        {
+          "field": "filters",
+          "type": "json",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "current_offset",
+          "type": "integer",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "date_created",
+          "type": "dateTime",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        }
+      ],
+      "relationships": [
+        {
+          "collection": "generation_jobs",
+          "field": "site_id",
+          "related_collection": "sites",
+          "schema": {
+            "constraint_name": "generation_jobs_site_id_fkey",
+            "table": "generation_jobs",
+            "column": "site_id",
+            "foreign_key_schema": "public",
+            "foreign_key_table": "sites",
+            "foreign_key_column": "id",
+            "on_update": "NO ACTION",
+            "on_delete": "CASCADE"
+          },
+          "meta": null
+        }
+      ]
+    },
+    {
+      "name": "geo_intelligence",
+      "fields": [
+        {
+          "field": "id",
+          "type": "integer",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "cluster_key",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "data",
+          "type": "json",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "headline_inventory",
+      "fields": [
+        {
+          "field": "id",
+          "type": "uuid",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "campaign_id",
+          "type": "uuid",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": [
+            "ID field without relational interface"
+          ]
+        },
+        {
+          "field": "final_title_text",
+          "type": "text",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "status",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": [
+            "Status field should use select-dropdown"
+          ]
+        },
+        {
+          "field": "used_on_article",
+          "type": "uuid",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "date_created",
+          "type": "dateTime",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        }
+      ],
+      "relationships": [
+        {
+          "collection": "headline_inventory",
+          "field": "campaign_id",
+          "related_collection": "campaign_masters",
+          "schema": {
+            "constraint_name": "headline_inventory_campaign_id_fkey",
+            "table": "headline_inventory",
+            "column": "campaign_id",
+            "foreign_key_schema": "public",
+            "foreign_key_table": "campaign_masters",
+            "foreign_key_column": "id",
+            "on_update": "NO ACTION",
+            "on_delete": "CASCADE"
+          },
+          "meta": null
+        }
+      ]
+    },
+    {
+      "name": "leads",
+      "fields": [
+        {
+          "field": "id",
+          "type": "uuid",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "email",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "name",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "phone",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "source",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "site_id",
+          "type": "uuid",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": [
+            "ID field without relational interface"
+          ]
+        },
+        {
+          "field": "created_at",
+          "type": "dateTime",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        }
+      ],
+      "relationships": [
+        {
+          "collection": "leads",
+          "field": "site_id",
+          "related_collection": "sites",
+          "schema": {
+            "constraint_name": "leads_site_id_fkey",
+            "table": "leads",
+            "column": "site_id",
+            "foreign_key_schema": "public",
+            "foreign_key_table": "sites",
+            "foreign_key_column": "id",
+            "on_update": "NO ACTION",
+            "on_delete": "SET NULL"
+          },
+          "meta": null
+        }
+      ]
+    },
+    {
+      "name": "offer_blocks",
+      "fields": [
+        {
+          "field": "id",
+          "type": "integer",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "block_type",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "avatar_key",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "data",
+          "type": "json",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "pages",
+      "fields": [
+        {
+          "field": "id",
+          "type": "uuid",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "title",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "slug",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "content",
+          "type": "text",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "site_id",
+          "type": "uuid",
+          "interface": "select-dropdown-m2o",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": true,
+          "issues": []
+        },
+        {
+          "field": "status",
+          "type": "string",
+          "interface": "select-dropdown",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": true,
+          "issues": []
+        },
+        {
+          "field": "created_at",
+          "type": "dateTime",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "schema_json",
+          "type": "json",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        }
+      ],
+      "relationships": [
+        {
+          "collection": "pages",
+          "field": "site_id",
+          "related_collection": "sites",
+          "schema": {
+            "constraint_name": "pages_site_id_fkey",
+            "table": "pages",
+            "column": "site_id",
+            "foreign_key_schema": "public",
+            "foreign_key_table": "sites",
+            "foreign_key_column": "id",
+            "on_update": "NO ACTION",
+            "on_delete": "CASCADE"
+          },
+          "meta": null
+        }
+      ]
+    },
+    {
+      "name": "posts",
+      "fields": [
+        {
+          "field": "id",
+          "type": "uuid",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "title",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "content",
+          "type": "text",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "excerpt",
+          "type": "text",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "status",
+          "type": "string",
+          "interface": "select-dropdown",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": true,
+          "issues": []
+        },
+        {
+          "field": "site_id",
+          "type": "uuid",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": [
+            "ID field without relational interface"
+          ]
+        },
+        {
+          "field": "avatar_key",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "created_at",
+          "type": "dateTime",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "published_at",
+          "type": "dateTime",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "schema_json",
+          "type": "json",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        }
+      ],
+      "relationships": [
+        {
+          "collection": "posts",
+          "field": "site_id",
+          "related_collection": "sites",
+          "schema": {
+            "constraint_name": "posts_site_id_fkey",
+            "table": "posts",
+            "column": "site_id",
+            "foreign_key_schema": "public",
+            "foreign_key_table": "sites",
+            "foreign_key_column": "id",
+            "on_update": "NO ACTION",
+            "on_delete": "CASCADE"
+          },
+          "meta": null
+        }
+      ]
+    },
+    {
+      "name": "sites",
+      "fields": [
+        {
+          "field": "id",
+          "type": "uuid",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "name",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "url",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "wp_username",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "wp_app_password",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "status",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": [
+            "Status field should use select-dropdown"
+          ]
+        },
+        {
+          "field": "created_at",
+          "type": "dateTime",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "updated_at",
+          "type": "dateTime",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        }
+      ],
+      "relationships": [
+        {
+          "collection": "posts",
+          "field": "site_id",
+          "related_collection": "sites",
+          "schema": {
+            "constraint_name": "posts_site_id_fkey",
+            "table": "posts",
+            "column": "site_id",
+            "foreign_key_schema": "public",
+            "foreign_key_table": "sites",
+            "foreign_key_column": "id",
+            "on_update": "NO ACTION",
+            "on_delete": "CASCADE"
+          },
+          "meta": null
+        },
+        {
+          "collection": "pages",
+          "field": "site_id",
+          "related_collection": "sites",
+          "schema": {
+            "constraint_name": "pages_site_id_fkey",
+            "table": "pages",
+            "column": "site_id",
+            "foreign_key_schema": "public",
+            "foreign_key_table": "sites",
+            "foreign_key_column": "id",
+            "on_update": "NO ACTION",
+            "on_delete": "CASCADE"
+          },
+          "meta": null
+        },
+        {
+          "collection": "leads",
+          "field": "site_id",
+          "related_collection": "sites",
+          "schema": {
+            "constraint_name": "leads_site_id_fkey",
+            "table": "leads",
+            "column": "site_id",
+            "foreign_key_schema": "public",
+            "foreign_key_table": "sites",
+            "foreign_key_column": "id",
+            "on_update": "NO ACTION",
+            "on_delete": "SET NULL"
+          },
+          "meta": null
+        },
+        {
+          "collection": "generated_articles",
+          "field": "site_id",
+          "related_collection": "sites",
+          "schema": {
+            "constraint_name": "generated_articles_site_id_fkey",
+            "table": "generated_articles",
+            "column": "site_id",
+            "foreign_key_schema": "public",
+            "foreign_key_table": "sites",
+            "foreign_key_column": "id",
+            "on_update": "NO ACTION",
+            "on_delete": "CASCADE"
+          },
+          "meta": null
+        },
+        {
+          "collection": "campaign_masters",
+          "field": "site_id",
+          "related_collection": "sites",
+          "schema": {
+            "constraint_name": "campaign_masters_site_id_fkey",
+            "table": "campaign_masters",
+            "column": "site_id",
+            "foreign_key_schema": "public",
+            "foreign_key_table": "sites",
+            "foreign_key_column": "id",
+            "on_update": "NO ACTION",
+            "on_delete": "CASCADE"
+          },
+          "meta": null
+        },
+        {
+          "collection": "generation_jobs",
+          "field": "site_id",
+          "related_collection": "sites",
+          "schema": {
+            "constraint_name": "generation_jobs_site_id_fkey",
+            "table": "generation_jobs",
+            "column": "site_id",
+            "foreign_key_schema": "public",
+            "foreign_key_table": "sites",
+            "foreign_key_column": "id",
+            "on_update": "NO ACTION",
+            "on_delete": "CASCADE"
+          },
+          "meta": null
+        }
+      ]
+    },
+    {
+      "name": "spintax_dictionaries",
+      "fields": [
+        {
+          "field": "id",
+          "type": "integer",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "category",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "data",
+          "type": "json",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "article_templates",
+      "fields": [
+        {
+          "field": "id",
+          "type": "uuid",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "name",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "structure_json",
+          "type": "json",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "date_created",
+          "type": "dateTime",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "link_targets",
+      "fields": [
+        {
+          "field": "id",
+          "type": "uuid",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "site",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "target_url",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "target_post",
+          "type": "uuid",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "anchor_text",
+          "type": "string",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "anchor_variations",
+          "type": "json",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "priority",
+          "type": "integer",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "is_active",
+          "type": "boolean",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "is_hub",
+          "type": "boolean",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "max_per_article",
+          "type": "integer",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        },
+        {
+          "field": "date_created",
+          "type": "dateTime",
+          "interface": "none",
+          "required": false,
+          "readonly": false,
+          "hidden": false,
+          "hasOptions": false,
+          "issues": []
+        }
+      ],
+      "relationships": []
+    }
+  ],
+  "issues": [
+    {
+      "collection": "campaign_masters",
+      "field": "site_id",
+      "issue": "ID field without relational interface"
+    },
+    {
+      "collection": "campaign_masters",
+      "field": "status",
+      "issue": "Status field should use select-dropdown"
+    },
+    {
+      "collection": "content_fragments",
+      "field": "campaign_id",
+      "issue": "ID field without relational interface"
+    },
+    {
+      "collection": "generated_articles",
+      "field": "campaign_id",
+      "issue": "ID field without relational interface"
+    },
+    {
+      "collection": "generation_jobs",
+      "field": "status",
+      "issue": "Status field should use select-dropdown"
+    },
+    {
+      "collection": "headline_inventory",
+      "field": "campaign_id",
+      "issue": "ID field without relational interface"
+    },
+    {
+      "collection": "headline_inventory",
+      "field": "status",
+      "issue": "Status field should use select-dropdown"
+    },
+    {
+      "collection": "leads",
+      "field": "site_id",
+      "issue": "ID field without relational interface"
+    },
+    {
+      "collection": "posts",
+      "field": "site_id",
+      "issue": "ID field without relational interface"
+    },
+    {
+      "collection": "sites",
+      "field": "status",
+      "issue": "Status field should use select-dropdown"
+    }
+  ],
+  "recommendations": []
+}

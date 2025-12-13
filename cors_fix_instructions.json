@@ -1,0 +1,12 @@
+{
+  "instructions": "Add CORS environment variables to Directus service in Coolify",
+  "variables": {
+    "CORS_ENABLED": "true",
+    "CORS_ORIGIN": "https://launch.jumpstartscaling.com,http://localhost:4321",
+    "CORS_METHODS": "GET,POST,PATCH,DELETE",
+    "CORS_ALLOWED_HEADERS": "Content-Type,Authorization",
+    "CORS_EXPOSED_HEADERS": "Content-Range",
+    "CORS_CREDENTIALS": "true",
+    "CORS_MAX_AGE": "86400"
+  }
+}

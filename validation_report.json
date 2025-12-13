@@ -1,0 +1,91 @@
+{
+  "collections": {
+    "sites": {
+      "exists": true,
+      "count": "3",
+      "hasData": true
+    },
+    "posts": {
+      "exists": true,
+      "count": "0",
+      "hasData": false
+    },
+    "pages": {
+      "exists": true,
+      "count": "1",
+      "hasData": true
+    },
+    "generated_articles": {
+      "exists": true,
+      "count": "0",
+      "hasData": false
+    },
+    "generation_jobs": {
+      "exists": true,
+      "count": "30",
+      "hasData": true
+    },
+    "avatar_intelligence": {
+      "exists": true,
+      "count": "10",
+      "hasData": true
+    },
+    "avatar_variants": {
+      "exists": true,
+      "count": "30",
+      "hasData": true
+    },
+    "geo_intelligence": {
+      "exists": true,
+      "count": "3",
+      "hasData": true
+    },
+    "cartesian_patterns": {
+      "exists": true,
+      "count": "3",
+      "hasData": true
+    },
+    "spintax_dictionaries": {
+      "exists": true,
+      "count": "6",
+      "hasData": true
+    },
+    "campaign_masters": {
+      "exists": true,
+      "count": "2",
+      "hasData": true
+    }
+  },
+  "relationships": [
+    {
+      "name": "Sites → Posts",
+      "status": "working",
+      "works": true,
+      "siteId": "01f8df35-916a-4c30-bd95-7abcb9df2e19",
+      "postCount": 0
+    },
+    {
+      "name": "Sites → Pages",
+      "status": "working",
+      "works": true,
+      "siteId": "01f8df35-916a-4c30-bd95-7abcb9df2e19",
+      "pageCount": 1
+    },
+    {
+      "name": "Campaign → Generated Articles",
+      "status": "working",
+      "works": true,
+      "campaignId": "22180037-e8b4-430d-aa76-3679aec04362",
+      "articleCount": 0
+    },
+    {
+      "name": "Generation Jobs → Sites",
+      "status": "working",
+      "works": true,
+      "jobId": "06139f88-864e-4e55-b6d1-bac52eddfffe",
+      "siteName": "chrisamaya.work"
+    }
+  ],
+  "issues": [],
+  "recommendations": []
+}

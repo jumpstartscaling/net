@@ -1,0 +1,1060 @@
+{
+  "avatar_intelligence": {
+    "fields": {
+      "id": {
+        "type": "integer",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "avatar_key": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "base_name": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "wealth_cluster": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "business_niches": {
+        "type": "json",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "data": {
+        "type": "json",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      }
+    },
+    "relations": []
+  },
+  "avatar_variants": {
+    "fields": {
+      "id": {
+        "type": "integer",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "avatar_key": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "variant_type": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "data": {
+        "type": "json",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      }
+    },
+    "relations": []
+  },
+  "campaign_masters": {
+    "fields": {
+      "id": {
+        "type": "uuid",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "site_id": {
+        "type": "uuid",
+        "interface": "select-dropdown-m2o",
+        "required": false,
+        "display": "related-values"
+      },
+      "name": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "headline_spintax_root": {
+        "type": "text",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "niche_variables": {
+        "type": "json",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "location_mode": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "location_target": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "batch_count": {
+        "type": "integer",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "status": {
+        "type": "string",
+        "interface": "select-dropdown",
+        "required": false,
+        "display": "labels"
+      },
+      "date_created": {
+        "type": "dateTime",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "target_word_count": {
+        "type": "integer",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "article_template": {
+        "type": "uuid",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      }
+    },
+    "relations": [
+      {
+        "collection": "campaign_masters",
+        "field": "site_id",
+        "related_collection": "sites",
+        "schema": {
+          "constraint_name": "campaign_masters_site_id_fkey",
+          "table": "campaign_masters",
+          "column": "site_id",
+          "foreign_key_schema": "public",
+          "foreign_key_table": "sites",
+          "foreign_key_column": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "CASCADE"
+        },
+        "meta": null
+      },
+      {
+        "collection": "headline_inventory",
+        "field": "campaign_id",
+        "related_collection": "campaign_masters",
+        "schema": {
+          "constraint_name": "headline_inventory_campaign_id_fkey",
+          "table": "headline_inventory",
+          "column": "campaign_id",
+          "foreign_key_schema": "public",
+          "foreign_key_table": "campaign_masters",
+          "foreign_key_column": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "CASCADE"
+        },
+        "meta": null
+      },
+      {
+        "collection": "content_fragments",
+        "field": "campaign_id",
+        "related_collection": "campaign_masters",
+        "schema": {
+          "constraint_name": "content_fragments_campaign_id_fkey",
+          "table": "content_fragments",
+          "column": "campaign_id",
+          "foreign_key_schema": "public",
+          "foreign_key_table": "campaign_masters",
+          "foreign_key_column": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "CASCADE"
+        },
+        "meta": null
+      }
+    ]
+  },
+  "cartesian_patterns": {
+    "fields": {
+      "id": {
+        "type": "integer",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "pattern_key": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "pattern_type": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "data": {
+        "type": "json",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      }
+    },
+    "relations": []
+  },
+  "content_fragments": {
+    "fields": {
+      "id": {
+        "type": "uuid",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "campaign_id": {
+        "type": "uuid",
+        "interface": "select-dropdown-m2o",
+        "required": false,
+        "display": "related-values"
+      },
+      "fragment_type": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "content_body": {
+        "type": "text",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "word_count": {
+        "type": "integer",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "date_created": {
+        "type": "dateTime",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      }
+    },
+    "relations": [
+      {
+        "collection": "content_fragments",
+        "field": "campaign_id",
+        "related_collection": "campaign_masters",
+        "schema": {
+          "constraint_name": "content_fragments_campaign_id_fkey",
+          "table": "content_fragments",
+          "column": "campaign_id",
+          "foreign_key_schema": "public",
+          "foreign_key_table": "campaign_masters",
+          "foreign_key_column": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "CASCADE"
+        },
+        "meta": null
+      }
+    ]
+  },
+  "generated_articles": {
+    "fields": {
+      "id": {
+        "type": "uuid",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "site_id": {
+        "type": "uuid",
+        "interface": "select-dropdown-m2o",
+        "required": false,
+        "display": "related-values"
+      },
+      "title": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "slug": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "html_content": {
+        "type": "text",
+        "interface": "input-rich-text-html",
+        "required": false,
+        "display": "none"
+      },
+      "generation_hash": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "meta_desc": {
+        "type": "text",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "is_published": {
+        "type": "boolean",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "sync_status": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "sitemap_status": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "campaign_id": {
+        "type": "uuid",
+        "interface": "select-dropdown-m2o",
+        "required": false,
+        "display": "related-values"
+      },
+      "date_created": {
+        "type": "dateTime",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "date_updated": {
+        "type": "dateTime",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "schema_json": {
+        "type": "json",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "word_count_status": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      }
+    },
+    "relations": [
+      {
+        "collection": "generated_articles",
+        "field": "site_id",
+        "related_collection": "sites",
+        "schema": {
+          "constraint_name": "generated_articles_site_id_fkey",
+          "table": "generated_articles",
+          "column": "site_id",
+          "foreign_key_schema": "public",
+          "foreign_key_table": "sites",
+          "foreign_key_column": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "CASCADE"
+        },
+        "meta": null
+      }
+    ]
+  },
+  "generation_jobs": {
+    "fields": {
+      "id": {
+        "type": "uuid",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "site_id": {
+        "type": "uuid",
+        "interface": "select-dropdown-m2o",
+        "required": false,
+        "display": "related-values"
+      },
+      "target_quantity": {
+        "type": "integer",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "status": {
+        "type": "string",
+        "interface": "select-dropdown",
+        "required": false,
+        "display": "labels"
+      },
+      "filters": {
+        "type": "json",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "current_offset": {
+        "type": "integer",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "date_created": {
+        "type": "dateTime",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      }
+    },
+    "relations": [
+      {
+        "collection": "generation_jobs",
+        "field": "site_id",
+        "related_collection": "sites",
+        "schema": {
+          "constraint_name": "generation_jobs_site_id_fkey",
+          "table": "generation_jobs",
+          "column": "site_id",
+          "foreign_key_schema": "public",
+          "foreign_key_table": "sites",
+          "foreign_key_column": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "CASCADE"
+        },
+        "meta": null
+      }
+    ]
+  },
+  "geo_intelligence": {
+    "fields": {
+      "id": {
+        "type": "integer",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "cluster_key": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "data": {
+        "type": "json",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      }
+    },
+    "relations": []
+  },
+  "headline_inventory": {
+    "fields": {
+      "id": {
+        "type": "uuid",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "campaign_id": {
+        "type": "uuid",
+        "interface": "select-dropdown-m2o",
+        "required": false,
+        "display": "related-values"
+      },
+      "final_title_text": {
+        "type": "text",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "status": {
+        "type": "string",
+        "interface": "select-dropdown",
+        "required": false,
+        "display": "labels"
+      },
+      "used_on_article": {
+        "type": "uuid",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "date_created": {
+        "type": "dateTime",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      }
+    },
+    "relations": [
+      {
+        "collection": "headline_inventory",
+        "field": "campaign_id",
+        "related_collection": "campaign_masters",
+        "schema": {
+          "constraint_name": "headline_inventory_campaign_id_fkey",
+          "table": "headline_inventory",
+          "column": "campaign_id",
+          "foreign_key_schema": "public",
+          "foreign_key_table": "campaign_masters",
+          "foreign_key_column": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "CASCADE"
+        },
+        "meta": null
+      }
+    ]
+  },
+  "leads": {
+    "fields": {
+      "id": {
+        "type": "uuid",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "email": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "name": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "phone": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "source": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "site_id": {
+        "type": "uuid",
+        "interface": "select-dropdown-m2o",
+        "required": false,
+        "display": "related-values"
+      },
+      "created_at": {
+        "type": "dateTime",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      }
+    },
+    "relations": [
+      {
+        "collection": "leads",
+        "field": "site_id",
+        "related_collection": "sites",
+        "schema": {
+          "constraint_name": "leads_site_id_fkey",
+          "table": "leads",
+          "column": "site_id",
+          "foreign_key_schema": "public",
+          "foreign_key_table": "sites",
+          "foreign_key_column": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "SET NULL"
+        },
+        "meta": null
+      }
+    ]
+  },
+  "offer_blocks": {
+    "fields": {
+      "id": {
+        "type": "integer",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "block_type": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "avatar_key": {
+        "type": "string",
+        "interface": "select-dropdown",
+        "required": false,
+        "display": "none"
+      },
+      "data": {
+        "type": "json",
+        "interface": "input-code",
+        "required": false,
+        "display": "none"
+      }
+    },
+    "relations": []
+  },
+  "pages": {
+    "fields": {
+      "id": {
+        "type": "uuid",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "title": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "slug": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "content": {
+        "type": "text",
+        "interface": "input-rich-text-html",
+        "required": false,
+        "display": "none"
+      },
+      "site_id": {
+        "type": "uuid",
+        "interface": "select-dropdown-m2o",
+        "required": false,
+        "display": "related-values"
+      },
+      "status": {
+        "type": "string",
+        "interface": "select-dropdown",
+        "required": false,
+        "display": "labels"
+      },
+      "created_at": {
+        "type": "dateTime",
+        "interface": "datetime",
+        "required": false,
+        "display": "datetime"
+      },
+      "schema_json": {
+        "type": "json",
+        "interface": "input-code",
+        "required": false,
+        "display": "none"
+      }
+    },
+    "relations": [
+      {
+        "collection": "pages",
+        "field": "site_id",
+        "related_collection": "sites",
+        "schema": {
+          "constraint_name": "pages_site_id_fkey",
+          "table": "pages",
+          "column": "site_id",
+          "foreign_key_schema": "public",
+          "foreign_key_table": "sites",
+          "foreign_key_column": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "CASCADE"
+        },
+        "meta": null
+      }
+    ]
+  },
+  "posts": {
+    "fields": {
+      "id": {
+        "type": "uuid",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "title": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "content": {
+        "type": "text",
+        "interface": "input-rich-text-html",
+        "required": false,
+        "display": "none"
+      },
+      "excerpt": {
+        "type": "text",
+        "interface": "input-rich-text-html",
+        "required": false,
+        "display": "none"
+      },
+      "status": {
+        "type": "string",
+        "interface": "select-dropdown",
+        "required": false,
+        "display": "labels"
+      },
+      "site_id": {
+        "type": "uuid",
+        "interface": "select-dropdown-m2o",
+        "required": false,
+        "display": "related-values"
+      },
+      "avatar_key": {
+        "type": "string",
+        "interface": "select-dropdown",
+        "required": false,
+        "display": "none"
+      },
+      "created_at": {
+        "type": "dateTime",
+        "interface": "datetime",
+        "required": false,
+        "display": "datetime"
+      },
+      "published_at": {
+        "type": "dateTime",
+        "interface": "datetime",
+        "required": false,
+        "display": "datetime"
+      },
+      "schema_json": {
+        "type": "json",
+        "interface": "input-code",
+        "required": false,
+        "display": "none"
+      }
+    },
+    "relations": [
+      {
+        "collection": "posts",
+        "field": "site_id",
+        "related_collection": "sites",
+        "schema": {
+          "constraint_name": "posts_site_id_fkey",
+          "table": "posts",
+          "column": "site_id",
+          "foreign_key_schema": "public",
+          "foreign_key_table": "sites",
+          "foreign_key_column": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "CASCADE"
+        },
+        "meta": null
+      }
+    ]
+  },
+  "sites": {
+    "fields": {
+      "id": {
+        "type": "uuid",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "name": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "url": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "wp_username": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "wp_app_password": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "status": {
+        "type": "string",
+        "interface": "select-dropdown",
+        "required": false,
+        "display": "labels"
+      },
+      "created_at": {
+        "type": "dateTime",
+        "interface": "datetime",
+        "required": false,
+        "display": "datetime"
+      },
+      "updated_at": {
+        "type": "dateTime",
+        "interface": "datetime",
+        "required": false,
+        "display": "datetime"
+      }
+    },
+    "relations": [
+      {
+        "collection": "posts",
+        "field": "site_id",
+        "related_collection": "sites",
+        "schema": {
+          "constraint_name": "posts_site_id_fkey",
+          "table": "posts",
+          "column": "site_id",
+          "foreign_key_schema": "public",
+          "foreign_key_table": "sites",
+          "foreign_key_column": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "CASCADE"
+        },
+        "meta": null
+      },
+      {
+        "collection": "pages",
+        "field": "site_id",
+        "related_collection": "sites",
+        "schema": {
+          "constraint_name": "pages_site_id_fkey",
+          "table": "pages",
+          "column": "site_id",
+          "foreign_key_schema": "public",
+          "foreign_key_table": "sites",
+          "foreign_key_column": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "CASCADE"
+        },
+        "meta": null
+      },
+      {
+        "collection": "leads",
+        "field": "site_id",
+        "related_collection": "sites",
+        "schema": {
+          "constraint_name": "leads_site_id_fkey",
+          "table": "leads",
+          "column": "site_id",
+          "foreign_key_schema": "public",
+          "foreign_key_table": "sites",
+          "foreign_key_column": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "SET NULL"
+        },
+        "meta": null
+      },
+      {
+        "collection": "generated_articles",
+        "field": "site_id",
+        "related_collection": "sites",
+        "schema": {
+          "constraint_name": "generated_articles_site_id_fkey",
+          "table": "generated_articles",
+          "column": "site_id",
+          "foreign_key_schema": "public",
+          "foreign_key_table": "sites",
+          "foreign_key_column": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "CASCADE"
+        },
+        "meta": null
+      },
+      {
+        "collection": "campaign_masters",
+        "field": "site_id",
+        "related_collection": "sites",
+        "schema": {
+          "constraint_name": "campaign_masters_site_id_fkey",
+          "table": "campaign_masters",
+          "column": "site_id",
+          "foreign_key_schema": "public",
+          "foreign_key_table": "sites",
+          "foreign_key_column": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "CASCADE"
+        },
+        "meta": null
+      },
+      {
+        "collection": "generation_jobs",
+        "field": "site_id",
+        "related_collection": "sites",
+        "schema": {
+          "constraint_name": "generation_jobs_site_id_fkey",
+          "table": "generation_jobs",
+          "column": "site_id",
+          "foreign_key_schema": "public",
+          "foreign_key_table": "sites",
+          "foreign_key_column": "id",
+          "on_update": "NO ACTION",
+          "on_delete": "CASCADE"
+        },
+        "meta": null
+      }
+    ]
+  },
+  "spintax_dictionaries": {
+    "fields": {
+      "id": {
+        "type": "integer",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "category": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "data": {
+        "type": "json",
+        "interface": "input-code",
+        "required": false,
+        "display": "none"
+      }
+    },
+    "relations": []
+  },
+  "article_templates": {
+    "fields": {
+      "id": {
+        "type": "uuid",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "name": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "structure_json": {
+        "type": "json",
+        "interface": "input-code",
+        "required": false,
+        "display": "none"
+      },
+      "date_created": {
+        "type": "dateTime",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      }
+    },
+    "relations": []
+  },
+  "link_targets": {
+    "fields": {
+      "id": {
+        "type": "uuid",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "site": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "target_url": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "target_post": {
+        "type": "uuid",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "anchor_text": {
+        "type": "string",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "anchor_variations": {
+        "type": "json",
+        "interface": "input-code",
+        "required": false,
+        "display": "none"
+      },
+      "priority": {
+        "type": "integer",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "is_active": {
+        "type": "boolean",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "is_hub": {
+        "type": "boolean",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "max_per_article": {
+        "type": "integer",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      },
+      "date_created": {
+        "type": "dateTime",
+        "interface": "none",
+        "required": false,
+        "display": "none"
+      }
+    },
+    "relations": []
+  }
+}
