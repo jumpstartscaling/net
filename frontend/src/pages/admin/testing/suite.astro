@@ -1,0 +1,15 @@
+---
+import AdminLayout from '@/layouts/AdminLayout.astro';
+import TestRunner from '@/components/testing/TestRunner';
+---
+
+<AdminLayout title="Quality Tests">
+    <div className="space-y-6">
+        <div>
+            <h1 className="text-3xl font-bold text-white mb-2">Quality Assurance Suite</h1>
+            <p className="text-slate-400">Validate content SEO, readability, and structural integrity.</p>
+        </div>
+
+        <TestRunner client:only="react" />
+    </div>
+</AdminLayout>

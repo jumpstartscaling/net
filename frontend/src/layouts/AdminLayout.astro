@@ -8,6 +8,7 @@ const currentPath = Astro.url.pathname;
 
 import SystemStatus from '@/components/admin/SystemStatus';
 import SystemStatusBar from '@/components/admin/SystemStatusBar';
+import { GlobalToaster } from '@/components/providers/CoreProviders';
 
 
 const navGroups = [
@@ -230,5 +231,6 @@ function isActive(href: string) {
 
     <!-- Full-Width System Status Bar -->
     <SystemStatusBar client:load />
+    <GlobalToaster client:load />
   </body>
 </html>

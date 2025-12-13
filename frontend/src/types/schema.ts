@@ -202,14 +202,17 @@ export interface GeoLocation {
 export interface SpintaxDictionary {
     id: string;
     category: string;
-    words: string[];
+    variations: string; // Stored as "{option1|option2}" string
 }
 
 export interface CartesianPattern {
     id: string;
-    pattern_id: string;
-    category: string;
-    formula: string;
+    pattern_name: string;
+    pattern_structure: string;
+    structure_type?: 'custom' | 'recipe';
+    category?: string;
+    formula?: string; // keeping for backward compat if needed
+    date_created?: string;
 }
 
 export interface OfferBlockUniversal {

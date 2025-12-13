@@ -1,0 +1,80 @@
+---
+import AdminLayout from '@/layouts/AdminLayout.astro';
+import PatternAnalyzer from '@/components/intelligence/PatternAnalyzer';
+import GeoTargeting from '@/components/intelligence/GeoTargeting';
+import AvatarMetrics from '@/components/intelligence/AvatarMetrics';
+import { Brain, Globe, Users } from 'lucide-react';
+
+// Server-side data fetching (simulated for Phase 4 or connected to local API logic)
+// In a real scenario, we might call the DB directly here.
+// For now, we'll import the mock data logic or just duplicate the mock data for SSR, 
+// to ensure the page renders with data immediately.
+// We can also fetch from our own API if running, but during build, the API might not be up.
+// So we will define the initial data here.
+
+const patterns = [
+    { id: '1', name: 'High-Value Listicle Structure', type: 'structure', confidence: 0.92, occurrences: 145, last_detected: '2023-10-25', tags: ['listicle', 'viral', 'b2b'] },
+    { id: '2', name: 'Emotional Storytelling Hook', type: 'semantic', confidence: 0.88, occurrences: 89, last_detected: '2023-10-26', tags: ['hook', 'emotional', 'intro'] },
+    { id: '3', name: 'Data-Backed CTA', type: 'conversion', confidence: 0.76, occurrences: 230, last_detected: '2023-10-24', tags: ['cta', 'sales', 'closing'] },
+    { id: '4', name: 'Contrarian Viewpoint', type: 'semantic', confidence: 0.65, occurrences: 54, last_detected: '2023-10-22', tags: ['opinion', 'debate'] },
+    { id: '5', name: 'How-To Guide Format', type: 'structure', confidence: 0.95, occurrences: 310, last_detected: '2023-10-27', tags: ['educational', 'long-form'] }
+] as any[];
+
+const geoClusters = [
+    { id: '1', name: 'North America Tech Hubs', location: '37.7749, -122.4194', audience_size: 154000, engagement_rate: 0.45, dominant_topic: 'SaaS Marketing' },
+    { id: '2', name: 'London Finance Sector', location: '51.5074, -0.1278', audience_size: 89000, engagement_rate: 0.38, dominant_topic: 'FinTech' },
+    { id: '3', name: 'Singapore Crypto', location: '1.3521, 103.8198', audience_size: 65000, engagement_rate: 0.52, dominant_topic: 'Web3' },
+    { id: '4', name: 'Berlin Startup Scene', location: '52.5200, 13.4050', audience_size: 42000, engagement_rate: 0.41, dominant_topic: 'Growth Hacking' },
+    { id: '5', name: 'Sydney E-comm', location: '-33.8688, 151.2093', audience_size: 38000, engagement_rate: 0.35, dominant_topic: 'DTC Brands' }
+] as any[];
+
+const avatarMetrics = [
+    { id: '1', avatar_id: 'a1', name: 'Marketing Max', articles_generated: 45, avg_engagement: 0.82, top_niche: 'SaaS Growth' },
+    { id: '2', avatar_id: 'a2', name: 'Finance Fiona', articles_generated: 32, avg_engagement: 0.75, top_niche: 'Personal Finance' },
+    { id: '3', avatar_id: 'a3', name: 'Tech Tyler', articles_generated: 68, avg_engagement: 0.68, top_niche: 'AI Tools' },
+    { id: '4', avatar_id: 'a4', name: 'Wellness Wendy', articles_generated: 24, avg_engagement: 0.89, top_niche: 'Holistic Health' },
+    { id: '5', avatar_id: 'a5', name: 'Crypto Carl', articles_generated: 15, avg_engagement: 0.45, top_niche: 'DeFi' }
+] as any[];
+
+---
+
+<AdminLayout title="Intelligence Station">
+    <div class="space-y-8">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
+                    Intelligence Headquarters
+                </h1>
+                <p class="text-muted-foreground mt-2 text-lg">
+                    Real-time analysis of content performance, audience demographics, and conversion patterns.
+                </p>
+            </div>
+            <div class="flex gap-4">
+                <div class="bg-card border border-border/50 rounded-lg p-3 text-center min-w-[120px]">
+                    <div class="text-2xl font-bold text-primary">92%</div>
+                    <div class="text-xs text-muted-foreground uppercase tracking-wider">Predictive Acc.</div>
+                </div>
+                <div class="bg-card border border-border/50 rounded-lg p-3 text-center min-w-[120px]">
+                    <div class="text-2xl font-bold text-green-500">1.4M</div>
+                    <div class="text-xs text-muted-foreground uppercase tracking-wider">Data Points</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Patterns Section - Spans 2 columns */}
+            <div class="lg:col-span-2 space-y-6">
+                <PatternAnalyzer client:load patterns={patterns} />
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                     <AvatarMetrics client:load metrics={avatarMetrics} />
+                </div>
+            </div>
+
+            {/* Geo Section - Spans 1 column */}
+            <div class="lg:col-span-1 space-y-6 h-full">
+                <GeoTargeting client:only="react" clusters={geoClusters} />
+            </div>
+        </div>
+    </div>
+</AdminLayout>

@@ -42,6 +42,9 @@ export function getDirectusClient(token?: string) {
     return client;
 }
 
+// Export a default singleton instance for use throughout the app
+export const directus = getDirectusClient();
+
 /**
  * Helper to make authenticated requests
  */

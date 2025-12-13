@@ -1,0 +1,17 @@
+---
+import AdminLayout from '@/layouts/AdminLayout.astro';
+import VisualBlockEditor from '@/components/blocks/VisualBlockEditor';
+---
+
+<AdminLayout title="Visual Block Editor">
+    <div className="h-full flex flex-col space-y-4">
+        <div>
+            <h1 className="text-2xl font-bold text-white mb-1">Visual Page Builder</h1>
+            <p className="text-slate-400 text-sm">Drag and drop blocks to design article templates and landing pages.</p>
+        </div>
+
+         <div className="flex-1 min-h-0">
+            <VisualBlockEditor client:only="react" />
+        </div>
+    </div>
+</AdminLayout>

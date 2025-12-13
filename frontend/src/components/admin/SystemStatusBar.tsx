@@ -39,11 +39,9 @@ export default function SystemStatusBar() {
 
     const checkStatus = async () => {
         try {
-            const directusUrl = 'https://spark.jumpstartscaling.com';
-
-            const response = await fetch(`${directusUrl}/server/health`, {
-                method: 'GET',
-            });
+            // We check OUR OWN backend API route which can then proxy/check other services or just confirm this server is up.
+            // This avoids CORS issues and ensures the frontend server is actually serving API routes correctly.
+            const response = await fetch('/api/system/health');
 
             if (response.ok) {
                 setStatus({
