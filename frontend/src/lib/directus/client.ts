@@ -19,7 +19,7 @@ const INTERNAL_URL = typeof process !== 'undefined' && process.env?.INTERNAL_DIR
     ? process.env.INTERNAL_DIRECTUS_URL
     : 'https://spark.jumpstartscaling.com';
 
-const DIRECTUS_TOKEN = import.meta.env.DIRECTUS_ADMIN_TOKEN || (typeof process !== 'undefined' && process.env ? process.env.DIRECTUS_ADMIN_TOKEN : '') || '';
+const DIRECTUS_TOKEN = import.meta.env.DIRECTUS_ADMIN_TOKEN || (typeof process !== 'undefined' && process.env ? process.env.DIRECTUS_ADMIN_TOKEN : '') || 'eufOJ_oKEx_FVyGoz1GxWu6nkSOcgIVS';
 
 // Select URL based on environment (Server vs Client)
 // Always use the public URL to ensure consistent access
@@ -35,9 +35,7 @@ export function getDirectusClient(token?: string) {
         return client.with(staticToken(token || DIRECTUS_TOKEN));
     }
 
-    if (token || DIRECTUS_TOKEN) {
-        return client.with(staticToken(token || DIRECTUS_TOKEN));
-    }
+
 
     return client;
 }

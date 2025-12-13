@@ -228,7 +228,6 @@ docker inspect <container> | grep Created
 2. Click "Redeploy" on that deployment
 3. Wait for build to complete
 
-### Force Rebuild
 ```bash
 # SSH into server
 ssh root@72.61.15.216

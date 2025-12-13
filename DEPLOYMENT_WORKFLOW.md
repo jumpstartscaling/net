@@ -31,8 +31,8 @@ git push origin main
 1. **Log into Directus Admin**
    ```
    URL: https://spark.jumpstartscaling.com/admin
-   Email: somescreenname@gmail.com
-   Password: Idk@2025lol
+   Email: insanecorp@gmail.com
+   Password: Idk@ai2026yayhappy
    ```
 
 2. **Navigate to Access Control**
@@ -59,7 +59,7 @@ git push origin main
 
 4. **Verify API Token**
    ```
-   Token: oGn-0AZjenB900pfzQYH8zCbFwGw7flU
+   Token: eufOJ_oKEx_FVyGoz1GxWu6nkSOcgIVS
    ```
    
    Make sure this token uses the role you just updated.
@@ -256,13 +256,13 @@ Method: SSH key authentication
 ### Directus Admin
 ```
 URL: https://spark.jumpstartscaling.com/admin
-Email: somescreenname@gmail.com
-Password: Idk@2025lol
+Email: insanecorp@gmail.com
+Password: Idk@ai2026yayhappy
 ```
 
 ### API Token
 ```
-Token: oGn-0AZjenB900pfzQYH8zCbFwGw7flU
+Token: eufOJ_oKEx_FVyGoz1GxWu6nkSOcgIVS
 Usage: Set as DIRECTUS_TOKEN in frontend .env
 ```
 
