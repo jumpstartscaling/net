@@ -1,8 +1,10 @@
+```
 ---
-import AdminLayout from '../../../layouts/AdminLayout.astro';
-import ArticleGenerator from '../../../components/admin/ArticleGenerator';
+import Layout from '@/layouts/AdminLayout.astro';
+import ArticleList from '@/components/admin/seo/ArticleList';
 ---
 
-<AdminLayout title="Generated Articles">
-  <ArticleGenerator client:load />
-</AdminLayout>
+<Layout title="Generated Articles">
+  <ArticleList client:load />
+</Layout>
+```

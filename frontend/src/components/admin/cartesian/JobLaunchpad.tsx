@@ -201,6 +201,7 @@ export default function JobLaunchpad() {
                                 {jobStatus}
                             </div>
                         )}
+                    </div>
                 </CardContent>
             </Card>
         </div>
