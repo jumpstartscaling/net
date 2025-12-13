@@ -1,0 +1,63 @@
+/**
+ * Factory Floor - Main Production Page
+ * Kanban/Grid view switcher for articles
+ */
+
+---
+import AdminLayout from '@/layouts/AdminLayout.astro';
+
+const currentPath = Astro.url.pathname;
+const action = Astro.url.searchParams.get('action');
+---
+
+<AdminLayout title="Factory Floor">
+  <div class="space-y-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+      <div>
+        <h1 class="text-3xl font-bold text-white">Factory Floor</h1>
+        <p class="text-slate-400 mt-1">Content production workflow</p>
+      </div>
+      <div class="flex gap-3">
+        <a
+          href="/admin/factory?action=new"
+          class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+        >
+          ✨ New Campaign
+        </a>
+      </div>
+    </div>
+
+    <!-- View Switcher -->
+    <div class="flex gap-2 bg-slate-800 p-1 rounded-lg w-fit">
+      <a
+        href="/admin/factory?view=kanban"
+        class:list={[
+          'px-4 py-2 rounded transition-colors',
+          !Astro.url.searchParams.get('view') || Astro.url.searchParams.get('view') === 'kanban'
+            ? 'bg-slate-700 text-white'
+            : 'text-slate-400 hover:text-white'
+        ]}
+      >
+        📊 Kanban
+      </a>
+      <a
+        href="/admin/factory?view=grid"
+        class:list={[
+          'px-4 py-2 rounded transition-colors',
+          Astro.url.searchParams.get('view') === 'grid'
+            ? 'bg-slate-700 text-white'
+            : 'text-slate-400 hover:text-white'
+        ]}
+      >
+        📋 Grid
+      </a>
+    </div>
+
+    <!-- Content Area -->
+    <div class="bg-slate-800 border border-slate-700 rounded-lg p-6">
+      <p class="text-slate-400">Factory view components will load here</p>
+      <p class="text-slate-500 text-sm mt-2">Kanban Board and Bulk Grid components coming next...</p>
+    </div>
+  </div>
+</AdminLayout>

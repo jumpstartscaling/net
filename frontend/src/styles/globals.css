@@ -1,3 +1,158 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* === SPARK PRO DESIGN SYSTEM === */
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+  
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-void text-white font-sans antialiased;
+  }
+  
+  /* JetBrains Mono for all data/numbers */
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+}
+
+@layer components {
+  /* === HARD-EDGE CONTAINERS === */
+  .spark-card {
+    @apply bg-titanium border border-edge-normal shadow-hard rounded-lg;
+  }
+  
+  .spark-card-hover {
+    @apply hover:border-edge-gold transition-colors cursor-pointer;
+  }
+  
+  .spark-panel {
+    @apply bg-titanium border border-edge-normal rounded-lg p-6;
+  }
+  
+  /* === BUTTONS === */
+  .spark-btn-primary {
+    @apply bg-gold-gradient text-black font-semibold px-6 py-3 rounded-lg border-t border-white/40 shadow-glow-gold hover:shadow-glow-gold transition-all;
+  }
+  
+  .spark-btn-secondary {
+    @apply bg-titanium border border-edge-normal text-white px-6 py-3 rounded-lg hover:border-edge-bright transition-colors;
+  }
+  
+  .spark-btn-ghost {
+    @apply hover:bg-graphite text-white px-4 py-2 rounded transition-colors;
+  }
+  
+  /* === INPUTS === */
+  .spark-input {
+    @apply bg-graphite border border-edge-subtle text-white placeholder:text-silver/50 px-4 py-2 rounded focus:border-edge-gold focus:outline-none transition-colors;
+  }
+  
+  .spark-input-mono {
+    @apply spark-input font-mono text-gold-300;
+  }
+  
+  /* === TEXT STYLES === */
+  .spark-heading {
+    @apply font-sans tracking-tight text-white;
+  }
+  
+  .spark-label {
+    @apply text-silver uppercase text-[10px] tracking-[0.2em];
+  }
+  
+  .spark-data {
+    @apply font-mono tracking-wider text-gold-300;
+  }
+  
+  /* === STATUS PILLS === */
+  .spark-status {
+    @apply px-3 py-1 rounded-full text-xs font-medium border;
+  }
+  
+  .spark-status-active {
+    @apply spark-status bg-void border-edge-gold text-gold-300;
+  }
+  
+  .spark-status-processing {
+    @apply spark-status bg-void border-electric-400 text-electric-400 animate-pulse;
+  }
+  
+  .spark-status-complete {
+    @apply spark-status bg-void border-green-500 text-green-400;
+  }
+  
+  .spark-status-error {
+    @apply spark-status bg-void border-red-500 text-red-400;
+  }
+  
+  /* === TABLE SYSTEM === */
+  .spark-table {
+    @apply w-full border-collapse;
+  }
+  
+  .spark-table thead {
+    @apply border-b border-edge-normal bg-titanium;
+  }
+  
+  .spark-table th {
+    @apply text-left p-4 spark-label;
+  }
+  
+  .spark-table td {
+    @apply p-4 border-b border-edge-subtle text-silver;
+  }
+  
+  .spark-table tr:hover {
+    @apply bg-graphite/50;
+  }
+  
+  /* === GLOW EFFECTS === */
+  .glow-gold {
+    @apply shadow-glow-gold;
+  }
+  
+  .glow-blue {
+    @apply shadow-glow-blue;
+  }
+  
+  /* === DOT GRID BACKGROUND === */
+  .dot-grid {
+    background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+}
+
+@layer utilities {
+  /* === HARD SHADOW UTILITIES === */
+  .shadow-titanium {
+    box-shadow: 0 4px 0 0 #121212;
+  }
+  
+  .shadow-graphite {
+    box-shadow: 0 4px 0 0 #1c1c1e;
+  }
+  
+  /* === BORDER UTILITIES === */
+  .border-standard {
+    @apply border border-edge-normal;
+  }
+  
+  .border-subtle {
+    @apply border border-edge-subtle;
+  }
+  
+  .border-active {
+    @apply border border-edge-bright;
+  }
+  
+  .border-selected {
+    @apply border border-edge-gold;
+  }
+}
