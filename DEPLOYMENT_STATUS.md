@@ -142,3 +142,13 @@ docker compose restart
 - ✅ Traefik routing correctly
 
 **The deployment is STABLE and PRODUCTION-READY!** 🎉
+
+---
+
+## ☁️ **Coolify API Access**
+
+- **Status**: ✅ Verified
+- **API URL**: `http://72.61.15.216:8000`
+- **Token Verified**: Yes (Scope: Server Management)
+- **Host**: `host.docker.internal` (localhost)
+

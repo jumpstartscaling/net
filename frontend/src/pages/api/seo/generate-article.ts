@@ -1,6 +1,6 @@
 // @ts-ignore - Astro types available at build time
 import type { APIRoute } from 'astro';
-import { getDirectusClient, readItems, createItem, updateItem } from '@/lib/directus/client';
+import { getDirectusClient, readItems, readItem, createItem, updateItem } from '@/lib/directus/client';
 import { parseSpintaxRandom, injectVariables } from '@/lib/seo/cartesian';
 import { generateFeaturedImage, type ImageTemplate } from '@/lib/seo/image-generator';
 import type { VariableMap } from '@/types/cartesian';
@@ -8,7 +8,7 @@ import type { VariableMap } from '@/types/cartesian';
 /**
  * Fragment types for the 6-pillar content structure + intro and FAQ
  */
-const FRAGMENT_TYPES = [
+const DEFAULT_STRUCTURE = [
     'intro_hook',
     'pillar_1_keyword',
     'pillar_2_uniqueness',
@@ -165,12 +165,28 @@ export const POST: APIRoute = async ({ request, locals }) => {
             // Assemble article from fragments
             const fragments: string[] = [];
 
-            for (const fragmentType of FRAGMENT_TYPES) {
+            // Determine Structure (Blueprint)
+            let structure: string[] = DEFAULT_STRUCTURE;
+            if (campaign.article_template) {
+                try {
+                    const template = await directus.request(readItem('article_templates', campaign.article_template));
+                    if (template && Array.isArray(template.structure_json)) {
+                        structure = template.structure_json;
+                    }
+                } catch (e) {
+                    console.warn(`Failed to load template ${campaign.article_template}, using default.`);
+                }
+            }
+
+            for (const fragmentType of structure) {
                 const typeFragments = await directus.request(
                     readItems('content_fragments', {
                         filter: {
-                            campaign: { _eq: campaign_id },
-                            fragment_type: { _eq: fragmentType }
+                            fragment_type: { _eq: fragmentType },
+                            _or: [
+                                { campaign: { _eq: campaign_id } },
+                                { campaign: { name: { _eq: 'Master Content Library' } } }
+                            ]
                         },
                         fields: ['content_body']
                     })

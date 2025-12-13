@@ -78,7 +78,7 @@ export async function fetchSiteGlobals(siteId: string): Promise<Globals | null> 
 /**
  * Fetch site navigation
  */
-export async function fetchNavigation(siteId: string): Promise<Navigation[]> {
+export async function fetchNavigation(siteId: string): Promise<Partial<Navigation>[]> {
     try {
         const nav = await directus.request(
             readItems('navigation', {
@@ -100,7 +100,7 @@ export async function fetchNavigation(siteId: string): Promise<Navigation[]> {
 export async function fetchPosts(
     siteId: string,
     options?: { limit?: number; page?: number; category?: string }
-): Promise<{ posts: Post[]; total: number }> {
+): Promise<{ posts: Partial<Post>[]; total: number }> {
     const limit = options?.limit || 10;
     const page = options?.page || 1;
     const offset = (page - 1) * limit;
@@ -130,7 +130,10 @@ export async function fetchPosts(
                         'featured_image',
                         'published_at',
                         'category',
-                        'author'
+                        'author',
+                        'site',
+                        'status',
+                        'content'
                     ]
                 })
             ),
@@ -143,7 +146,7 @@ export async function fetchPosts(
         ]);
 
         return {
-            posts: posts || [],
+            posts: (posts as Partial<Post>[]) || [],
             total: Number(countResult?.[0]?.count || 0)
         };
     } catch (err) {
@@ -193,7 +196,7 @@ export async function fetchGeneratedArticles(
         const [articles, countResult] = await Promise.all([
             directus.request(
                 readItems('generated_articles', {
-                    filter: { site: { _eq: siteId } },
+                    filter: { site_id: { _eq: Number(siteId) } },
                     limit,
                     offset,
                     sort: ['-date_created'],
@@ -203,7 +206,7 @@ export async function fetchGeneratedArticles(
             directus.request(
                 aggregate('generated_articles', {
                     aggregate: { count: '*' },
-                    query: { filter: { site: { _eq: siteId } } }
+                    query: { filter: { site_id: { _eq: Number(siteId) } } }
                 })
             )
         ]);
@@ -231,7 +234,7 @@ export async function fetchGeneratedArticleBySlug(
                 filter: {
                     _and: [
                         { slug: { _eq: slug } },
-                        { site: { _eq: siteId } },
+                        { site_id: { _eq: Number(siteId) } },
                         { is_published: { _eq: true } }
                     ]
                 },
@@ -279,7 +282,7 @@ export async function fetchStates() {
     return directus.request(
         readItems('locations_states', {
             sort: ['name'],
-            fields: ['id', 'name', 'code']
+            fields: ['*']
         })
     );
 }
@@ -289,7 +292,7 @@ export async function fetchCountiesByState(stateId: string) {
         readItems('locations_counties', {
             filter: { state: { _eq: stateId } },
             sort: ['name'],
-            fields: ['id', 'name', 'fips_code', 'population']
+            fields: ['*']
         })
     );
 }
@@ -300,7 +303,7 @@ export async function fetchCitiesByCounty(countyId: string, limit = 50) {
             filter: { county: { _eq: countyId } },
             sort: ['-population'],
             limit,
-            fields: ['id', 'name', 'population', 'lat', 'lng', 'postal_code']
+            fields: ['*']
         })
     );
 }

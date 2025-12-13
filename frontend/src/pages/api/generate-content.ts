@@ -15,6 +15,22 @@ export const POST: APIRoute = async ({ request }) => {
         const client = getDirectusClient();
         const engine = new CartesianEngine(client);
 
+        // Helper to log work
+        const logWork = async (action, entityType, entityId, details, isError = false) => {
+            try {
+                await client.request(createItem('work_log', {
+                    site: jobId ? (await client.request(readItem('generation_jobs', jobId))).site_id : undefined,
+                    action: action,
+                    entity_type: entityType,
+                    entity_id: entityId,
+                    details: details,
+                    status: isError ? 'failed' : 'success'
+                }));
+            } catch (e) {
+                console.error("Failed to write to work_log", e);
+            }
+        };
+
         // 1. Fetch Job
         const job = await client.request(readItem('generation_jobs' as any, jobId));
         if (!job || job.status === 'Complete') {
@@ -28,6 +44,21 @@ export const POST: APIRoute = async ({ request }) => {
         // Fetch Site Data
         const siteId = job.site_id;
         const site = await client.request(readItem('sites' as any, siteId));
+
+        // Helper to log work (re-defined with scope access to siteId for efficiency)
+        const logWorkScoped = async (action: string, entityType: string, entityId: string | number | null, details: any, isError = false) => {
+            try {
+                await client.request(createItem('work_log' as any, {
+                    site: siteId,
+                    action: action,
+                    entity_type: entityType,
+                    entity_id: entityId,
+                    details: typeof details === 'string' ? details : JSON.stringify(details),
+                }));
+            } catch (e) {
+                console.error("Failed to write to work_log", e);
+            }
+        };
 
         let generatedCount = 0;
         let limit = job.target_quantity;
@@ -53,7 +84,7 @@ export const POST: APIRoute = async ({ request }) => {
                 template: { structure_json: ['block_01_zapier_fix', 'block_11_avatar_showcase', 'block_12_consultation_form'] }
             };
             const homeArticle = await engine.generateArticle(homeContext);
-            await client.request(createItem('generated_articles' as any, {
+            const homeRecord = await client.request(createItem('generated_articles' as any, {
                 site_id: siteId,
                 title: "Home", // Force override
                 slug: "home", // Force override
@@ -61,11 +92,12 @@ export const POST: APIRoute = async ({ request }) => {
                 meta_desc: "Welcome to our agency.",
                 is_published: true,
             }));
+            await logWorkScoped('generated', 'generated_articles', homeRecord.id, { title: "Home", slug: "home", mode: "full_site_setup" });
             generatedCount++;
 
             // B. Blog Archive
             // Ideally a page template, but we'll make a placeholder article for now
-            await client.request(createItem('generated_articles' as any, {
+            const blogRecord = await client.request(createItem('generated_articles' as any, {
                 site_id: siteId,
                 title: "Insights & Articles",
                 slug: "blog",
@@ -73,6 +105,7 @@ export const POST: APIRoute = async ({ request }) => {
                 meta_desc: "Read our latest insights.",
                 is_published: true,
             }));
+            await logWorkScoped('generated', 'generated_articles', blogRecord.id, { title: "Insights & Articles", slug: "blog", mode: "full_site_setup" });
             generatedCount++;
         }
 
@@ -80,15 +113,15 @@ export const POST: APIRoute = async ({ request }) => {
         if (mode === 'refactor') {
             console.log("♻️ Executing Refactor Mode...");
             const queue = filters.items || [];
-            
-            // Loop through queue items starting from current offset
-            while (generatedCount + offset < queue.length) {
+
+            // Loop through queue items starting from current offset, respecting BATCH SIZE
+            while (generatedCount < batchSize && (generatedCount + offset) < queue.length) {
                 const item = queue[generatedCount + offset];
-                
+
                 // Context for Refactor
                 // We use a generic 'Business' avatar for now or try to infer from content?
                 // Let's stick to a safe default: "Scaling Founder"
-                const avatarItem = await client.request(readItem('avatars' as any, 'scaling_founder')); 
+                const avatarItem = await client.request(readItem('avatars' as any, 'scaling_founder'));
                 const city = { city: 'Online', state: 'World' }; // Generic
 
                 const context = {
@@ -107,27 +140,38 @@ export const POST: APIRoute = async ({ request }) => {
                 });
 
                 // Save
-                await client.request(createItem('generated_articles' as any, {
+                const savedRefactor = await client.request(createItem('generated_articles' as any, {
                     site_id: siteId,
                     title: article.title,
                     slug: article.slug,
                     html_content: article.html_content,
                     meta_desc: article.meta_desc,
-                    is_published: true, 
+                    is_published: true,
                     job_id: jobId
                 }));
+
+                await logWorkScoped('refactor_post', 'generated_articles', savedRefactor.id, {
+                    title: article.title,
+                    slug: article.slug,
+                    original_title: item.title
+                });
+
                 generatedCount++;
             }
-             
-            // Complete safely
-             await client.request(updateItem('generation_jobs' as any, jobId, {
+
+            // Check completion status
+            const isComplete = (offset + generatedCount) >= queue.length;
+
+            // Update Job
+            await client.request(updateItem('generation_jobs' as any, jobId, {
                 current_offset: offset + generatedCount,
-                status: 'Complete'
+                status: isComplete ? 'Complete' : 'Refactoring' // Keep status active if not done
             }));
 
             return new Response(JSON.stringify({
                 generated: generatedCount,
-                completed: true
+                completed: isComplete,
+                new_offset: offset + generatedCount
             }), { status: 200 });
         }
 
@@ -177,7 +221,7 @@ export const POST: APIRoute = async ({ request }) => {
             const article = await engine.generateArticle(context);
 
             // Save
-            await client.request(createItem('generated_articles' as any, {
+            const savedArticle = await client.request(createItem('generated_articles' as any, {
                 site_id: siteId,
                 title: article.title,
                 slug: article.slug + '-' + Math.floor(Math.random() * 1000), // Unique slug
@@ -185,6 +229,13 @@ export const POST: APIRoute = async ({ request }) => {
                 meta_desc: article.meta_desc,
                 is_published: true, // Auto publish for test
             }));
+
+            await logWorkScoped('generated', 'generated_articles', savedArticle.id, {
+                title: article.title,
+                slug: savedArticle.slug,
+                niche: randNiche,
+                city: randCity.city
+            });
 
             generatedCount++;
         }
@@ -202,6 +253,19 @@ export const POST: APIRoute = async ({ request }) => {
 
     } catch (error: any) {
         console.error("Generation Error:", error);
+
+        // Try to log error to DB if possible (need client)
+        try {
+            const client = getDirectusClient();
+            await client.request(createItem('work_log' as any, {
+                action: 'error',
+                entity_type: 'generation_jobs',
+                details: `Generation Failed: ${error.message}`,
+            }));
+        } catch (e) {
+            // silent fail
+        }
+
         return new Response(JSON.stringify({ error: error.message }), { status: 500 });
     }
 }

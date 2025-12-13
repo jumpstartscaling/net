@@ -56,6 +56,7 @@ async function main() {
             { collection: 'article_templates', schema: { name: 'article_templates' }, meta: { note: 'Article structure definitions' } },
             { collection: 'generation_jobs', schema: { name: 'generation_jobs' }, meta: { note: 'Queued generation tasks' } },
             { collection: 'generated_articles', schema: { name: 'generated_articles' }, meta: { note: 'Final HTML output' } },
+            { collection: 'work_log', schema: { name: 'work_log' }, meta: { note: 'System event logs' } },
         ];
 
         for (const col of collections) {
@@ -128,6 +129,14 @@ async function main() {
         await createFieldSafe('generated_articles', 'html_content', 'text');
         await createFieldSafe('generated_articles', 'generation_hash', 'string');
         await createFieldSafe('generated_articles', 'site_id', 'integer');
+
+        // Work Log
+        await createFieldSafe('work_log', 'site', 'string'); // ID or relation
+        await createFieldSafe('work_log', 'action', 'string');
+        await createFieldSafe('work_log', 'entity_type', 'string');
+        await createFieldSafe('work_log', 'entity_id', 'string');
+        await createFieldSafe('work_log', 'details', 'text');
+        await createFieldSafe('work_log', 'status', 'string');
 
         // --- 3. Import Data ---
         console.log('--- Importing Data (Full Sync) ---');

@@ -103,6 +103,7 @@ export interface CampaignMaster {
     batch_count?: number;
     status: 'active' | 'paused' | 'completed';
     target_word_count?: number;
+    article_template?: string; // UUID of the template
     date_created?: string;
 }
 
@@ -112,6 +113,7 @@ export interface HeadlineInventory {
     final_title_text: string;
     status: 'available' | 'used';
     used_on_article?: string;
+    location_data?: any; // JSON location data
     date_created?: string;
 }
 
@@ -124,15 +126,33 @@ export interface ContentFragment {
     date_created?: string;
 }
 
-export type FragmentType =
-    | 'intro_hook'
-    | 'pillar_1_keyword'
-    | 'pillar_2_uniqueness'
-    | 'pillar_3_relevance'
-    | 'pillar_4_quality'
-    | 'pillar_5_authority'
-    | 'pillar_6_backlinks'
-    | 'faq_section';
+export type FragmentType = string;
+
+export interface ImageTemplate {
+    id: string;
+    name: string;
+    svg_template: string;
+}
+
+export interface LocationState {
+    id: string;
+    name: string;
+    code: string;
+}
+
+export interface LocationCounty {
+    id: string;
+    name: string;
+    state: string | LocationState;
+}
+
+export interface LocationCity {
+    id: string;
+    name: string;
+    state: string | LocationState;
+    county: string | LocationCounty;
+    population?: number;
+}
 
 // ... (Existing types preserved above)
 
@@ -228,6 +248,47 @@ export interface GeneratedArticle {
 }
 
 /**
+ * CRM & Forms
+ */
+export interface Lead {
+    id: string;
+    site: string | Site;
+    first_name: string;
+    last_name?: string;
+    email: string;
+    phone?: string;
+    message?: string;
+    source?: string;
+    status: 'new' | 'contacted' | 'qualified' | 'lost';
+    date_created?: string;
+}
+
+export interface NewsletterSubscriber {
+    id: string;
+    site: string | Site;
+    email: string;
+    status: 'subscribed' | 'unsubscribed';
+    date_created?: string;
+}
+
+export interface Form {
+    id: string;
+    site: string | Site;
+    name: string;
+    fields: any[];
+    submit_action: 'message' | 'redirect' | 'both';
+    success_message?: string;
+    redirect_url?: string;
+}
+
+export interface FormSubmission {
+    id: string;
+    form: string | Form;
+    data: Record<string, any>;
+    date_created?: string;
+}
+
+/**
  * Full Spark Platform Schema for Directus SDK
  */
 export interface SparkSchema {
@@ -265,6 +326,21 @@ export interface SparkSchema {
     forms: Form[];
     form_submissions: FormSubmission[];
     link_targets: LinkTarget[];
+    work_log: WorkLog[];
+}
+
+export interface WorkLog {
+    id: number;
+    site?: number;
+    action: string;
+    entity_type?: string;
+    entity_id?: string | number;
+    details?: string;
+    level?: string;
+    status?: string;
+    timestamp?: string; // Directus uses date_created
+    date_created?: string;
+    user?: string; // user ID
 }
 
 export interface LinkTarget {

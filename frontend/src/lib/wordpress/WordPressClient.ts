@@ -47,9 +47,60 @@ export class WordPressClient {
         return this.fetchCollection(url);
     }
 
-    async getPosts(limit = 100): Promise<WPPost[]> {
-        const url = `${this.baseUrl}/wp-json/wp/v2/posts?per_page=${limit}`;
+    async getPosts(limit = 100, page = 1): Promise<WPPost[]> {
+        const url = `${this.baseUrl}/wp-json/wp/v2/posts?per_page=${limit}&page=${page}`;
         return this.fetchCollection(url);
+    }
+
+    async getAllPosts(): Promise<WPPost[]> {
+        let allPosts: WPPost[] = [];
+        let page = 1;
+        let totalPages = 1;
+
+        // First fetch to get total pages
+        const url = `${this.baseUrl}/wp-json/wp/v2/posts?per_page=100&page=${page}`;
+        try {
+            const res = await fetch(url);
+            if (!res.ok) throw new Error(`WP API Error: ${res.status}`);
+
+            const totalPagesHeader = res.headers.get('X-WP-TotalPages');
+            if (totalPagesHeader) {
+                totalPages = parseInt(totalPagesHeader, 10);
+            }
+
+            const data = await res.json();
+            allPosts = [...allPosts, ...data];
+
+            // Loop remaining pages
+            // Process in parallel chunks if too many, but for now sequential is safer to avoid rate limits
+            // or perform simple Promise.all for batches.
+            // Let's do batches of 5 to speed it up.
+
+            const remainingPages = [];
+            for (let p = 2; p <= totalPages; p++) {
+                remainingPages.push(p);
+            }
+
+            // Batch fetch
+            const batchSize = 5;
+            for (let i = 0; i < remainingPages.length; i += batchSize) {
+                const batch = remainingPages.slice(i, i + batchSize);
+                const promises = batch.map(p =>
+                    fetch(`${this.baseUrl}/wp-json/wp/v2/posts?per_page=100&page=${p}`)
+                        .then(r => r.json())
+                );
+                const results = await Promise.all(promises);
+                results.forEach(posts => {
+                    allPosts = [...allPosts, ...posts];
+                });
+            }
+
+        } catch (e) {
+            console.error("Fetch Error", e);
+            throw e;
+        }
+
+        return allPosts;
     }
 
     async getCategories(): Promise<any[]> {

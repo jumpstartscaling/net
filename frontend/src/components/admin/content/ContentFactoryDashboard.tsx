@@ -3,53 +3,76 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { getDirectusClient, readItems, aggregate } from '@/lib/directus/client';
+import type { GenerationJob, CampaignMaster, WorkLog } from '@/types/schema';
 
 export default function ContentFactoryDashboard() {
-    const [stats, setStats] = useState({ total: 0, ghost: 0, indexed: 0 });
-    const [queues, setQueues] = useState([]);
-    const [campaigns, setCampaigns] = useState([]);
-    const [logs, setLogs] = useState([]);
+    const [stats, setStats] = useState({ total: 0, published: 0, processing: 0 });
+    const [jobs, setJobs] = useState<GenerationJob[]>([]);
+    const [campaigns, setCampaigns] = useState<CampaignMaster[]>([]);
+    const [logs, setLogs] = useState<WorkLog[]>([]);
     const [loading, setLoading] = useState(true);
 
     const DIRECTUS_ADMIN_URL = "https://spark.jumpstartscaling.com/admin";
 
     useEffect(() => {
         loadData();
-        const interval = setInterval(loadData, 10000); // Poll every 10s
+        const interval = setInterval(loadData, 5000); // Poll every 5s for "Factory" feel
         return () => clearInterval(interval);
     }, []);
 
     const loadData = async () => {
         try {
-            // Fetch Stats
-            const statsRes = await fetch('/api/seo/stats');
-            const statsData = await statsRes.json();
-            if (statsData.success) {
-                setStats({
-                    total: statsData.total,
-                    ghost: statsData.breakdown?.sitemap?.ghost || 0,
-                    indexed: statsData.breakdown?.sitemap?.indexed || 0
-                });
-            } else {
-                // Fallback if error (e.g. 500)
-                setStats({ total: 0, ghost: 0, indexed: 0 });
-            }
+            const client = getDirectusClient();
 
-            // Fetch Campaigns
-            const campaignsRes = await fetch('/api/admin/campaigns').then(r => r.json()).catch(() => ({ campaigns: [] }));
-            setCampaigns(campaignsRes.campaigns || []);
+            // 1. Fetch KPI Stats
+            // Article Count
+            const articleAgg = await client.request(aggregate('generated_articles', {
+                aggregate: { count: '*' }
+            }));
+            const totalArticles = Number(articleAgg[0]?.count || 0);
 
-            // Fetch Jobs / Queues
-            const queuesRes = await fetch('/api/admin/queues').then(r => r.json()).catch(() => ({ queues: [] }));
-            setQueues(queuesRes.queues || []);
+            // Published Count
+            const publishedAgg = await client.request(aggregate('generated_articles', {
+                aggregate: { count: '*' },
+                filter: { is_published: { _eq: true } }
+            }));
+            const totalPublished = Number(publishedAgg[0]?.count || 0);
 
-            // Fetch Activity Log
-            const logsRes = await fetch('/api/admin/worklog').then(r => r.json()).catch(() => ({ logs: [] }));
-            // API might return { logs: [...] } or just array? Assuming { logs: ... } based on others
-            // Converting logs to match UI expected format if necessary
-            // logsRes structure depends on worklog.ts implementation.
-            // Let's assume it returns { logs: [] }
-            setLogs(logsRes.logs || []);
+            // Active Jobs Count
+            const processingAgg = await client.request(aggregate('generation_jobs', {
+                aggregate: { count: '*' },
+                filter: { status: { _eq: 'Processing' } }
+            }));
+            const totalProcessing = Number(processingAgg[0]?.count || 0);
+
+            setStats({
+                total: totalArticles,
+                published: totalPublished,
+                processing: totalProcessing
+            });
+
+            // 2. Fetch Active Campaigns
+            const activeCampaigns = await client.request(readItems('campaign_masters', {
+                limit: 5,
+                sort: ['-date_created'],
+                filter: { status: { _in: ['active', 'paused'] } } // Show active/paused
+            }));
+            setCampaigns(activeCampaigns as CampaignMaster[]);
+
+            // 3. Fetch Production Jobs (The real "Factory" work)
+            const recentJobs = await client.request(readItems('generation_jobs', {
+                limit: 5,
+                sort: ['-date_created']
+            }));
+            setJobs(recentJobs as GenerationJob[]);
+
+            // 4. Fetch Work Log
+            const recentLogs = await client.request(readItems('work_log', {
+                limit: 20,
+                sort: ['-date_created']
+            }));
+            setLogs(recentLogs as WorkLog[]);
 
             setLoading(false);
         } catch (error) {
@@ -58,8 +81,8 @@ export default function ContentFactoryDashboard() {
         }
     };
 
-    const StatusBadge = ({ status }) => {
-        const colors = {
+    const StatusBadge = ({ status }: { status: string }) => {
+        const colors: Record<string, string> = {
             active: 'bg-green-600',
             paused: 'bg-yellow-600',
             completed: 'bg-blue-600',
@@ -72,7 +95,7 @@ export default function ContentFactoryDashboard() {
         return <Badge className={`${colors[status] || 'bg-slate-600'} text-white`}>{status}</Badge>;
     };
 
-    if (loading) return <div className="text-white p-8">Initializing Factory Command Center...</div>;
+    if (loading) return <div className="text-white p-8 animate-pulse">Initializing Factory Command Center...</div>;
 
     return (
         <div className="space-y-8">
@@ -104,10 +127,10 @@ export default function ContentFactoryDashboard() {
                 </Card>
                 <Card className="bg-slate-900 border-slate-800 border-l-4 border-l-purple-500">
                     <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium text-slate-400">Stealth (Ghost)</CardTitle>
+                        <CardTitle className="text-sm font-medium text-slate-400">Pending QA</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold text-white">{stats.ghost}</div>
+                        <div className="text-2xl font-bold text-white">{stats.total - stats.published}</div>
                     </CardContent>
                 </Card>
                 <Card className="bg-slate-900 border-slate-800 border-l-4 border-l-green-500">
@@ -115,7 +138,7 @@ export default function ContentFactoryDashboard() {
                         <CardTitle className="text-sm font-medium text-slate-400">Deployed (Live)</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold text-white">{stats.indexed}</div>
+                        <div className="text-2xl font-bold text-white">{stats.published}</div>
                     </CardContent>
                 </Card>
                 <Card className="bg-slate-900 border-slate-800 border-l-4 border-l-blue-500">
@@ -123,7 +146,7 @@ export default function ContentFactoryDashboard() {
                         <CardTitle className="text-sm font-medium text-slate-400">Active Operations</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold text-white">{queues.filter(q => q.status === 'Processing').length}</div>
+                        <div className="text-2xl font-bold text-white">{stats.processing}</div>
                     </CardContent>
                 </Card>
             </div>
@@ -158,7 +181,7 @@ export default function ContentFactoryDashboard() {
                                     </TableRow>
                                 )) : (
                                     <TableRow>
-                                        <TableCell colspan={4} className="text-center text-slate-500 py-8">No active campaigns</TableCell>
+                                        <TableCell colSpan={4} className="text-center text-slate-500 py-8">No active campaigns</TableCell>
                                     </TableRow>
                                 )}
                             </TableBody>
@@ -174,19 +197,21 @@ export default function ContentFactoryDashboard() {
                     </CardHeader>
                     <CardContent>
                         <div className="space-y-4">
-                            {queues.length > 0 ? queues.map((job) => (
+                            {jobs.length > 0 ? jobs.map((job) => (
                                 <div key={job.id} className="bg-slate-950 p-4 rounded border border-slate-800 flex justify-between items-center">
                                     <div>
-                                        <div className="text-sm font-medium text-white mb-1">Job #{job.id.substring(0, 8)}</div>
-                                        <div className="text-xs text-slate-500">Target: {job.target_quantity} articles</div>
+                                        <div className="text-sm font-medium text-white mb-1">Job #{String(job.id)}</div>
+                                        <div className="text-xs text-slate-500">
+                                            {job.current_offset} / {job.target_quantity} articles
+                                        </div>
                                     </div>
                                     <StatusBadge status={job.status} />
                                 </div>
                             )) : (
                                 <div className="text-center text-slate-500 py-8">Queue is empty</div>
                             )}
-                            <Button className="w-full bg-slate-800 hover:bg-slate-700 text-white border border-slate-700">
-                                + Start New Generation
+                            <Button className="w-full bg-slate-800 hover:bg-slate-700 text-white border border-slate-700" onClick={() => window.open('/admin/sites/jumpstart', '_blank')}>
+                                + Start Refactor Job
                             </Button>
                         </div>
                     </CardContent>
@@ -201,12 +226,12 @@ export default function ContentFactoryDashboard() {
                 </CardHeader>
                 <CardContent>
                     <div className="bg-black rounded-lg p-4 font-mono text-sm h-64 overflow-y-auto border border-slate-800">
-                        {logs.length > 0 ? logs.map((log, i) => (
-                            <div key={i} className="mb-2 border-b border-slate-900 pb-2 last:border-0">
-                                <span className="text-slate-500">[{new Date(log.timestamp).toLocaleTimeString()}]</span>{' '}
-                                <span className={log.action === 'create' ? 'text-green-400' : 'text-blue-400'}>{log.action.toUpperCase()}</span>{' '}
-                                <span className="text-slate-300">{log.collection}</span>{' '}
-                                <span className="text-slate-600">by {log.user?.email || 'System'}</span>
+                        {logs.length > 0 ? logs.map((log) => (
+                            <div key={log.id} className="mb-2 border-b border-slate-900 pb-2 last:border-0">
+                                <span className="text-slate-500">[{new Date(log.date_created || '').toLocaleTimeString()}]</span>{' '}
+                                <span className={log.action === 'create' ? 'text-green-400' : 'text-blue-400'}>{(log.action || 'INFO').toUpperCase()}</span>{' '}
+                                <span className="text-slate-300">{log.entity_type} #{log.entity_id}</span>{' '}
+                                <span className="text-slate-600">- {log.details ? log.details.substring(0, 50) : ''}...</span>
                             </div>
                         )) : (
                             <div className="text-slate-600 text-center mt-8">No recent activity</div>
