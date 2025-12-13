@@ -1,0 +1,222 @@
+/**
+ * Article Workbench - Article Detail Editor
+ * 3-panel layout: Metadata | Editor | Tools
+ */
+
+---
+import AdminLayout from '@/layouts/AdminLayout.astro';
+import { getDirectusClient, readItem } from '@/lib/directus/client';
+
+const { id } = Astro.params;
+
+if (!id) {
+  return Astro.redirect('/admin/factory');
+}
+
+const client = getDirectusClient();
+let article;
+
+try {
+  article = await client.request(readItem('generated_articles', id));
+} catch (error) {
+  console.error('Error fetching article:', error);
+  return Astro.redirect('/admin/factory');
+}
+---
+
+<AdminLayout title={`Edit: ${article.title}`}>
+  <div class="h-[calc(100vh-80px)] flex gap-6">
+    <!-- Left Panel: Metadata -->
+    <div class="w-80 flex-shrink-0 space-y-4 overflow-y-auto">
+      <div class="spark-card p-6">
+        <h3 class="spark-heading text-lg mb-4">Metadata</h3>
+        
+        <!-- Status -->
+        <div class="mb-4">
+          <label class="spark-label block mb-2">Status</label>
+          <select class="spark-input w-full">
+            <option value="queued">Queued</option>
+            <option value="generating">Generating</option>
+            <option value="review" selected={article.status === 'review'}>Review</option>
+            <option value="approved">Approved</option>
+            <option value="published">Published</option>
+          </select>
+        </div>
+
+        <!-- Location -->
+        <div class="mb-4">
+          <label class="spark-label block mb-2">Location</label>
+          <div class="text-silver text-sm">
+            {article.geo_city && article.geo_state 
+              ? `${article.geo_city}, ${article.geo_state}`
+              : 'Not set'}
+          </div>
+        </div>
+
+        <!-- SEO Score -->
+        <div class="mb-4">
+          <label class="spark-label block mb-2">SEO Score</label>
+          <div class="spark-data text-2xl">
+            {article.seo_score || 0}/100
+          </div>
+          <div class="h-2 bg-graphite rounded-full mt-2 overflow-hidden">
+            <div 
+              class="h-full bg-gold-gradient rounded-full transition-all"
+              style={`width: ${article.seo_score || 0}%`}
+            ></div>
+          </div>
+        </div>
+
+        <!-- Meta Description -->
+        <div class="mb-4">
+          <label class="spark-label block mb-2">Meta Description</label>
+          <textarea
+            class="spark-input w-full text-sm"
+            rows="3"
+            maxlength="160"
+            placeholder="Write a compelling meta description..."
+          >{article.meta_desc}</textarea>
+          <div class="text-silver/50 text-xs mt-1">
+            {article.meta_desc?.length || 0}/160
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center Panel: Editor -->
+    <div class="flex-1 flex flex-col spark-card overflow-hidden">
+      <!-- Editor Header -->
+      <div class="border-b border-edge-subtle p-4 flex items-center justify-between">
+        <div class="flex gap-2">
+          <button class="spark-btn-ghost text-sm" id="visual-mode">Visual</button>
+          <button class="spark-btn-ghost text-sm" id="code-mode">Code</button>
+        </div>
+        
+        <div class="flex items-center gap-3">
+          <span class="text-silver/50 text-xs" id="auto-save-status">Saved</span>
+          <button class="spark-btn-secondary text-sm">
+            Save Draft
+          </button>
+        </div>
+      </div>
+
+      <!-- Editor Area -->
+      <div class="flex-1 overflow-y-auto p-6 bg-void">
+        <!-- Title -->
+        <input
+          type="text"
+          value={article.title}
+          class="w-full bg-transparent border-none text-3xl font-bold text-white mb-6 focus:outline-none placeholder:text-silver/30"
+          placeholder="Article title..."
+        />
+
+        <!-- Content -->
+        <div id="editor-container" class="prose prose-invert max-w-none">
+          <div set:html={article.content_html || '<p class="text-silver/50">Start writing...</p>'} />
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel: Tools -->
+    <div class="w-80 flex-shrink-0 space-y-4 overflow-y-auto">
+      <!-- SEO Tools -->
+      <div class="spark-card p-6">
+        <h3 class="spark-heading text-lg mb-4">SEO Tools</h3>
+        
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-silver text-sm">Readability</span>
+            <span class="spark-data text-sm">Good</span>
+          </div>
+          
+          <div class="flex items-center justify-between">
+            <span class="text-silver text-sm">Keyword Density</span>
+            <span class="spark-data text-sm">2.3%</span>
+          </div>
+          
+          <div class="flex items-center justify-between">
+            <span class="text-silver text-sm">Word Count</span>
+            <span class="spark-data text-sm">1,247</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spintax Info -->
+      <div class="spark-card p-6">
+        <h3 class="spark-heading text-lg mb-4">Spintax</h3>
+        
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-silver text-sm">Variations</span>
+            <span class="spark-data text-sm">432</span>
+          </div>
+          
+          <button class="spark-btn-ghost w-full text-sm">
+            Preview Variations
+          </button>
+        </div>
+      </div>
+
+      <!-- Images -->
+      <div class="spark-card p-6">
+        <h3 class="spark-heading text-lg mb-4">Featured Image</h3>
+        
+        {article.featured_image_url ? (
+          <img 
+            src={article.featured_image_url} 
+            alt="Featured" 
+            class="w-full rounded-lg border border-edge-normal mb-3"
+          />
+        ) : (
+          <div class="w-full aspect-video bg-graphite rounded-lg border border-edge-subtle flex items-center justify-center mb-3">
+            <span class="text-silver/50 text-sm">No image</span>
+          </div>
+        )}
+        
+        <button class="spark-btn-ghost w-full text-sm">
+          Generate Image
+        </button>
+      </div>
+
+      <!-- Logs -->
+      <div class="spark-card p-6">
+        <h3 class="spark-heading text-lg mb-4">Activity Log</h3>
+        
+        <div class="space-y-2 max-h-40 overflow-y-auto">
+          <div class="text-xs">
+            <div class="text-silver/50">2 hours ago</div>
+            <div class="text-silver">Article generated</div>
+          </div>
+          <div class="text-xs">
+            <div class="text-silver/50">1 hour ago</div>
+            <div class="text-silver">SEO score calculated</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</AdminLayout>
+
+<script>
+  // Auto-save functionality
+  let saveTimeout: number;
+  const autoSaveStatus = document.getElementById('auto-save-status');
+  
+  const editorContainer = document.getElementById('editor-container');
+  
+  if (editorContainer) {
+    editorContainer.addEventListener('input', () => {
+      if (autoSaveStatus) {
+        autoSaveStatus.textContent = 'Saving...';
+      }
+      
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(() => {
+        // Save logic here
+        if (autoSaveStatus) {
+          autoSaveStatus.textContent = 'Saved';
+        }
+      }, 2000);
+    });
+  }
+</script>
