@@ -35,18 +35,41 @@ export default function SiteList() {
                         <CardTitle className="text-sm font-medium text-slate-200">
                             {site.name}
                         </CardTitle>
-                        <Badge variant={site.status === 'active' ? 'default' : 'secondary'}>
+                        <Badge className={site.status === 'active' ? 'bg-green-600' : 'bg-slate-600'}>
                             {site.status}
                         </Badge>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold text-white mb-2">{site.domain}</div>
-                        <p className="text-xs text-slate-500">
-                            {site.settings?.template || 'Default Template'}
+                        <div className="text-2xl font-bold text-white mb-2">{site.domain || 'No domain set'}</div>
+                        <p className="text-xs text-slate-500 mb-4">
+                            {site.domain ? '🟢 Domain configured' : '⚠️ Set up domain'}
                         </p>
                         <div className="mt-4 flex gap-2">
-                            <Button variant="outline" size="sm" className="w-full">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="flex-1"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    window.location.href = `/admin/sites/${site.id}`;
+                                }}
+                            >
                                 Configure
+                            </Button>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="flex-1"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (site.domain) {
+                                        window.open(`https://${site.domain}`, '_blank');
+                                    } else {
+                                        alert('Set up a domain first in site settings');
+                                    }
+                                }}
+                            >
+                                👁️ Preview
                             </Button>
                         </div>
                     </CardContent>

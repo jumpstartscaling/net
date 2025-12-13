@@ -1,0 +1,132 @@
+---
+/**
+ * Preview Page Route
+ * Shows a single page in preview mode
+ */
+
+import { getDirectusClient, readItem } from '@/lib/directus/client';
+import type { Page } from '@/types/schema';
+
+const { pageId } = Astro.params;
+
+if (!pageId) {
+    return Astro.redirect('/admin/pages');
+}
+
+let page: Page | null = null;
+let error: string | null = null;
+
+try {
+    const client = getDirectusClient();
+    const result = await client.request(readItem('pages', pageId));
+    page = result as Page;
+} catch (err) {
+    error = err instanceof Error ? err.message : 'Failed to load page';
+    console.error('Preview error:', err);
+}
+
+if (!page) {
+    return Astro.redirect('/admin/pages');
+}
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview: {page.title}</title>
+    <style>
+        .preview-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            z-index: 9999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .preview-content {
+            margin-top: 60px;
+            padding: 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .preview-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .close-preview {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .close-preview:hover {
+            background: rgba(255,255,255,0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Preview Mode Banner -->
+    <div class="preview-banner">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+            </svg>
+            <span style="font-weight: 600; font-size: 14px;">PREVIEW MODE</span>
+            <span class="preview-badge">Draft</span>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <span style="font-size: 13px; opacity: 0.9;">{page.title}</span>
+            <button class="close-preview" onclick="window.close()">Close Preview</button>
+        </div>
+    </div>
+
+    <!-- Page Content -->
+    <div class="preview-content">
+        {error ? (
+            <div style="background: #fee; border: 1px solid #fcc; color: #c00; padding: 20px; border-radius: 8px;">
+                <h2>Error Loading Preview</h2>
+                <p>{error}</p>
+            </div>
+        ) : (
+            <>
+                <h1 style="font-size: 2.5rem; margin-bottom: 1rem; font-weight: 700;">
+                    {page.title}
+                </h1>
+                
+                {page.content && (
+                    <div style="line-height: 1.8; color: #333;">
+                        <Fragment set:html={page.content} />
+                    </div>
+                )}
+                
+                {!page.content && (
+                    <p style="color: #999; font-style: italic;">No content yet</p>
+                )}
+            </>
+        )}
+    </div>
+</body>
+</html>

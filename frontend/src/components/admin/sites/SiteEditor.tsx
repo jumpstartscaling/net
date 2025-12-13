@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
 import { Site } from '@/types/schema';
+import DomainSetupGuide from '@/components/admin/DomainSetupGuide';
 
 interface SiteEditorProps {
     id: string; // Astro passes string params
@@ -198,6 +199,9 @@ export default function SiteEditor({ id }: SiteEditorProps) {
                     </div>
                 </CardContent>
             </Card>
+
+            {/* Domain Setup Guide */}
+            <DomainSetupGuide siteDomain={site.domain} />
 
             <div className="flex justify-end gap-4">
                 <Button variant="outline" onClick={() => window.history.back()}>
