@@ -77,7 +77,7 @@ export default function ArticleList({ initialArticles = [] }: Props) {
                             </TableRow>
                         )) : (
                             <TableRow>
-                                <TableCell colspan={6} className="text-center text-slate-500 py-8">
+                                <TableCell colSpan={6} className="text-center text-slate-500 py-8">
                                     No articles found.
                                 </TableCell>
                             </TableRow>

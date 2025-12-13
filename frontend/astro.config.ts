@@ -8,7 +8,6 @@ import AstroPWA from '@vite-pwa/astro';
 import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
 import Inspect from 'vite-plugin-inspect';
-// @ts-expect-error - astro-imagetools types are not fully compatible with Astro v4
 import { astroImageTools } from 'astro-imagetools';
 
 // Spark Platform - Multi-Tenant SSR Configuration with Full Plugin Suite
@@ -83,7 +82,6 @@ export default defineConfig({
     optimizeDeps: {
       exclude: ['@directus/sdk']
     },
-    // @ts-expect-error - Vite plugin types have minor conflicts between Astro's bundled Vite and external plugins
     plugins: [
       // Bundle Analysis: Generate visual report
       visualizer({
@@ -92,13 +90,15 @@ export default defineConfig({
         gzipSize: true,
         brotliSize: true
       }),
-      // Compression: Pre-compress assets
+      // Brotli Compression: Pre-compress assets
+      // @ts-ignore - Vite plugin type mismatch between Astro's bundled Vite
       viteCompression({
         algorithm: 'brotliCompress',
         ext: '.br',
         threshold: 1024
       }),
-      // Debug: Inspect Vite transformations
+      // Vite Inspect: Debug transformations at /__inspect/
+      // @ts-ignore - Vite plugin type mismatch
       Inspect()
     ]
   }
