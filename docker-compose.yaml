@@ -24,7 +24,7 @@ services:
       - WEBSOCKETS_ENABLED=true
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.directus.rule=Host(`net1.jumpstartscaling.com`)"
+      - "traefik.http.routers.directus.rule=Host(`spark.jumpstartscaling.com`)"
       - "traefik.http.routers.directus.entrypoints=https"
       - "traefik.http.routers.directus.tls.certresolver=letsencrypt"
       - "traefik.http.services.directus.loadbalancer.server.port=8055"
@@ -84,7 +84,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     environment:
-      - PUBLIC_DIRECTUS_URL=https://net1.jumpstartscaling.com
+      - PUBLIC_DIRECTUS_URL=https://spark.jumpstartscaling.com
       - DIRECTUS_ADMIN_TOKEN=${DIRECTUS_ADMIN_TOKEN:-}
       - PUBLIC_PLATFORM_DOMAIN=launch.jumpstartscaling.com
     labels:
