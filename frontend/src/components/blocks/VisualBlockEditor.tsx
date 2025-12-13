@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Undo, Redo, Smartphone, Monitor } from 'lucide-react';
 import { Text, Container } from './UserBlocks';
-import { Toolbox, SettingsPanel } from './Panels';
+import { Toolbox, SettingsPanel } from './editor/Panels';
 
 const ViewportHeader = () => {
     return (
