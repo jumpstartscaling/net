@@ -6,6 +6,10 @@ interface Props {
 const { title } = Astro.props;
 const currentPath = Astro.url.pathname;
 
+import SystemStatus from '@/components/admin/SystemStatus';
+import SystemStatusBar from '@/components/admin/SystemStatusBar';
+
+
 const navGroups = [
   {
     title: 'Command Station',
@@ -169,6 +173,10 @@ function isActive(href: string) {
         ))}
       </nav>
       
+      <div class="px-4 pb-4 mt-auto">
+          <SystemStatus client:load />
+      </div>
+
       <div class="p-4 border-t border-gray-800">
         <a 
           href="/"
@@ -203,9 +211,12 @@ function isActive(href: string) {
         </div>
       </header>
       
-      <main class="p-8">
+      <main class="p-8 pb-24">
         <slot />
       </main>
     </div>
+
+    <!-- Full-Width System Status Bar -->
+    <SystemStatusBar client:load />
   </body>
 </html>

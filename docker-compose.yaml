@@ -22,6 +22,13 @@ services:
       - CACHE_ENABLED=false
       - CACHE_STORE=memory
       - WEBSOCKETS_ENABLED=true
+      - CORS_ENABLED=true
+      - 'CORS_ORIGIN=https://launch.jumpstartscaling.com,http://localhost:4321'
+      - CORS_METHODS=GET,POST,PATCH,DELETE
+      - CORS_ALLOWED_HEADERS=Content-Type,Authorization
+      - CORS_EXPOSED_HEADERS=Content-Range
+      - CORS_CREDENTIALS=true
+      - CORS_MAX_AGE=86400
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.directus.rule=Host(`spark.jumpstartscaling.com`)"
