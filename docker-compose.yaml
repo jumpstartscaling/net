@@ -19,6 +19,9 @@ services:
       - 'DB_DATABASE=${POSTGRESQL_DATABASE:-directus}'
       - DB_USER=$SERVICE_USER_POSTGRESQL
       - DB_PASSWORD=$SERVICE_PASSWORD_POSTGRESQL
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=
       - WEBSOCKETS_ENABLED=true
     labels:
       - "traefik.enable=true"
@@ -27,6 +30,7 @@ services:
       - "traefik.http.routers.directus.tls.certresolver=letsencrypt"
       - "traefik.http.services.directus.loadbalancer.server.port=8055"
       - "traefik.docker.network=coolify"
+      - "traefik.http.services.directus.loadbalancer.server.scheme=http"
     healthcheck:
       test:
         - CMD
@@ -39,6 +43,8 @@ services:
       retries: 10
     depends_on:
       postgresql:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     networks:
       - coolify
@@ -89,6 +95,7 @@ services:
       - "traefik.http.routers.frontend.entrypoints=https"
       - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
       - "traefik.http.services.frontend.loadbalancer.server.port=4321"
+      - "traefik.docker.network=coolify"
     depends_on:
       - directus
     networks:
