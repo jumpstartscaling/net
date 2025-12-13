@@ -1,0 +1,151 @@
+---
+/**
+ * Campaign Masters Management
+ * Full CRUD for campaign_masters collection
+ */
+import AdminLayout from '@/layouts/AdminLayout.astro';
+import { getDirectusClient } from '@/lib/directus/client';
+import { readItems } from '@directus/sdk';
+
+const client = getDirectusClient();
+
+let campaigns = [];
+let error = null;
+let stats = {
+  total: 0,
+  active: 0,
+  draft: 0,
+  completed: 0,
+};
+
+try {
+  campaigns = await client.request(readItems('campaign_masters', {
+    fields: ['*'],
+    sort: ['-date_created'],
+  }));
+  
+  stats.total = campaigns.length;
+  stats.active = campaigns.filter((c: any) => c.status === 'active').length;
+  stats.draft = campaigns.filter((c: any) => c.status === 'draft').length;
+  stats.completed = campaigns.filter((c: any) => c.status === 'completed').length;
+} catch (e) {
+  console.error('Error fetching campaigns:', e);
+  error = e instanceof Error ? e.message : 'Unknown error';
+}
+---
+
+<AdminLayout title="Campaign Masters">
+  <div class="space-y-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+      <div>
+        <h1 class="spark-heading text-3xl">📢 Campaign Masters</h1>
+        <p class="text-silver mt-1">Manage marketing campaigns and content strategies</p>
+      </div>
+      <div class="flex gap-3">
+        <button class="spark-btn-secondary text-sm" onclick="window.dispatchEvent(new CustomEvent('import-modal'))">
+          📥 Import
+        </button>
+        <button class="spark-btn-secondary text-sm" onclick="window.dispatchEvent(new CustomEvent('export-data', {detail: {collection: 'campaign_masters'}}))">
+          📤 Export
+        </button>
+        <a href="/admin/collections/campaign-masters/new" class="spark-btn-primary text-sm">
+          ✨ New Campaign
+        </a>
+      </div>
+    </div>
+
+    {error && (
+      <div class="spark-card p-4 border-red-500 text-red-400">
+        <strong>Error:</strong> {error}
+      </div>
+    )}
+
+    <!-- Stats -->
+    <div class="grid grid-cols-4 gap-4">
+      <div class="spark-card p-6">
+        <div class="spark-label mb-2">Total Campaigns</div>
+        <div class="spark-data text-3xl">{stats.total}</div>
+      </div>
+      <div class="spark-card p-6">
+        <div class="spark-label mb-2">Active</div>
+        <div class="spark-data text-3xl text-green-400">{stats.active}</div>
+      </div>
+      <div class="spark-card p-6">
+        <div class="spark-label mb-2">Draft</div>
+        <div class="spark-data text-3xl text-yellow-400">{stats.draft}</div>
+      </div>
+      <div class="spark-card p-6">
+        <div class="spark-label mb-2">Completed</div>
+        <div class="spark-data text-3xl text-blue-400">{stats.completed}</div>
+      </div>
+    </div>
+
+    <!-- Campaigns Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {campaigns.map((campaign: any) => (
+        <div class="spark-card spark-card-hover p-6">
+          <div class="flex items-start justify-between mb-4">
+            <div>
+              <h3 class="text-white font-semibold text-lg">{campaign.campaign_name || 'Unnamed Campaign'}</h3>
+              <p class="text-silver/70 text-sm mt-1">
+                {campaign.description?.substring(0, 100) || 'No description'}
+              </p>
+            </div>
+            <span class={`px-3 py-1 rounded text-xs font-medium ${
+              campaign.status === 'active' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
+              campaign.status === 'draft' ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30' :
+              campaign.status === 'completed' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' :
+              'bg-graphite border border-edge-subtle text-silver'
+            }`}>
+              {campaign.status || 'draft'}
+            </span>
+          </div>
+          
+          <div class="space-y-2 text-sm mb-4">
+            {campaign.target_count && (
+              <div>
+                <span class="spark-label">Targets:</span>
+                <span class="text-silver ml-2">{campaign.target_count} items</span>
+              </div>
+            )}
+            {campaign.articles_generated && (
+              <div>
+                <span class="spark-label">Generated:</span>
+                <span class="text-gold ml-2">{campaign.articles_generated} articles</span>
+              </div>
+            )}
+          </div>
+          
+          <div class="flex gap-2">
+            <a href={`/admin/collections/campaign-masters/${campaign.id}`} class="spark-btn-ghost text-xs px-3 py-1 flex-1 text-center">
+              Edit
+            </a>
+            <a href={`/admin/seo/articles?campaign=${campaign.id}`} class="spark-btn-secondary text-xs px-3 py-1 flex-1 text-center">
+              View Articles
+            </a>
+          </div>
+        </div>
+      ))}
+      
+      {campaigns.length === 0 && !error && (
+        <div class="col-span-full spark-card p-12 text-center">
+          <p class="text-silver/50">No campaigns found. Create your first campaign!</p>
+        </div>
+      )}
+    </div>
+  </div>
+</AdminLayout>
+
+<script>
+  window.addEventListener('export-data', async (e: any) => {
+    const { collection } = e.detail;
+    const response = await fetch(`/api/collections/${collection}/export`);
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${collection}-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+  });
+</script>

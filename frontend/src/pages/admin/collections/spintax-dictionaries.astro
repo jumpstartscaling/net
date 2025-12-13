@@ -1,0 +1,179 @@
+---
+/**
+ * Spintax Dictionaries Management
+ * Word variation sets for content spinning
+ */
+import AdminLayout from '@/layouts/AdminLayout.astro';
+import { getDirectusClient } from '@/lib/directus/client';
+import { readItems } from '@directus/sdk';
+
+const client = getDirectusClient();
+
+let dictionaries = [];
+let error = null;
+let stats = {
+  total: 0,
+  totalWords: 0,
+  byCategory: {} as Record<string, number>,
+};
+
+try {
+  dictionaries = await client.request(readItems('spintax_dictionaries', {
+    fields: ['*'],
+    sort: ['category', 'base_word'],
+  }));
+  
+  stats.total = dictionaries.length;
+  dictionaries.forEach((d: any) => {
+    const cat = d.category || 'general';
+    stats.byCategory[cat] = (stats.byCategory[cat] || 0) + 1;
+    if (d.variations && Array.isArray(d.variations)) {
+      stats.totalWords += d.variations.length;
+    }
+  });
+} catch (e) {
+  console.error('Error fetching dictionaries:', e);
+  error = e instanceof Error ? e.message : 'Unknown error';
+}
+
+// Group by category
+const byCategory = dictionaries.reduce((acc: any, dict: any) => {
+  const cat = dict.category || 'general';
+  if (!acc[cat]) acc[cat] = [];
+  acc[cat].push(dict);
+  return acc;
+}, {});
+---
+
+<AdminLayout title="Spintax Dictionaries">
+  <div class="space-y-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+      <div>
+        <h1 class="spark-heading text-3xl">📚 Spintax Dictionaries</h1>
+        <p class="text-silver mt-1">Word variation sets for content spinning</p>
+      </div>
+      <div class="flex gap-3">
+        <button class="spark-btn-secondary text-sm" onclick="window.dispatchEvent(new CustomEvent('import-modal'))">
+          📥 Import
+        </button>
+        <button class="spark-btn-secondary text-sm" onclick="window.dispatchEvent(new CustomEvent('export-data', {detail: {collection: 'spintax_dictionaries'}}))">
+          📤 Export
+        </button>
+        <a href="/admin/collections/spintax-dictionaries/new" class="spark-btn-primary text-sm">
+          ✨ New Entry
+        </a>
+      </div>
+    </div>
+
+    {error && (
+      <div class="spark-card p-4 border-red-500 text-red-400">
+        <strong>Error:</strong> {error}
+      </div>
+    )}
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="spark-card p-6">
+        <div class="spark-label mb-2">Total Entries</div>
+        <div class="spark-data text-3xl">{stats.total}</div>
+      </div>
+      <div class="spark-card p-6">
+        <div class="spark-label mb-2">Total Words</div>
+        <div class="spark-data text-3xl text-gold">{stats.totalWords}</div>
+      </div>
+      <div class="spark-card p-6">
+        <div class="spark-label mb-2">Categories</div>
+        <div class="spark-data text-3xl text-blue-400">{Object.keys(stats.byCategory).length}</div>
+      </div>
+      <div class="spark-card p-6">
+        <div class="spark-label mb-2">Avg Variations</div>
+        <div class="spark-data text-3xl text-green-400">
+          {stats.total > 0 ? Math.round(stats.totalWords / stats.total) : 0}
+        </div>
+      </div>
+    </div>
+
+    <!-- Dictionaries by Category -->
+    <div class="space-y-6">
+      {Object.entries(byCategory).map(([category, items]: [string, any]) => (
+        <div class="spark-card overflow-hidden">
+          <div class="p-4 border-b border-edge-subtle bg-graphite">
+            <div class="flex justify-between items-center">
+              <h3 class="text-white font-semibold capitalize">{category}</h3>
+              <span class="spark-label">{items.length} entries</span>
+            </div>
+          </div>
+          
+          <div class="p-6 space-y-3">
+            {items.map((dict: any) => (
+              <div class="p-4 bg-black/20 rounded border border-edge-subtle hover:border-gold/30 transition-colors">
+                <div class="flex items-start justify-between gap-4">
+                  <div class="flex-1">
+                    <div class="flex items-center gap-2 mb-2">
+                      <span class="text-white font-medium">{dict.base_word}</span>
+                      {dict.variations && Array.isArray(dict.variations) && (
+                        <span class="px-2 py-0.5 bg-gold/10 text-gold text-xs rounded">
+                          {dict.variations.length} variations
+                        </span>
+                      )}
+                    </div>
+                    {dict.variations && Array.isArray(dict.variations) && (
+                      <div class="flex flex-wrap gap-1">
+                        {dict.variations.slice(0, 10).map((variation: string) => (
+                          <span class="px-2 py-0.5 bg-graphite border border-edge-subtle rounded text-xs text-silver">
+                            {variation}
+                          </span>
+                        ))}
+                        {dict.variations.length > 10 && (
+                          <span class="px-2 py-0.5 text-xs text-silver/50">
+                            +{dict.variations.length - 10} more
+                          </span>
+                        )}
+                      </div>
+                    )}
+                    {dict.spintax_format && (
+                      <div class="mt-2 p-2 bg-black/40 rounded">
+                        <code class="text-xs text-green-400">{dict.spintax_format}</code>
+                      </div>
+                    )}
+                  </div>
+                  <div class="flex gap-2 flex-shrink-0">
+                    <button 
+                      class="spark-btn-ghost text-xs px-3 py-1"
+                      onclick={`navigator.clipboard.writeText(${JSON.stringify(dict.spintax_format || dict.base_word)})`}
+                    >
+                      📋
+                    </button>
+                    <a href={`/admin/collections/spintax-dictionaries/${dict.id}`} class="spark-btn-ghost text-xs px-3 py-1">
+                      Edit
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+      
+      {dictionaries.length === 0 && !error && (
+        <div class="spark-card p-12 text-center">
+          <p class="text-silver/50">No spintax dictionaries found. Start building your word library!</p>
+        </div>
+      )}
+    </div>
+  </div>
+</AdminLayout>
+
+<script>
+  window.addEventListener('export-data', async (e: any) => {
+    const { collection } = e.detail;
+    const response = await fetch(`/api/collections/${collection}/export`);
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${collection}-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+  });
+</script>

@@ -1,0 +1,162 @@
+---
+/** * Offer Blocks Management
+ * Call-to-action templates and offer messaging
+ */
+import AdminLayout from '@/layouts/AdminLayout.astro';
+import { getDirectusClient } from '@/lib/directus/client';
+import { readItems } from '@directus/sdk';
+
+const client = getDirectusClient();
+
+let offers = [];
+let error = null;
+let stats = {
+  total: 0,
+  byType: {} as Record<string, number>,
+};
+
+try {
+  offers = await client.request(readItems('offer_blocks', {
+    fields: ['*'],
+    sort: ['offer_type', 'title'],
+  }));
+  
+  stats.total = offers.length;
+  offers.forEach((o: any) => {
+    const type = o.offer_type || 'general';
+    stats.byType[type] = (stats.byType[type] || 0) + 1;
+  });
+} catch (e) {
+  console.error('Error fetching offers:', e);
+  error = e instanceof Error ? e.message : 'Unknown error';
+}
+---
+
+<AdminLayout title="Offer Blocks">
+  <div class="space-y-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+      <div>
+        <h1 class="spark-heading text-3xl">🎯 Offer Blocks</h1>
+        <p class="text-silver mt-1">Call-to-action templates and offer messaging</p>
+      </div>
+      <div class="flex gap-3">
+        <button class="spark-btn-secondary text-sm" onclick="window.dispatchEvent(new CustomEvent('import-modal'))">
+          📥 Import
+        </button>
+        <button class="spark-btn-secondary text-sm" onclick="window.dispatchEvent(new CustomEvent('export-data', {detail: {collection: 'offer_blocks'}}))">
+          📤 Export
+        </button>
+        <a href="/admin/collections/offer-blocks/new" class="spark-btn-primary text-sm">
+          ✨ New Offer
+        </a>
+      </div>
+    </div>
+
+    {error && (
+      <div class="spark-card p-4 border-red-500 text-red-400">
+        <strong>Error:</strong> {error}
+      </div>
+    )}
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div class="spark-card p-6">
+        <div class="spark-label mb-2">Total Offers</div>
+        <div class="spark-data text-3xl">{stats.total}</div>
+      </div>
+      {Object.entries(stats.byType).slice(0, 4).map(([type, count]) => (
+        <div class="spark-card p-6">
+          <div class="spark-label mb-2">{type}</div>
+          <div class="spark-data text-3xl text-gold">{count}</div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Offers Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {offers.map((offer: any) => (
+        <div class="spark-card spark-card-hover p-6">
+          <div class="flex items-start justify-between mb-3">
+            <div>
+              <h3 class="text-white font-semibold text-lg">{offer.title || 'Unnamed Offer'}</h3>
+              {offer.slug && (
+                <code class="text-xs text-silver/50 mt-1 block">{offer.slug}</code>
+              )}
+            </div>
+            <span class="px-3 py-1 bg-gold/10 text-gold text-xs rounded border border-gold/30">
+              {offer.offer_type || 'general'}
+            </span>
+          </div>
+          
+          {offer.hook && (
+            <div class="mb-3 p-3 bg-black/30 rounded border border-edge-subtle">
+              <div class="spark-label mb-1">Hook:</div>
+              <div class="text-silver text-sm leading-relaxed">
+                {offer.hook.substring(0, 150)}{offer.hook.length > 150 ? '...' : ''}
+              </div>
+            </div>
+          )}
+          
+          {offer.offer_text && (
+            <div class="mb-4 p-3 bg-black/30 rounded border border-edge-subtle">
+              <div class="spark-label mb-1">Offer Text:</div>
+              <div class="text-white font-medium text-sm leading-relaxed">
+                {offer.offer_text.substring(0, 120)}{offer.offer_text.length > 120 ? '...' : ''}
+              </div>
+            </div>
+          )}
+          
+          {offer.avatar_pains && Array.isArray(offer.avatar_pains) && (
+            <div class="mb-4">
+              <div class="spark-label mb-2">Target Pains:</div>
+              <div class="flex flex-wrap gap-1">
+                {offer.avatar_pains.slice(0, 3).map((pain: string) => (
+                  <span class="px-2 py-0.5 bg-red-500/10 text-red-400 text-xs rounded border border-red-500/20">
+                    {pain}
+                  </span>
+                ))}
+                {offer.avatar_pains.length > 3 && (
+                  <span class="px-2 py-0.5 text-xs text-silver/50">
+                    +{offer.avatar_pains.length - 3} more
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
+          
+          <div class="flex gap-2">
+            <button 
+              class="spark-btn-ghost text-xs px-3 py-1 flex-1"
+              onclick={`navigator.clipboard.writeText(${JSON.stringify(offer.offer_text || offer.hook || '')})`}
+            >
+              📋 Copy
+            </button>
+            <a href={`/admin/collections/offer-blocks/${offer.id}`} class="spark-btn-ghost text-xs px-3 py-1 flex-1 text-center">
+              Edit
+            </a>
+          </div>
+        </div>
+      ))}
+      
+      {offers.length === 0 && !error && (
+        <div class="col-span-full spark-card p-12 text-center">
+          <p class="text-silver/50">No offers found. Create your first offer block!</p>
+        </div>
+      )}
+    </div>
+  </div>
+</AdminLayout>
+
+<script>
+  window.addEventListener('export-data', async (e: any) => {
+    const { collection } = e.detail;
+    const response = await fetch(`/api/collections/${collection}/export`);
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${collection}-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+  });
+</script>

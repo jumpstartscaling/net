@@ -1,0 +1,195 @@
+---
+/**
+ * Generation Jobs Management
+ * Queue monitoring and job management for content_fragments collection
+ */
+import AdminLayout from '@/layouts/AdminLayout.astro';
+import { getDirectusClient } from '@/lib/directus/client';
+import { readItems } from '@directus/sdk';
+
+const client = getDirectusClient();
+
+let jobs = [];
+let error = null;
+let stats = {
+  total: 0,
+  pending: 0,
+  processing: 0,
+  completed: 0,
+  failed: 0,
+};
+
+try {
+  jobs = await client.request(readItems('generation_jobs', {
+    fields: ['*'],
+    sort: ['-date_created'],
+    limit: 100,
+  }));
+  
+  stats.total = jobs.length;
+  stats.pending = jobs.filter((j: any) => j.status === 'pending').length;
+  stats.processing = jobs.filter((j: any) => j.status === 'processing').length;
+  stats.completed = jobs.filter((j: any) => j.status === 'completed').length;
+  stats.failed = jobs.filter((j: any) => j.status === 'failed').length;
+} catch (e) {
+  console.error('Error fetching jobs:', e);
+  error = e instanceof Error ? e.message : 'Unknown error';
+}
+---
+
+<AdminLayout title="Generation Jobs">
+  <div class="space-y-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+      <div>
+        <h1 class="spark-heading text-3xl">⚙️ Generation Jobs</h1>
+        <p class="text-silver mt-1">Content generation queue monitoring</p>
+      </div>
+      <div class="flex gap-3">
+        <button class="spark-btn-secondary text-sm" onclick="location.reload()">
+          🔄 Refresh
+        </button>
+        <button class="spark-btn-secondary text-sm" onclick="window.dispatchEvent(new CustomEvent('export-data', {detail: {collection: 'generation_jobs'}}))">
+          📤 Export
+        </button>
+        <button class="spark-btn-primary text-sm" onclick="window.dispatchEvent(new CustomEvent('clear-completed'))">
+          🧹 Clear Completed
+        </button>
+      </div>
+    </div>
+
+    {error && (
+      <div class="spark-card p-4 border-red-500 text-red-400">
+        <strong>Error:</strong> {error}
+      </div>
+    )}
+
+    <!-- Stats -->
+    <div class="grid grid-cols-5 gap-4">
+      <div class="spark-card p-6">
+        <div class="spark-label mb-2">Total Jobs</div>
+        <div class="spark-data text-3xl">{stats.total}</div>
+      </div>
+      <div class="spark-card p-6">
+        <div class="spark-label mb-2">Pending</div>
+        <div class="spark-data text-3xl text-yellow-400">{stats.pending}</div>
+      </div>
+      <div class="spark-card p-6">
+        <div class="spark-label mb-2">Processing</div>
+        <div class="spark-data text-3xl text-blue-400 animate-pulse">{stats.processing}</div>
+      </div>
+      <div class="spark-card p-6">
+        <div class="spark-label mb-2">Completed</div>
+        <div class="spark-data text-3xl text-green-400">{stats.completed}</div>
+      </div>
+      <div class="spark-card p-6">
+        <div class="spark-label mb-2">Failed</div>
+        <div class="spark-data text-3xl text-red-400">{stats.failed}</div>
+      </div>
+    </div>
+
+    <!-- Jobs Table -->
+    <div class="spark-card overflow-hidden">
+      <div class="p-6 border-b border-edge-subtle">
+        <h2 class="text-white font-semibold">Recent Jobs</h2>
+      </div>
+      
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead class="bg-graphite">
+            <tr>
+              <th class="text-left px-6 py-3 spark-label">Job ID</th>
+              <th class="text-left px-6 py-3 spark-label">Type</th>
+              <th class="text-left px-6 py-3 spark-label">Status</th>
+              <th class="text-left px-6 py-3 spark-label">Progress</th>
+              <th class="text-left px-6 py-3 spark-label">Created</th>
+              <th class="text-right px-6 py-3 spark-label">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {jobs.map((job: any, index: number) => (
+              <tr class={index % 2 === 0 ? 'bg-black/20' : ''}>
+                <td class="px-6 py-4">
+                  <code class="text-xs text-silver/70">{job.id.slice(0, 8)}...</code>
+                </td>
+                <td class="px-6 py-4 text-white">{job.job_type || 'Article'}</td>
+                <td class="px-6 py-4">
+                  <span class={`px-2 py-1 rounded text-xs ${
+                    job.status === 'completed' ? 'bg-green-500/20 text-green-400' :
+                    job.status === 'processing' ? 'bg-blue-500/20 text-blue-400 animate-pulse' :
+                    job.status === 'pending' ? 'bg-yellow-500/20 text-yellow-400' :
+                    job.status === 'failed' ? 'bg-red-500/20 text-red-400' :
+                    'bg-graphite text-silver'
+                  }`}>
+                    {job.status || 'pending'}
+                  </span>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-2">
+                    <div class="flex-1 bg-graphite rounded-full h-2 overflow-hidden">
+                      <div 
+                        class={`h-full ${
+                          job.status === 'completed' ? 'bg-green-500' :
+                          job.status === 'processing' ? 'bg-blue-500' :
+                          job.status === 'failed' ? 'bg-red-500' :
+                          'bg-yellow-500'
+                        }`}
+                        style={`width: ${job.progress || 0}%`}
+                      ></div>
+                    </div>
+                    <span class="text-xs text-silver w-12 text-right">{job.progress || 0}%</span>
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-silver text-sm">
+                  {job.date_created ? new Date(job.date_created).toLocaleString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  }) : 'Unknown'}
+                </td>
+                <td class="px-6 py-4 text-right">
+                  {job.status === 'failed' && (
+                    <button class="spark-btn-ghost text-xs px-3 py-1" onclick={`alert('Error: ${job.error_message || 'Unknown error'}')`}>
+                      View Error
+                    </button>
+                  )}
+                  {job.status === 'completed' && job.output_id && (
+                    <a href={`/admin/seo/articles/${job.output_id}`} class="spark-btn-ghost text-xs px-3 py-1">
+                      View Output
+                    </a>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        
+        {jobs.length === 0 && !error && (
+          <div class="p-12 text-center">
+            <p class="text-silver/50">No generation jobs found. Queue is empty!</p>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</AdminLayout>
+
+<script>
+  window.addEventListener('export-data', async (e: any) => {
+    const { collection } = e.detail;
+    const response = await fetch(`/api/collections/${collection}/export`);
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${collection}-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+  });
+  
+  window.addEventListener('clear-completed', async () => {
+    if (!confirm('Delete all completed jobs?')) return;
+    // TODO: API endpoint to delete completed jobs
+    alert('Feature coming soon!');
+  });
+</script>

@@ -1,0 +1,161 @@
+---
+/**
+ * Cartesian Patterns Management
+ * Content structure templates and formulas
+ */
+import AdminLayout from '@/layouts/AdminLayout.astro';
+import { getDirectusClient } from '@/lib/directus/client';
+import { readItems } from '@directus/sdk';
+
+const client = getDirectusClient();
+
+let patterns = [];
+let error = null;
+let stats = {
+  total: 0,
+  byType: {} as Record<string, number>,
+};
+
+try {
+  patterns = await client.request(readItems('cartesian_patterns', {
+    fields: ['*'],
+    sort: ['structure_type', 'pattern_name'],
+  }));
+  
+  stats.total = patterns.length;
+  patterns.forEach((p: any) => {
+    const type = p.structure_type || 'general';
+    stats.byType[type] = (stats.byType[type] || 0) + 1;
+  });
+} catch (e) {
+  console.error('Error fetching patterns:', e);
+  error = e instanceof Error ? e.message : 'Unknown error';
+}
+---
+
+<AdminLayout title="Cartesian Patterns">
+  <div class="space-y-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+      <div>
+        <h1 class="spark-heading text-3xl">🔧 Cartesian Patterns</h1>
+        <p class="text-silver mt-1">Content structure templates and formulas</p>
+      </div>
+      <div class="flex gap-3">
+        <button class="spark-btn-secondary text-sm" onclick="window.dispatchEvent(new CustomEvent('import-modal'))">
+          📥 Import
+        </button>
+        <button class="spark-btn-secondary text-sm" onclick="window.dispatchEvent(new CustomEvent('export-data', {detail: {collection: 'cartesian_patterns'}}))">
+          📤 Export
+        </button>
+        <a href="/admin/collections/cartesian-patterns/new" class="spark-btn-primary text-sm">
+          ✨ New Pattern
+        </a>
+      </div>
+    </div>
+
+    {error && (
+      <div class="spark-card p-4 border-red-500 text-red-400">
+        <strong>Error:</strong> {error}
+      </div>
+    )}
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="spark-card p-6">
+        <div class="spark-label mb-2">Total Patterns</div>
+        <div class="spark-data text-3xl">{stats.total}</div>
+      </div>
+      {Object.entries(stats.byType).slice(0, 3).map(([type, count]) => (
+        <div class="spark-card p-6">
+          <div class="spark-label mb-2 capitalize">{type}</div>
+          <div class="spark-data text-3xl text-gold">{count}</div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Patterns List -->
+    <div class="space-y-4">
+      {patterns.map((pattern: any) => (
+        <div class="spark-card spark-card-hover p-6">
+          <div class="flex items-start justify-between gap-4 mb-4">
+            <div>
+              <h3 class="text-white font-semibold text-lg">{pattern.pattern_name || 'Unnamed Pattern'}</h3>
+              {pattern.description && (
+                <p class="text-silver/70 text-sm mt-1">{pattern.description}</p>
+              )}
+            </div>
+            <span class="px-3 py-1 bg-gold/10 text-gold text-xs rounded border border-gold/30">
+              {pattern.structure_type || 'general'}
+            </span>
+          </div>
+          
+          {pattern.template && (
+            <div class="mb-4 p-4 bg-black/30 rounded border border-edge-subtle font-mono">
+              <div class="spark-label mb-2">Template:</div>
+              <div class="text-sm text-green-400 whitespace-pre-wrap">
+                {pattern.template}
+              </div>
+            </div>
+          )}
+          
+          {pattern.variables && Array.isArray(pattern.variables) && (
+            <div class="mb-4">
+              <div class="spark-label mb-2">Variables:</div>
+              <div class="flex flex-wrap gap-2">
+                {pattern.variables.map((variable: string) => (
+                  <span class="px-3 py-1 bg-blue-500/10 text-blue-400 text-xs rounded border border-blue-500/20 font-mono">
+                    {'{{'}{variable}{'}}'}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {pattern.example_output && (
+            <div class="p-4 bg-graphite rounded border border-edge-subtle">
+              <div class="spark-label mb-2">Example Output:</div>
+              <div class="text-silver text-sm italic">
+                "{pattern.example_output}"
+              </div>
+            </div>
+          )}
+          
+          <div class="flex gap-2 mt-4">
+            <button 
+              class="spark-btn-ghost text-xs px-3 py-1"
+              onclick={`navigator.clipboard.writeText(${JSON.stringify(pattern.template || '')})`}
+            >
+              📋 Copy Template
+            </button>
+            <a href={`/admin/collections/cartesian-patterns/${pattern.id}`} class="spark-btn-ghost text-xs px-3 py-1">
+              Edit
+            </a>
+            <button class="spark-btn-secondary text-xs px-3 py-1">
+              🧪 Test Pattern
+            </button>
+          </div>
+        </div>
+      ))}
+      
+      {patterns.length === 0 && !error && (
+        <div class="spark-card p-12 text-center">
+          <p class="text-silver/50">No patterns found. Create your first content template!</p>
+        </div>
+      )}
+    </div>
+  </div>
+</AdminLayout>
+
+<script>
+  window.addEventListener('export-data', async (e: any) => {
+    const { collection } = e.detail;
+    const response = await fetch(`/api/collections/${collection}/export`);
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${collection}-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+  });
+</script>
