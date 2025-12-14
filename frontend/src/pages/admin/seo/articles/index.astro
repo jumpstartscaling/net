@@ -5,7 +5,7 @@ import { getDirectusClient, readItems } from '@/lib/directus/client';
 
 const directus = getDirectusClient();
 const articles = await directus.request(readItems('generated_articles', {
-  fields: ['*', 'campaign.name'],
+  fields: ['*'],
   limit: 50,
   sort: ['-date_created']
 })).catch(() => []);
