@@ -35,6 +35,8 @@ services:
       - 'directus-uploads:/directus/uploads'
       - 'directus-extensions:/directus/extensions'
       - ./directus-extensions:/directus/extensions
+      - ./start.sh:/directus/start.sh
+      - ./complete_schema.sql:/directus/complete_schema.sql
     environment:
       KEY: 9i2t1bMAIITWCZ+WrzUEk4EuNmIu3kfyB9Peysk7f/jnUZ7hzQ5HoNC8yOT5vi/rwTmDWX3a1+4j2llgAE2VvA==
       SECRET: Mr4YSrOAfwToxCDFOPwUa8qtxd7BXOvmqXalk3ReikpfcIwf08Kp+hlNjGcr1NtcLIcIZoraaULnMefD5IukGA==
@@ -60,6 +62,11 @@ services:
 
       # God Mode API Token (SET IN COOLIFY SECRETS - DO NOT COMMIT!)
       GOD_MODE_TOKEN: ${GOD_MODE_TOKEN}
+
+      # Schema-as-Code: Set to 'true' for fresh install (WIPES DATABASE!)
+      FORCE_FRESH_INSTALL: ${FORCE_FRESH_INSTALL:-false}
+
+    command: sh /directus/start.sh
 
     depends_on:
       postgresql:

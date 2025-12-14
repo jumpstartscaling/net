@@ -8,7 +8,11 @@
  * DO NOT commit token to git!
  */
 
-export default (router, { services, database, env, logger }) => {
+import schemaRouter from './schema.js';
+import sitesRouter from './sites.js';
+
+export default (router, context) => {
+    const { services, database, env, logger } = context;
     const { ItemsService, UsersService, PermissionsService, CollectionsService } = services;
 
     // God mode authentication middleware
@@ -268,6 +272,17 @@ export default (router, { services, database, env, logger }) => {
             res.status(500).json({ error: error.message });
         }
     });
+
+    // Mount sub-routers for schema and sites management
+    const express = require('express');
+    const schemaSubRouter = express.Router();
+    const sitesSubRouter = express.Router();
+
+    schemaRouter(schemaSubRouter, context);
+    sitesRouter(sitesSubRouter, context);
+
+    router.use('/schema', schemaSubRouter);
+    router.use('/sites', sitesSubRouter);
 
     logger.info('God Mode API Extension loaded - Use X-God-Token header for access');
 };
