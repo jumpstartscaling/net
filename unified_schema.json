@@ -69,6 +69,32 @@
                     "interface": "input",
                     "note": "For velocity calc"
                 }
+            },
+            {
+                "field": "domain",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "note": "Primary domain (alias for url)"
+                }
+            },
+            {
+                "field": "domain_aliases",
+                "type": "json",
+                "meta": {
+                    "interface": "list",
+                    "note": "Additional domains"
+                }
+            },
+            {
+                "field": "settings",
+                "type": "json",
+                "meta": {
+                    "interface": "input-code",
+                    "options": {
+                        "language": "json"
+                    }
+                }
             }
         ]
     },
@@ -531,6 +557,60 @@
                 "type": "timestamp",
                 "meta": {
                     "interface": "datetime"
+                }
+            },
+            {
+                "field": "priority",
+                "type": "string",
+                "meta": {
+                    "interface": "select-dropdown",
+                    "options": {
+                        "choices": [
+                            {
+                                "text": "High",
+                                "value": "high"
+                            },
+                            {
+                                "text": "Medium",
+                                "value": "medium"
+                            },
+                            {
+                                "text": "Low",
+                                "value": "low"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "field": "assignee",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "note": "Assigned user"
+                }
+            },
+            {
+                "field": "due_date",
+                "type": "timestamp",
+                "meta": {
+                    "interface": "datetime"
+                }
+            },
+            {
+                "field": "seo_score",
+                "type": "integer",
+                "meta": {
+                    "interface": "input",
+                    "note": "SEO quality score 0-100"
+                }
+            },
+            {
+                "field": "sync_status",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "note": "WordPress sync status"
                 }
             }
         ]
@@ -1516,6 +1596,179 @@
             {
                 "field": "user",
                 "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "globals",
+        "meta": {
+            "icon": "settings",
+            "note": "Site-wide settings and branding",
+            "singleton": true
+        },
+        "fields": [
+            {
+                "field": "site",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o",
+                    "special": [
+                        "m2o"
+                    ]
+                }
+            },
+            {
+                "field": "site_name",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "site_tagline",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "logo",
+                "type": "uuid",
+                "meta": {
+                    "interface": "file-image",
+                    "special": [
+                        "file"
+                    ]
+                }
+            },
+            {
+                "field": "favicon",
+                "type": "uuid",
+                "meta": {
+                    "interface": "file-image",
+                    "special": [
+                        "file"
+                    ]
+                }
+            },
+            {
+                "field": "primary_color",
+                "type": "string",
+                "meta": {
+                    "interface": "select-color"
+                }
+            },
+            {
+                "field": "secondary_color",
+                "type": "string",
+                "meta": {
+                    "interface": "select-color"
+                }
+            },
+            {
+                "field": "footer_text",
+                "type": "text",
+                "meta": {
+                    "interface": "input-rich-text-html"
+                }
+            },
+            {
+                "field": "social_links",
+                "type": "json",
+                "meta": {
+                    "interface": "list"
+                }
+            },
+            {
+                "field": "scripts_head",
+                "type": "text",
+                "meta": {
+                    "interface": "input-code",
+                    "options": {
+                        "language": "html"
+                    }
+                }
+            },
+            {
+                "field": "scripts_body",
+                "type": "text",
+                "meta": {
+                    "interface": "input-code",
+                    "options": {
+                        "language": "html"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "collection": "navigation",
+        "meta": {
+            "icon": "menu",
+            "note": "Site menus"
+        },
+        "fields": [
+            {
+                "field": "site",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o",
+                    "special": [
+                        "m2o"
+                    ]
+                }
+            },
+            {
+                "field": "label",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "required": true
+                }
+            },
+            {
+                "field": "url",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "required": true
+                }
+            },
+            {
+                "field": "target",
+                "type": "string",
+                "meta": {
+                    "interface": "select-dropdown",
+                    "options": {
+                        "choices": [
+                            {
+                                "text": "Same Window",
+                                "value": "_self"
+                            },
+                            {
+                                "text": "New Window",
+                                "value": "_blank"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "field": "parent",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o",
+                    "special": [
+                        "m2o"
+                    ]
+                }
+            },
+            {
+                "field": "sort",
+                "type": "integer",
                 "meta": {
                     "interface": "input"
                 }
