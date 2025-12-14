@@ -8,8 +8,15 @@ DB_READY=false
 MAX_RETRIES=30
 RETRY_COUNT=0
 
+# === Fallback for missing env vars (prevents 'role root does not exist') ===
+DB_USER="${DB_USER:-postgres}"
+DB_HOST="${DB_HOST:-postgresql}"
+DB_DATABASE="${DB_DATABASE:-directus}"
+DB_PASSWORD="${DB_PASSWORD:-Idk@2026lolhappyha232}"
+
 # === Wait for PostgreSQL ===
 echo "📡 Waiting for PostgreSQL to be ready..."
+echo "📡 Using DB_USER=$DB_USER, DB_HOST=$DB_HOST, DB_DATABASE=$DB_DATABASE"
 until [ $DB_READY = true ] || [ $RETRY_COUNT -eq $MAX_RETRIES ]; do
     if PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_DATABASE" -c '\q' 2>/dev/null; then
         DB_READY=true

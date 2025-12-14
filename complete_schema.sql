@@ -612,17 +612,29 @@ WHERE
 -- Purpose: Grant full CRUDS access to Admin Policy for all 13 new tables
 -- Author: Spark Overlord
 -- Note: This runs automatically during fresh install to unlock new collections
+-- Note: Silently skips if directus_policies doesn't exist (first boot before Directus bootstrap)
 -- ===================================================================================
 
 DO $$
 DECLARE
-    admin_policy_id UUID := (
-        SELECT id FROM directus_policies 
-        WHERE name = 'Administrator' 
-        LIMIT 1
-    );
+    admin_policy_id UUID;
+    table_exists BOOLEAN;
 BEGIN
-    -- Skip if no Administrator policy found (will be created by Directus on first boot)
+    -- Check if directus_policies table exists (it won't on first boot before Directus runs)
+    SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_schema = 'public' AND table_name = 'directus_policies'
+    ) INTO table_exists;
+    
+    IF NOT table_exists THEN
+        RAISE NOTICE '⏭️ Skipping permissions grant - directus_policies table not yet created (will be created by Directus bootstrap)';
+        RETURN;
+    END IF;
+    
+    -- Get Administrator policy ID
+    SELECT id INTO admin_policy_id FROM directus_policies WHERE name = 'Administrator' LIMIT 1;
+    
+    -- Skip if no Administrator policy found
     IF admin_policy_id IS NULL THEN
         RAISE NOTICE '⚠️ Administrator policy not found. Permissions will need to be set manually in Directus.';
         RETURN;
