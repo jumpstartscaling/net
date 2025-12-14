@@ -29,3 +29,12 @@ postgres_data/
 redis_data/
 directus_uploads/
 directus_extensions/
+
+# Secrets (God Mode Token, etc.)
+.secrets/
+*.secret
+*.key
+
+# Directus extension builds
+directus-extensions/**/node_modules/
+directus-extensions/**/dist/

@@ -1,0 +1,9 @@
+{
+    "id": "auto-permissions",
+    "name": "Auto Permissions",
+    "version": "1.0.0",
+    "description": "Automatically grant permissions to admin policy",
+    "type": "hook",
+    "source": "./index.js",
+    "host": "^11.0.0"
+}

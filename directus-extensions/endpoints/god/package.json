@@ -1,0 +1,10 @@
+{
+    "id": "god-mode-api",
+    "name": "God Mode API",
+    "version": "1.0.0",
+    "description": "Unrestricted admin API for database and Directus management",
+    "type": "endpoint",
+    "path": "god",
+    "source": "./index.js",
+    "host": "^11.0.0"
+}
