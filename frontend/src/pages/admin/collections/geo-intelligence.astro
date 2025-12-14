@@ -1,6 +1,7 @@
 ---
 import Layout from '@/layouts/AdminLayout.astro';
 import GeoIntelligenceManager from '@/components/admin/intelligence/GeoIntelligenceManager';
+import { CoreProvider } from '@/components/providers/CoreProviders';
 ---
 <Layout title="Geo Intelligence | Spark Platform">
   <div class="p-8 space-y-6">
@@ -13,6 +14,8 @@ import GeoIntelligenceManager from '@/components/admin/intelligence/GeoIntellige
       </div>
     </div>
 
-    <GeoIntelligenceManager client:only="react" />
+    <CoreProvider client:load>
+      <GeoIntelligenceManager client:only="react" />
+    </CoreProvider>
   </div>
 </Layout>

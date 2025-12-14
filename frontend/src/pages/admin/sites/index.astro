@@ -1,6 +1,7 @@
 ---
 import Layout from '@/layouts/AdminLayout.astro';
 import SitesManager from '@/components/admin/sites/SitesManager';
+import { CoreProvider } from '@/components/providers/CoreProviders';
 ---
 
 <Layout title="Sites | Spark Launchpad">
@@ -14,6 +15,8 @@ import SitesManager from '@/components/admin/sites/SitesManager';
       </div>
     </div>
 
-    <SitesManager client:only="react" />
+    <CoreProvider client:load>
+      <SitesManager client:only="react" />
+    </CoreProvider>
   </div>
 </Layout>
