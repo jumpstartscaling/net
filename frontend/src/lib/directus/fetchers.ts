@@ -29,23 +29,14 @@ export async function fetchPageByPermalink(
                     'id',
                     'title',
                     'permalink',
+                    'site',
                     'status',
                     'seo_title',
                     'seo_description',
                     'seo_image',
-                    {
-                        blocks: {
-                            id: true,
-                            sort: true,
-                            hide_block: true,
-                            collection: true,
-                            item: true
-                        }
-                    }
-                ],
-                deep: {
-                    blocks: { _sort: ['sort'], _filter: { hide_block: { _neq: true } } }
-                }
+                    'blocks', // Fetch as simple JSON field
+                    'schema_json'
+                ]
             })
         );
 
@@ -106,7 +97,7 @@ export async function fetchPosts(
     const offset = (page - 1) * limit;
 
     const filter: Record<string, any> = {
-        site: { _eq: siteId },
+        site: { _eq: siteId }, // siteId is UUID string
         status: { _eq: 'published' }
     };
 
@@ -196,7 +187,7 @@ export async function fetchGeneratedArticles(
         const [articles, countResult] = await Promise.all([
             directus.request(
                 readItems('generated_articles', {
-                    filter: { site_id: { _eq: Number(siteId) } },
+                    filter: { site_id: { _eq: siteId } }, // UUID string
                     limit,
                     offset,
                     sort: ['-date_created'],
@@ -206,7 +197,7 @@ export async function fetchGeneratedArticles(
             directus.request(
                 aggregate('generated_articles', {
                     aggregate: { count: '*' },
-                    query: { filter: { site_id: { _eq: Number(siteId) } } }
+                    query: { filter: { site_id: { _eq: siteId } } } // UUID string
                 })
             )
         ]);

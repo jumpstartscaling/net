@@ -23,16 +23,16 @@ export interface Page {
     seo_description?: string;
     seo_image?: string;
     blocks?: PageBlock[];
+    content?: string; // legacy fallback
+    schema_json?: Record<string, any>;
     date_created?: string;
     date_updated?: string;
 }
 
 export interface PageBlock {
     id: string;
-    sort: number;
-    hide_block: boolean;
-    collection: string;
-    item: any;
+    block_type: 'hero' | 'content' | 'features' | 'cta';
+    block_config: Record<string, any>;
 }
 
 export interface Post {
