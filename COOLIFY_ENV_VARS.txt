@@ -1,0 +1,11 @@
+# Coolify Environment Variables
+# Copy and paste these into Coolify's Environment Variables section
+
+KEY=ZnznO66q47ZPWNurIJ20tHLj5usIu902QPtHumzt5cN15RWM2FrjnolpT2f1WY6y
+SECRET=I3FaUWDMi5rc3Qwc9qeNB25eBPvZPatVv2GDnT2f58nc19nTteFjwu6hIJF7lFwt
+ADMIN_EMAIL=insanecorp@gmail.com
+ADMIN_PASSWORD=Idk@ai2026yayhappy
+DB_DATABASE=directus
+DB_USER=T80MG130m8fltgux
+DB_PASSWORD=NXvk7sCqknCLmkE36GRGO0cF29BKQYtj
+DIRECTUS_ADMIN_TOKEN=eufOJ_oKEx_FVyGoz1GxWu6nkSOcgIVS

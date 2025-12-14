@@ -8,16 +8,16 @@ services:
       - 'directus-extensions:/directus/extensions'
       - 'directus-templates:/directus/templates'
     environment:
-      - KEY=ZnznO66q47ZPWNurIJ20tHLj5usIu902QPtHumzt5cN15RWM2FrjnolpT2f1WY6y
-      - SECRET=I3FaUWDMi5rc3Qwc9qeNB25eBPvZPatVv2GDnT2f58nc19nTteFjwu6hIJF7lFwt
-      - ADMIN_EMAIL=insanecorp@gmail.com
-      - ADMIN_PASSWORD=Idk@ai2026yayhappy
+      - KEY=${KEY}
+      - SECRET=${SECRET}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - DB_CLIENT=postgres
       - DB_HOST=postgresql
       - DB_PORT=5432
-      - DB_DATABASE=directus
-      - DB_USER=T80MG130m8fltgux
-      - DB_PASSWORD=NXvk7sCqknCLmkE36GRGO0cF29BKQYtj
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
       - CACHE_ENABLED=false
       - CACHE_STORE=memory
       - WEBSOCKETS_ENABLED=true
@@ -62,13 +62,13 @@ services:
     volumes:
       - 'directus-postgresql-data:/var/lib/postgresql/data'
     environment:
-      - POSTGRES_USER=T80MG130m8fltgux
-      - POSTGRES_PASSWORD=NXvk7sCqknCLmkE36GRGO0cF29BKQYtj
-      - POSTGRES_DB=directus
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}
     healthcheck:
       test:
         - CMD-SHELL
-        - 'pg_isready -U T80MG130m8fltgux -d directus'
+        - 'pg_isready -U ${DB_USER} -d ${DB_DATABASE}'
       interval: 5s
       timeout: 20s
       retries: 10
@@ -93,7 +93,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - PUBLIC_DIRECTUS_URL=https://spark.jumpstartscaling.com
-      - DIRECTUS_ADMIN_TOKEN=eufOJ_oKEx_FVyGoz1GxWu6nkSOcgIVS
+      - DIRECTUS_ADMIN_TOKEN=${DIRECTUS_ADMIN_TOKEN}
       - PUBLIC_PLATFORM_DOMAIN=launch.jumpstartscaling.com
     labels:
       - "traefik.enable=true"
