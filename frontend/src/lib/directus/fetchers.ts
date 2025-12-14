@@ -1,5 +1,6 @@
-import { getDirectusClient, readItems, readItem, readSingleton, aggregate } from './client';
-import type { Page, Post, Site, Globals, Navigation } from '@/types/schema';
+import { getDirectusClient } from './client';
+import { readItems, readItem, readSingleton, aggregate } from '@directus/sdk';
+import type { DirectusSchema, Pages as Page, Posts as Post, Sites as Site, DirectusUsers as User, Globals, Navigation } from '../schemas';
 
 const directus = getDirectusClient();
 
@@ -13,7 +14,7 @@ export async function fetchPageByPermalink(
 ): Promise<Page | null> {
     const filter: Record<string, any> = {
         permalink: { _eq: permalink },
-        site: { _eq: siteId }
+        site_id: { _eq: siteId }
     };
 
     if (!options?.preview) {
@@ -29,7 +30,7 @@ export async function fetchPageByPermalink(
                     'id',
                     'title',
                     'permalink',
-                    'site',
+                    'site_id',
                     'status',
                     'seo_title',
                     'seo_description',
@@ -54,12 +55,12 @@ export async function fetchSiteGlobals(siteId: string): Promise<Globals | null> 
     try {
         const globals = await directus.request(
             readItems('globals', {
-                filter: { site: { _eq: siteId } },
+                filter: { site_id: { _eq: siteId } },
                 limit: 1,
                 fields: ['*']
             })
         );
-        return globals?.[0] || null;
+        return (globals as unknown as Globals[])?.[0] || null;
     } catch (err) {
         console.error('Error fetching globals:', err);
         return null;
@@ -73,12 +74,12 @@ export async function fetchNavigation(siteId: string): Promise<Partial<Navigatio
     try {
         const nav = await directus.request(
             readItems('navigation', {
-                filter: { site: { _eq: siteId } },
+                filter: { site_id: { _eq: siteId } },
                 sort: ['sort'],
                 fields: ['id', 'label', 'url', 'parent', 'target', 'sort']
             })
         );
-        return nav || [];
+        return (nav as unknown as Navigation[]) || [];
     } catch (err) {
         console.error('Error fetching navigation:', err);
         return [];
@@ -97,7 +98,7 @@ export async function fetchPosts(
     const offset = (page - 1) * limit;
 
     const filter: Record<string, any> = {
-        site: { _eq: siteId }, // siteId is UUID string
+        site_id: { _eq: siteId }, // siteId is UUID string
         status: { _eq: 'published' }
     };
 
@@ -122,7 +123,7 @@ export async function fetchPosts(
                         'published_at',
                         'category',
                         'author',
-                        'site',
+                        'site_id',
                         'status',
                         'content'
                     ]
@@ -158,7 +159,7 @@ export async function fetchPostBySlug(
             readItems('posts', {
                 filter: {
                     slug: { _eq: slug },
-                    site: { _eq: siteId },
+                    site_id: { _eq: siteId },
                     status: { _eq: 'published' }
                 },
                 limit: 1,
@@ -247,8 +248,8 @@ export async function fetchCampaigns(siteId?: string) {
     const filter: Record<string, any> = {};
     if (siteId) {
         filter._or = [
-            { site: { _eq: siteId } },
-            { site: { _null: true } }
+            { site_id: { _eq: siteId } },
+            { site_id: { _null: true } }
         ];
     }
 

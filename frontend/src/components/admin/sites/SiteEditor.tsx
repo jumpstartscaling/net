@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
-import { Site } from '@/types/schema';
+import { Sites as Site } from '@/lib/schemas';
 import DomainSetupGuide from '@/components/admin/DomainSetupGuide';
 
 interface SiteEditorProps {
@@ -33,12 +33,12 @@ export default function SiteEditor({ id }: SiteEditorProps) {
             try {
                 const client = getDirectusClient();
                 // @ts-ignore
-                const s = await client.request(readItem('sites', id));
-                setSite(s as Site);
+                const result = await client.request(readItem('sites', id));
+                setSite(result as unknown as Site);
 
                 // Merge settings into defaults
-                if (s.settings) {
-                    setFeatures(prev => ({ ...prev, ...s.settings }));
+                if (result.settings) {
+                    setFeatures(prev => ({ ...prev, ...(result.settings as Record<string, any>) }));
                 }
             } catch (e) {
                 console.error(e);
@@ -57,7 +57,7 @@ export default function SiteEditor({ id }: SiteEditorProps) {
             // @ts-ignore
             await client.request(updateItem('sites', id, {
                 name: site.name,
-                domain: site.domain,
+                url: site.url,
                 status: site.status,
                 settings: features
             }));
@@ -97,8 +97,8 @@ export default function SiteEditor({ id }: SiteEditorProps) {
                         <div className="space-y-2">
                             <Label>Domain</Label>
                             <Input
-                                value={site.domain}
-                                onChange={(e) => setSite({ ...site, domain: e.target.value })}
+                                value={site.url || ''}
+                                onChange={(e) => setSite({ ...site, url: e.target.value })}
                                 className="bg-slate-900 border-slate-700 font-mono text-blue-400"
                                 placeholder="example.com"
                             />
@@ -206,7 +206,7 @@ export default function SiteEditor({ id }: SiteEditorProps) {
             </Card>
 
             {/* Domain Setup Guide */}
-            <DomainSetupGuide siteDomain={site.domain} />
+            <DomainSetupGuide siteDomain={site.url} />
 
             <div className="flex justify-end gap-4">
                 <Button variant="outline" onClick={() => window.history.back()}>

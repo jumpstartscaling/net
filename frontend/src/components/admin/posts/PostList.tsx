@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 // Assume Table isn't fully ready or use Grid for now to be safe.
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Post } from '@/types/schema';
+import { Posts as Post } from '@/lib/schemas';
 
 export default function PostList() {
     const [posts, setPosts] = useState<Post[]>([]);
@@ -52,14 +52,11 @@ export default function PostList() {
                                     {post.status}
                                 </Badge>
                             </td>
-                            <td className="px-6 py-4">
-                                {new Date(post.date_created || '').toLocaleDateString()}
-                            </td>
                         </tr>
                     ))}
                     {posts.length === 0 && (
                         <tr>
-                            <td colSpan={4} className="px-6 py-12 text-center text-slate-500">
+                            <td colSpan={3} className="px-6 py-12 text-center text-slate-500">
                                 No posts found.
                             </td>
                         </tr>

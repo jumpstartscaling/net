@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getDirectusClient, readItems } from '@/lib/directus/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Page } from '@/types/schema'; // Ensure exported
+import { Pages as Page } from '@/lib/schemas';
 
 export default function PageList() {
     const [pages, setPages] = useState<Page[]>([]);
@@ -30,7 +30,7 @@ export default function PageList() {
                     <CardHeader className="p-4 flex flex-row items-center justify-between">
                         <div>
                             <CardTitle className="text-lg font-medium text-slate-200">{page.title}</CardTitle>
-                            <div className="text-sm text-slate-500 font-mono mt-1">/{page.permalink}</div>
+                            <div className="text-sm text-slate-500 font-mono mt-1">/{page.slug}</div>
                         </div>
                         <div className="flex items-center gap-3">
                             <Badge variant="outline" className="text-slate-400 border-slate-600">

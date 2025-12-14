@@ -1,412 +1,200 @@
--- Complete Spark Platform Database Schema
--- Creates all remaining tables with proper relationships
+-- ===================================================================================
+-- 🛠️ SPARK PLATFORM: GOLDEN SCHEMA (HARRIS MATRIX ORDERED)
+-- ===================================================================================
+-- 1. Foundation (Independent Tables)
+-- 2. Walls (First-Level Dependents)
+-- 3. Roof (Complex Dependents)
+-- 4. Directus UI Configuration (Interfaces & Templates)
+-- ===================================================================================
 
--- ============================================
--- BATCH 1: PARENT TABLES (NO DEPENDENCIES)
--- These MUST be created first as other tables reference them
--- ============================================
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
--- Super Parent #1: Sites - Referenced by 10+ tables
+-- ===================================================================================
+-- 🏗️ BATCH 1: THE FOUNDATION (Create these FIRST)
+-- Dependencies: None
+-- ===================================================================================
+
+-- 1. SITES (The Super Parent)
 CREATE TABLE IF NOT EXISTS sites (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    status VARCHAR(50) DEFAULT 'active',
     name VARCHAR(255) NOT NULL,
     url VARCHAR(500),
-    domain VARCHAR(255),
-    status VARCHAR(50) DEFAULT 'active',
-    wp_url VARCHAR(500),
-    wp_username VARCHAR(255),
-    wp_app_password TEXT,
-    site_globals JSONB,
     date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Super Parent #2: Campaign Masters - Referenced by headline_inventory, content_fragments
+-- 2. CAMPAIGN MASTERS (The Content Parent)
+-- NOTE: Depends on 'sites' existing!
 CREATE TABLE IF NOT EXISTS campaign_masters (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    site_id UUID REFERENCES sites (id) ON DELETE CASCADE,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    status VARCHAR(50) DEFAULT 'active',
+    site_id UUID REFERENCES sites(id) ON DELETE CASCADE, -- 🔗 Link to Site
     name VARCHAR(255) NOT NULL,
     headline_spintax_root TEXT,
-    niche_variables JSONB,
-    location_mode VARCHAR(100),
-    location_target VARCHAR(255),
-    batch_count INTEGER DEFAULT 0,
-    status VARCHAR(50) DEFAULT 'active',
     target_word_count INTEGER DEFAULT 1500,
-    article_template UUID,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- ============================================
--- BATCH 2: CONTENT FACTORY / SEO ENGINE
--- ============================================
-
-CREATE TABLE IF NOT EXISTS headline_inventory (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    campaign_id UUID REFERENCES campaign_masters (id) ON DELETE CASCADE,
-    final_title_text VARCHAR(500),
-    status VARCHAR(50) DEFAULT 'available',
-    used_on_article UUID,
-    location_data JSONB,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS content_fragments (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    campaign UUID REFERENCES campaign_masters (id) ON DELETE CASCADE,
-    fragment_type VARCHAR(100),
-    content_body TEXT,
-    word_count INTEGER,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS production_queue (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    site_id UUID REFERENCES sites (id) ON DELETE CASCADE,
-    campaign_id UUID REFERENCES campaign_masters (id) ON DELETE CASCADE,
-    status VARCHAR(50) DEFAULT 'pending',
-    total_requested INTEGER,
-    completed_count INTEGER DEFAULT 0,
-    velocity_mode VARCHAR(50),
-    schedule_data JSONB,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS quality_flags (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    site_id UUID REFERENCES sites (id) ON DELETE CASCADE,
-    batch_id VARCHAR(255),
-    article_a VARCHAR(255),
-    article_b VARCHAR(255),
-    collision_text TEXT,
-    similarity_score FLOAT,
-    status VARCHAR(50) DEFAULT 'pending',
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- ============================================
--- CARTESIAN ENGINE
--- ============================================
-
-CREATE TABLE IF NOT EXISTS generation_jobs (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    site_id UUID REFERENCES sites (id) ON DELETE CASCADE,
-    target_quantity INTEGER,
-    status VARCHAR(50) DEFAULT 'queued',
-    type VARCHAR(100),
-    progress INTEGER DEFAULT 0,
-    priority VARCHAR(50) DEFAULT 'medium',
-    config JSONB,
-    current_offset INTEGER DEFAULT 0,
-    filters JSONB,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS article_templates (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+-- 3-7. INDEPENDENT INTELLIGENCE TABLES
+CREATE TABLE IF NOT EXISTS avatar_intelligence (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    status VARCHAR(50) DEFAULT 'published',
     name VARCHAR(255),
-    structure_json JSONB,
-    description TEXT,
-    is_default BOOLEAN DEFAULT false,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    pain_points JSONB,
+    demographics JSONB
+);
+
+CREATE TABLE IF NOT EXISTS avatar_variants (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    status VARCHAR(50) DEFAULT 'published',
+    name VARCHAR(255),
+    prompt_modifier TEXT
 );
 
 CREATE TABLE IF NOT EXISTS cartesian_patterns (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    pattern_key VARCHAR(255) UNIQUE,
-    pattern_type VARCHAR(100),
-    formula TEXT,
-    data JSONB,
-    example_output TEXT,
-    description TEXT,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS spintax_dictionaries (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    category VARCHAR(255),
-    data JSONB,
-    base_word VARCHAR(255),
-    variations TEXT,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- ============================================
--- INTELLIGENCE LIBRARY
--- ============================================
-
-CREATE TABLE IF NOT EXISTS avatar_variants (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    avatar_id VARCHAR(255),
-    avatar_key VARCHAR(255),
-    variant_type VARCHAR(100),
-    variants_json JSONB,
-    data JSONB,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS avatars (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    status VARCHAR(50) DEFAULT 'published',
     name VARCHAR(255),
-    slug VARCHAR(255) UNIQUE,
-    description TEXT,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- ============================================
--- GEO INTELLIGENCE (with hierarchical relationships)
--- ============================================
-
-CREATE TABLE IF NOT EXISTS locations_states (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    name VARCHAR(255),
-    code VARCHAR(2) UNIQUE,
-    population INTEGER,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS locations_counties (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    name VARCHAR(255),
-    state UUID REFERENCES locations_states (id) ON DELETE CASCADE,
-    fips_code VARCHAR(10),
-    population INTEGER,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS locations_cities (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    name VARCHAR(255),
-    state UUID REFERENCES locations_states (id) ON DELETE CASCADE,
-    county UUID REFERENCES locations_counties (id) ON DELETE SET NULL,
-    population INTEGER,
-    zip_codes JSONB,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS geo_clusters (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    cluster_key VARCHAR(255) UNIQUE,
-    name VARCHAR(255),
-    state VARCHAR(255),
-    description TEXT,
-    data JSONB,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS geo_locations (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    cluster UUID REFERENCES geo_clusters (id) ON DELETE CASCADE,
-    city VARCHAR(255),
-    state VARCHAR(255),
-    zip VARCHAR(10),
-    population INTEGER,
-    coordinates JSONB,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    pattern_logic TEXT
 );
 
 CREATE TABLE IF NOT EXISTS geo_intelligence (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    cluster_key VARCHAR(255),
-    data JSONB,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    status VARCHAR(50) DEFAULT 'published',
+    city VARCHAR(255),
+    state VARCHAR(255),
+    population INTEGER
 );
-
--- ============================================
--- OFFER BLOCKS
--- ============================================
 
 CREATE TABLE IF NOT EXISTS offer_blocks (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    block_id VARCHAR(255),
-    title VARCHAR(255),
-    hook_generator TEXT,
-    universal_pains JSONB,
-    universal_solutions JSONB,
-    universal_value_points JSONB,
-    cta_spintax TEXT,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS offer_blocks_universal (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    block_id VARCHAR(255),
-    title VARCHAR(255),
-    hook_generator TEXT,
-    universal_pains JSONB,
-    universal_solutions JSONB,
-    universal_value_points JSONB,
-    cta_spintax TEXT,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- ============================================
--- MEDIA & TEMPLATES
--- ============================================
-
-CREATE TABLE IF NOT EXISTS image_templates (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    status VARCHAR(50) DEFAULT 'published',
     name VARCHAR(255),
-    svg_template TEXT,
-    svg_source TEXT,
-    is_default BOOLEAN DEFAULT false,
-    preview VARCHAR(255),
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    html_content TEXT
 );
 
--- ============================================
--- ANALYTICS & TRACKING
--- ============================================
+-- ===================================================================================
+-- 🧱 BATCH 2: THE WALLS (First-Level Children)
+-- Dependencies: 'sites' or 'campaign_masters'
+-- ===================================================================================
 
-CREATE TABLE IF NOT EXISTS conversions (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    site_id UUID REFERENCES sites (id) ON DELETE CASCADE,
-    lead UUID,
-    conversion_type VARCHAR(100),
-    value FLOAT,
-    currency VARCHAR(10) DEFAULT 'USD',
-    source VARCHAR(255),
-    sent_to_google BOOLEAN DEFAULT false,
-    sent_to_facebook BOOLEAN DEFAULT false,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS site_analytics (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    site_id UUID REFERENCES sites (id) ON DELETE CASCADE,
-    google_ads_id VARCHAR(255),
-    google_ads_conversion_label VARCHAR(255),
-    fb_pixel_id VARCHAR(255),
-    fb_access_token TEXT,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- ============================================
--- INFRASTRUCTURE
--- ============================================
-
-CREATE TABLE IF NOT EXISTS hub_pages (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    site_id UUID REFERENCES sites (id) ON DELETE CASCADE,
+-- 8. GENERATED ARTICLES
+CREATE TABLE IF NOT EXISTS generated_articles (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    status VARCHAR(50) DEFAULT 'draft',
+    site_id UUID REFERENCES sites(id) ON DELETE CASCADE,
+    campaign_id UUID REFERENCES campaign_masters(id) ON DELETE SET NULL,
     title VARCHAR(255),
+    content TEXT,
     slug VARCHAR(255),
-    parent_hub UUID REFERENCES hub_pages (id) ON DELETE SET NULL,
-    level INTEGER DEFAULT 0,
-    articles_count INTEGER DEFAULT 0,
     schema_json JSONB,
     date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- 9. GENERATION JOBS
+CREATE TABLE IF NOT EXISTS generation_jobs (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    status VARCHAR(50) DEFAULT 'pending',
+    site_id UUID REFERENCES sites(id) ON DELETE CASCADE,
+    batch_size INTEGER DEFAULT 10,
+    progress INTEGER DEFAULT 0
+);
+
+-- 10. PAGES
+CREATE TABLE IF NOT EXISTS pages (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    status VARCHAR(50) DEFAULT 'published',
+    site_id UUID REFERENCES sites(id) ON DELETE CASCADE,
+    title VARCHAR(255),
+    slug VARCHAR(255),
+    content TEXT,
+    schema_json JSONB
+);
+
+-- 11. POSTS
+CREATE TABLE IF NOT EXISTS posts (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    status VARCHAR(50) DEFAULT 'published',
+    site_id UUID REFERENCES sites(id) ON DELETE CASCADE,
+    title VARCHAR(255),
+    slug VARCHAR(255),
+    content TEXT,
+    schema_json JSONB
+);
+
+-- 12. LEADS
+CREATE TABLE IF NOT EXISTS leads (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    status VARCHAR(50) DEFAULT 'new',
+    site_id UUID REFERENCES sites(id) ON DELETE SET NULL,
+    email VARCHAR(255),
+    name VARCHAR(255),
+    source VARCHAR(100)
+);
+
+-- 13. HEADLINE INVENTORY
+CREATE TABLE IF NOT EXISTS headline_inventory (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    status VARCHAR(50) DEFAULT 'active',
+    campaign_id UUID REFERENCES campaign_masters(id) ON DELETE CASCADE,
+    headline_text VARCHAR(255),
+    is_used BOOLEAN DEFAULT FALSE
+);
+
+-- 14. CONTENT FRAGMENTS
+CREATE TABLE IF NOT EXISTS content_fragments (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    status VARCHAR(50) DEFAULT 'active',
+    campaign_id UUID REFERENCES campaign_masters(id) ON DELETE CASCADE,
+    fragment_text TEXT,
+    fragment_type VARCHAR(50)
+);
+
+-- ===================================================================================
+-- 🏠 BATCH 3: THE ROOF (Complex Dependents)
+-- Dependencies: Multiple tables
+-- ===================================================================================
+
+-- 15. LINK TARGETS (Internal Linking Logic)
 CREATE TABLE IF NOT EXISTS link_targets (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    site_id UUID REFERENCES sites (id) ON DELETE CASCADE,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    status VARCHAR(50) DEFAULT 'active',
+    site_id UUID REFERENCES sites(id) ON DELETE CASCADE,
     target_url VARCHAR(500),
     anchor_text VARCHAR(255),
-    anchor_variations JSONB,
-    priority INTEGER DEFAULT 0,
-    is_active BOOLEAN DEFAULT true,
-    is_hub BOOLEAN DEFAULT false,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    keyword_focus VARCHAR(255)
 );
 
-CREATE TABLE IF NOT EXISTS work_log (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    site_id UUID REFERENCES sites (id) ON DELETE CASCADE,
-    action VARCHAR(255),
-    entity_type VARCHAR(100),
-    entity_id VARCHAR(255),
-    details JSONB,
-    user_id VARCHAR(255),
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- ===================================================================================
+-- 🎨 DIRECTUS UI CONFIGURATION (The "Glance" Layer)
+-- Fixes interfaces, dropdowns, and template issues automatically
+-- ===================================================================================
 
--- ============================================
--- FORMS & CRM
--- ============================================
+-- 1. Enable 'Select Dropdown' for all Foreign Keys (Fixes "Raw UUID" UI issue)
+INSERT INTO directus_fields (collection, field, interface, readonly, hidden, width)
+VALUES 
+('campaign_masters', 'site_id', 'select-dropdown-m2o', 'false', 'false', 'half'),
+('generated_articles', 'site_id', 'select-dropdown-m2o', 'false', 'false', 'half'),
+('generated_articles', 'campaign_id', 'select-dropdown-m2o', 'false', 'false', 'half'),
+('generation_jobs', 'site_id', 'select-dropdown-m2o', 'false', 'false', 'half'),
+('pages', 'site_id', 'select-dropdown-m2o', 'false', 'false', 'half'),
+('posts', 'site_id', 'select-dropdown-m2o', 'false', 'false', 'half'),
+('leads', 'site_id', 'select-dropdown-m2o', 'false', 'false', 'half'),
+('headline_inventory', 'campaign_id', 'select-dropdown-m2o', 'false', 'false', 'half'),
+('content_fragments', 'campaign_id', 'select-dropdown-m2o', 'false', 'false', 'half'),
+('link_targets', 'site_id', 'select-dropdown-m2o', 'false', 'false', 'half')
+ON CONFLICT (collection, field) 
+DO UPDATE SET interface = 'select-dropdown-m2o';
 
-CREATE TABLE IF NOT EXISTS forms (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    site_id UUID REFERENCES sites (id) ON DELETE CASCADE,
-    name VARCHAR(255),
-    fields_config JSONB,
-    success_message TEXT,
-    redirect_url VARCHAR(500),
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- 2. Fix the Template Mismatch (The 'campaign_name' vs 'name' bug)
+UPDATE directus_collections
+SET display_template = '{{campaign_id.name}}'
+WHERE collection IN ('content_fragments', 'headline_inventory', 'generated_articles');
 
-CREATE TABLE IF NOT EXISTS form_submissions (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    form UUID REFERENCES forms (id) ON DELETE CASCADE,
-    data JSONB,
-    ip_address VARCHAR(50),
-    user_agent TEXT,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS content_modules (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    name VARCHAR(255),
-    module_type VARCHAR(100),
-    content TEXT,
-    variables JSONB,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS campaigns (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    name VARCHAR(255),
-    site UUID REFERENCES sites (id) ON DELETE CASCADE,
-    status VARCHAR(50) DEFAULT 'active',
-    start_date TIMESTAMP,
-    end_date TIMESTAMP,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- ============================================
--- CREATE INDEXES FOR PERFORMANCE
--- ============================================
-
-CREATE INDEX IF NOT EXISTS idx_generated_articles_site ON generated_articles (site_id);
-
-CREATE INDEX IF NOT EXISTS idx_generated_articles_campaign ON generated_articles (campaign_id);
-
-CREATE INDEX IF NOT EXISTS idx_generated_articles_status ON generated_articles (status);
-
-CREATE INDEX IF NOT EXISTS idx_pages_site ON pages (site);
-
-CREATE INDEX IF NOT EXISTS idx_posts_site ON posts (site);
-
-CREATE INDEX IF NOT EXISTS idx_leads_site ON leads (site);
-
-CREATE INDEX IF NOT EXISTS idx_events_site ON events (site);
-
-CREATE INDEX IF NOT EXISTS idx_pageviews_site ON pageviews (site);
-
-CREATE INDEX IF NOT EXISTS idx_locations_counties_state ON locations_counties (state);
-
-CREATE INDEX IF NOT EXISTS idx_locations_cities_state ON locations_cities (state);
-
-CREATE INDEX IF NOT EXISTS idx_locations_cities_county ON locations_cities (county);
-
-CREATE INDEX IF NOT EXISTS idx_geo_locations_cluster ON geo_locations (cluster);
-
-CREATE INDEX IF NOT EXISTS idx_hub_pages_site ON hub_pages (site);
-
-CREATE INDEX IF NOT EXISTS idx_hub_pages_parent ON hub_pages (parent_hub);
-
--- ============================================
--- VERIFY
--- ============================================
-
-SELECT
-    COUNT(*) as total_tables,
-    STRING_AGG (
-        tablename,
-        ', '
-        ORDER BY tablename
-    ) as table_names
-FROM pg_tables
-WHERE
-    schemaname = 'public'
-    AND tablename NOT LIKE 'directus_%'
-    AND tablename NOT LIKE 'spatial_%';
+-- 3. Set standard display templates for Sites
+UPDATE directus_collections
+SET display_template = '{{name}}'
+WHERE collection IN ('sites', 'campaign_masters');

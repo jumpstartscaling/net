@@ -21,7 +21,7 @@ export default function JobLaunchpad() {
             const client = getDirectusClient();
             try {
                 const s = await client.request(readItems('sites'));
-                const a = await client.request(readItems('avatars'));
+                const a = await client.request(readItems('avatar_intelligence'));
                 const p = await client.request(readItems('cartesian_patterns'));
 
                 setSites(s);
@@ -59,7 +59,7 @@ export default function JobLaunchpad() {
             const job = await client.request(createItem('generation_jobs', {
                 site_id: selectedSite,
                 target_quantity: targetQuantity,
-                status: 'Pending',
+                status: 'pending',
                 filters: {
                     avatars: selectedAvatars,
                     patterns: patterns.map(p => p.id) // Use all patterns for now
@@ -102,7 +102,7 @@ export default function JobLaunchpad() {
                             onChange={e => setSelectedSite(e.target.value)}
                         >
                             <option value="">Select Site...</option>
-                            {sites.map(s => <option key={s.id} value={s.id}>{s.name || s.domain}</option>)}
+                            {sites.map(s => <option key={s.id} value={s.id}>{s.name || s.url}</option>)}
                         </select>
                     </div>
 

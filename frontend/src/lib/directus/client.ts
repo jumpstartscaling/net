@@ -10,8 +10,10 @@ import {
     deleteItem,
     aggregate
 } from '@directus/sdk';
-import type { SparkSchema } from '@/types/schema';
+import type { DirectusSchema } from '../schemas';
+import type { DirectusClient, RestClient } from '@directus/sdk';
 
+// @ts-ignore
 const PUBLIC_URL = import.meta.env.PUBLIC_DIRECTUS_URL || 'https://spark.jumpstartscaling.com';
 
 // Internal URL (SSR only) - used when running server-side requests
@@ -19,6 +21,7 @@ const INTERNAL_URL = typeof process !== 'undefined' && process.env?.INTERNAL_DIR
     ? process.env.INTERNAL_DIRECTUS_URL
     : 'https://spark.jumpstartscaling.com';
 
+// @ts-ignore
 const DIRECTUS_TOKEN = import.meta.env.DIRECTUS_ADMIN_TOKEN || (typeof process !== 'undefined' && process.env ? process.env.DIRECTUS_ADMIN_TOKEN : '') || 'eufOJ_oKEx_FVyGoz1GxWu6nkSOcgIVS';
 
 // Select URL based on environment (Server vs Client)
@@ -28,14 +31,12 @@ const DIRECTUS_URL = PUBLIC_URL;
 /**
  * Creates a typed Directus client for the Spark Platform
  */
-export function getDirectusClient(token?: string) {
-    const client = createDirectus<SparkSchema>(DIRECTUS_URL).with(rest());
+export function getDirectusClient(token?: string): DirectusClient<DirectusSchema> & RestClient<DirectusSchema> {
+    const client = createDirectus<DirectusSchema>(DIRECTUS_URL).with(rest());
 
     if (token || DIRECTUS_TOKEN) {
         return client.with(staticToken(token || DIRECTUS_TOKEN));
     }
-
-
 
     return client;
 }

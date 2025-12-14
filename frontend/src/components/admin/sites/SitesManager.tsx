@@ -16,7 +16,7 @@ const client = getDirectusClient();
 interface Site {
     id: string;
     name: string;
-    domain: string;
+    url: string;
     status: 'active' | 'inactive';
     settings?: any;
 }
@@ -89,14 +89,14 @@ export default function SitesManager() {
                             </Badge>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold truncate text-white tracking-tight">{site.domain}</div>
+                            <div className="text-2xl font-bold truncate text-white tracking-tight">{site.url}</div>
                             <p className="text-xs text-zinc-500 mt-1 flex items-center">
                                 <Globe className="h-3 w-3 mr-1" />
                                 deployed via Launchpad
                             </p>
                         </CardContent>
                         <CardFooter className="flex justify-between border-t border-zinc-800 pt-4">
-                            <Button variant="ghost" size="sm" className="text-zinc-400 hover:text-white" onClick={() => window.open(`https://${site.domain}`, '_blank')}>
+                            <Button variant="ghost" size="sm" className="text-zinc-400 hover:text-white" onClick={() => window.open(`https://${site.url}`, '_blank')}>
                                 <ExternalLink className="h-4 w-4 mr-2" /> Visit
                             </Button>
                             <div className="flex gap-2">
@@ -148,8 +148,8 @@ export default function SitesManager() {
                             <div className="flex">
                                 <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-zinc-800 bg-zinc-900 text-zinc-500 text-sm">https://</span>
                                 <Input
-                                    value={editingSite.domain || ''}
-                                    onChange={e => setEditingSite({ ...editingSite, domain: e.target.value })}
+                                    value={editingSite.url || ''}
+                                    onChange={e => setEditingSite({ ...editingSite, url: e.target.value })}
                                     placeholder="example.com"
                                     className="rounded-l-none bg-zinc-950 border-zinc-800"
                                 />

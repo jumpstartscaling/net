@@ -3,7 +3,7 @@ import { getDirectusClient, readItems } from '@/lib/directus/client';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Site } from '@/types/schema';
+import { Sites as Site } from '@/lib/schemas';
 
 export default function SiteList() {
     const [sites, setSites] = useState<Site[]>([]);
@@ -15,7 +15,7 @@ export default function SiteList() {
                 const client = getDirectusClient();
                 // @ts-ignore
                 const s = await client.request(readItems('sites'));
-                setSites(s as Site[]);
+                setSites(s as unknown as Site[]);
             } catch (e) {
                 console.error(e);
             } finally {
@@ -40,9 +40,9 @@ export default function SiteList() {
                         </Badge>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold text-white mb-2">{site.domain || 'No domain set'}</div>
+                        <div className="text-2xl font-bold text-white mb-2">{site.url || 'No URL set'}</div>
                         <p className="text-xs text-slate-500 mb-4">
-                            {site.domain ? '🟢 Domain configured' : '⚠️ Set up domain'}
+                            {site.url ? '🟢 Site configured' : '⚠️ Set up site URL'}
                         </p>
                         <div className="mt-4 flex gap-2">
                             <Button
@@ -62,8 +62,8 @@ export default function SiteList() {
                                 className="flex-1"
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    if (site.domain) {
-                                        window.open(`https://${site.domain}`, '_blank');
+                                    if (site.url) {
+                                        window.open(`https://${site.url || 'No URL'}`, '_blank');
                                     } else {
                                         alert('Set up a domain first in site settings');
                                     }

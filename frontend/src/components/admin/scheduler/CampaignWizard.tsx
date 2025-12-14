@@ -80,7 +80,7 @@ export default function CampaignWizard({ onComplete, onCancel }: CampaignWizardP
                     onChange={e => setFormData({ ...formData, site: e.target.value })}
                 >
                     <option value="">Select a Site...</option>
-                    {sites.map(s => <option key={s.id} value={s.id}>{s.name} ({s.domain})</option>)}
+                    {sites.map(s => <option key={s.id} value={s.id}>{s.name} ({s.url})</option>)}
                 </select>
             </div>
             <div className="grid grid-cols-2 gap-4 pt-2">

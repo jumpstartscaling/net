@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { getDirectusClient, readItems, aggregate } from '@/lib/directus/client';
-import type { GenerationJob, CampaignMaster, WorkLog } from '@/types/schema';
+import type { DirectusSchema, GenerationJobs as GenerationJob, CampaignMasters as CampaignMaster, WorkLog } from '@/lib/schemas';
 
 export default function ContentFactoryDashboard() {
     const [stats, setStats] = useState({ total: 0, published: 0, processing: 0 });
@@ -58,21 +58,21 @@ export default function ContentFactoryDashboard() {
                 sort: ['-date_created'],
                 filter: { status: { _in: ['active', 'paused'] } } // Show active/paused
             }));
-            setCampaigns(activeCampaigns as CampaignMaster[]);
+            setCampaigns(activeCampaigns as unknown as CampaignMaster[]);
 
             // 3. Fetch Production Jobs (The real "Factory" work)
             const recentJobs = await client.request(readItems('generation_jobs', {
                 limit: 5,
                 sort: ['-date_created']
             }));
-            setJobs(recentJobs as GenerationJob[]);
+            setJobs(recentJobs as unknown as GenerationJob[]);
 
             // 4. Fetch Work Log
             const recentLogs = await client.request(readItems('work_log', {
                 limit: 20,
                 sort: ['-date_created']
             }));
-            setLogs(recentLogs as WorkLog[]);
+            setLogs(recentLogs as unknown as WorkLog[]);
 
             setLoading(false);
         } catch (error) {

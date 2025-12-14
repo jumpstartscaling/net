@@ -1,10 +1,10 @@
 import { createDirectus, rest, authentication, realtime } from '@directus/sdk';
-import type { SparkSchema } from '@/types/schema';
+import type { DirectusSchema } from '@/lib/schemas';
 
 const DIRECTUS_URL = import.meta.env.PUBLIC_DIRECTUS_URL || 'https://spark.jumpstartscaling.com';
 
-export const directus = createDirectus<SparkSchema>(DIRECTUS_URL)
-    .with(authentication('cookie', { autoRefresh: true, mode: 'json' }))
+export const directus = createDirectus<DirectusSchema>(DIRECTUS_URL)
+    .with(authentication('cookie', { autoRefresh: true }))
     .with(rest())
     .with(realtime());
 
