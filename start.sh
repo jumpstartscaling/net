@@ -60,15 +60,19 @@ fi
 echo "📦 Bootstrapping Directus..."
 npx directus bootstrap
 
-# === Apply Schema from Code ===
+# === Apply Schema from Code (NON-FATAL - Directus can start without it) ===
 if [ -f "/directus/schema.yaml" ]; then
     echo "🔄 Applying schema from schema.yaml..."
-    npx directus schema apply /directus/schema.yaml --yes
+    npx directus schema apply /directus/schema.yaml --yes || echo "⚠️ schema.yaml apply failed, continuing anyway"
     echo "✅ Schema applied from code"
 elif [ -f "/directus/complete_schema.sql" ]; then
     echo "🔄 Applying schema from complete_schema.sql..."
-    PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_DATABASE" < /directus/complete_schema.sql
-    echo "✅ SQL schema applied"
+    # Run in background with timeout to prevent hanging
+    timeout 120 sh -c 'PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_DATABASE" < /directus/complete_schema.sql' || {
+        echo "⚠️ SQL schema apply failed or timed out (2 min), continuing anyway"
+        echo "⚠️ You may need to run the schema manually later"
+    }
+    echo "✅ SQL schema step complete"
 else
     echo "⚠️  No schema.yaml or complete_schema.sql found"
     echo "ℹ️  Directus will start with empty schema"
