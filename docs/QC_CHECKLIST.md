@@ -22,6 +22,82 @@
 
 ## 🔴 CRITICAL ISSUES (P0)
 
+### Issue 0: Auto-SEO Generation Missing for Pages/Posts
+**Status**: ⚠️ FEATURE GAP - Manual entry required
+
+**Current State**:
+| Entity | SEO Auto-Generated | Manual Entry Required |
+|--------|-------------------|----------------------|
+| `generated_articles` | ✅ Auto: meta_title, meta_description, schema_json | ❌ None |
+| `pages` | ❌ No auto-generation | ✅ User must fill seo_title, seo_description, schema_json |
+| `posts` | ❌ No auto-generation | ✅ User must fill seo_title, seo_description, schema_json |
+
+**Required Implementation**:
+1. Create Directus Hook to auto-generate SEO on page/post create/update
+2. Or create API endpoint `/api/seo/auto-fill` that generates SEO for any content
+3. Add SEO Status indicator component showing:
+   - ✅ Complete (title, desc, schema all filled)
+   - ⚠️ Partial (some fields missing)
+   - ❌ Missing (no SEO data)
+   - Word count from content
+
+**Files to Create/Modify**:
+- `directus-extensions/hooks/auto-seo/index.ts` (Directus hook)
+- `frontend/src/components/admin/seo/SEOStatusIndicator.tsx`
+- `frontend/src/lib/seo-generator.ts` (shared logic)
+
+---
+
+### Issue 0.1: SEO Status Indicators Missing
+**Status**: ⚠️ NO STATUS DISPLAY
+
+**Required**:
+- Dashboard showing SEO health across all sites/pages/posts
+- Per-page indicator: title length (60 char), description length (160 char), schema valid
+- Word count visible for every page
+
+**Add to**:
+- Site Dashboard (`/admin/sites/[id]`)
+- Pages listing (`/admin/pages`)
+- Posts listing (`/admin/posts`)
+- Generated Articles (`/admin/seo/articles`)
+
+---
+
+### Issue 0.2: Kanban Board Verification
+**Status**: ⚠️ EXISTS BUT NEEDS VERIFICATION
+
+**Current State**:
+| Component | Location | Status |
+|-----------|----------|--------|
+| KanbanBoard.tsx | `/components/admin/factory/KanbanBoard.tsx` | ✅ 180 lines, uses @dnd-kit |
+| Kanban Page | `/admin/factory/kanban` | ✅ Page exists |
+| Data Source | `generated_articles` collection | ⚠️ VERIFY data exists |
+| Status Field | `status` column | ⚠️ VERIFY field exists in Directus |
+
+**Code Analysis**:
+```typescript
+// Line 42-48: Fetches from Directus
+client.request(readItems('generated_articles', {
+    limit: 100,
+    sort: ['-date_created'],
+    fields: ['*', 'status', 'priority', 'due_date', 'assignee']
+}));
+
+// Line 60-63: Updates status on drag
+client.request(updateItem('generated_articles', id, { status }));
+```
+
+**Required Verification**:
+1. [ ] `generated_articles` has `status` field in Directus (queued/processing/qc/approved/published)
+2. [ ] `generated_articles` has `priority`, `due_date`, `assignee` fields
+3. [ ] At least one test article exists to see the board
+4. [ ] Drag-drop successfully updates status in Directus
+
+**Test URL**: `https://spark.jumpstartscaling.com/admin/factory/kanban`
+
+---
+
 ### Issue 1: SQL Schema Missing Tables
 **Status**: ⚠️ SCHEMA GAP - TypeScript references tables not in SQL
 
