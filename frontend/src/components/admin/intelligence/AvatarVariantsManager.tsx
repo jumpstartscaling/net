@@ -14,10 +14,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 interface Variant {
     id: string;
-    avatar_key: string; // The slug of the parent avatar
-    name: string; // e.g. "Aggressive closer"
-    gender: 'Male' | 'Female' | 'Neutral';
-    tone: string;
+    avatar_key: string;
+    identity: string; // was name
+    variant_type: 'Male' | 'Female' | 'Neutral'; // was gender
+    tone_modifiers: string; // was tone
     age_range?: string;
     descriptor?: string;
 }
@@ -58,9 +58,9 @@ export default function AvatarVariantsManager() {
     // 2. Compute Stats
     const stats = {
         total: variants.length,
-        male: variants.filter((v) => v.gender === 'Male').length,
-        female: variants.filter((v) => v.gender === 'Female').length,
-        neutral: variants.filter((v) => v.gender === 'Neutral').length
+        male: variants.filter((v) => v.variant_type === 'Male').length,
+        female: variants.filter((v) => v.variant_type === 'Female').length,
+        neutral: variants.filter((v) => v.variant_type === 'Neutral').length
     };
 
     // 3. deletion
@@ -81,8 +81,8 @@ export default function AvatarVariantsManager() {
         const avatarVariants = variants.filter((v) => v.avatar_key === avatar.slug);
         // Filter by search
         const filtered = avatarVariants.filter((v) =>
-            v.name.toLowerCase().includes(search.toLowerCase()) ||
-            v.tone.toLowerCase().includes(search.toLowerCase())
+            (v.identity && v.identity.toLowerCase().includes(search.toLowerCase())) ||
+            (v.tone_modifiers && v.tone_modifiers.toLowerCase().includes(search.toLowerCase()))
         );
         return {
             avatar,
@@ -207,14 +207,14 @@ export default function AvatarVariantsManager() {
                                                 <Card key={variant.id} className="bg-zinc-950 border-zinc-800/60 hover:border-purple-500/30 transition-all group">
                                                     <CardContent className="p-4 space-y-3">
                                                         <div className="flex justify-between items-start">
-                                                            <h4 className="font-semibold text-white">{variant.name}</h4>
-                                                            <Badge variant="outline" className={getGenderColor(variant.gender)}>
-                                                                {variant.gender}
+                                                            <h4 className="font-semibold text-white">{variant.identity}</h4>
+                                                            <Badge variant="outline" className={getGenderColor(variant.variant_type)}>
+                                                                {variant.variant_type}
                                                             </Badge>
                                                         </div>
 
                                                         <div className="text-sm text-zinc-400 min-h-[40px]">
-                                                            <p><span className="text-zinc-600">Tone:</span> {variant.tone}</p>
+                                                            <p><span className="text-zinc-600">Tone:</span> {variant.tone_modifiers}</p>
                                                             {variant.age_range && <p><span className="text-zinc-600">Age:</span> {variant.age_range}</p>}
                                                         </div>
 
