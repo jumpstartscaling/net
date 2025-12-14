@@ -1,13 +1,13 @@
 services:
   postgresql:
     image: 'postgis/postgis:16-3.4-alpine'
-    command: postgres -c 'max_connections=200'
+    command: "postgres -c 'max_connections=200'"
     restart: always
     volumes:
       - 'postgres-data:/var/lib/postgresql/data'
     environment:
-      # Using credentials from existing database volume
-      POSTGRES_USER: bbdf554
+      # Using default postgres user (always exists)
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Idk@2026lolhappyha232
       POSTGRES_DB: directus
     healthcheck:
@@ -37,14 +37,14 @@ services:
     environment:
       KEY: 9i2t1bMAIITWCZ+WrzUEk4EuNmIu3kfyB9Peysk7f/jnUZ7hzQ5HoNC8yOT5vi/rwTmDWX3a1+4j2llgAE2VvA==
       SECRET: Mr4YSrOAfwToxCDFOPwUa8qtxd7BXOvmqXalk3ReikpfcIwf08Kp+hlNjGcr1NtcLIcIZoraaULnMefD5IukGA==
-      ADMIN_EMAIL: somescreenname@gmail.com
-      ADMIN_PASSWORD: Idk@2026lolhappyha232
+      ADMIN_EMAIL: admin@sparkplatform.com
+      ADMIN_PASSWORD: SecureAdmin2024!
       DB_CLIENT: postgres
       DB_HOST: postgresql
       DB_PORT: 5432
       DB_DATABASE: directus
-      # Match existing database credentials
-      DB_USER: bbdf554
+      # Using default postgres user
+      DB_USER: postgres
       DB_PASSWORD: Idk@2026lolhappyha232
 
       MAX_PAYLOAD_SIZE: '500mb'
