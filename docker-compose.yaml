@@ -49,7 +49,7 @@ services:
 
       MAX_PAYLOAD_SIZE: '500mb'
       RATE_LIMITER_ENABLED: 'false'
-      CORS_ORIGIN: 'https://launch.jumpstartscaling.com,https://spark.jumpstartscaling.com,http://localhost:4321'
+      CORS_ORIGIN: 'https://spark.jumpstartscaling.com,https://launch.jumpstartscaling.com,http://localhost:4321'
       CORS_ENABLED: 'true'
       PUBLIC_URL: 'https://spark.jumpstartscaling.com'
 
@@ -78,13 +78,14 @@ services:
     environment:
       PUBLIC_DIRECTUS_URL: 'https://spark.jumpstartscaling.com'
       DIRECTUS_ADMIN_TOKEN: ''
-      PUBLIC_PLATFORM_DOMAIN: 'launch.jumpstartscaling.com'
+      PUBLIC_PLATFORM_DOMAIN: 'spark.jumpstartscaling.com'
+      PREVIEW_DOMAIN: 'launch.jumpstartscaling.com'
     depends_on:
       - directus
     labels:
       coolify.managed: 'true'
       coolify.name: 'frontend'
-      coolify.fqdn: 'launch.jumpstartscaling.com'
+      coolify.fqdn: 'spark.jumpstartscaling.com'
       coolify.port: '4321'
 
 volumes:
