@@ -99,9 +99,14 @@ export default function SitesManager() {
                             <Button variant="ghost" size="sm" className="text-zinc-400 hover:text-white" onClick={() => window.open(`https://${site.domain}`, '_blank')}>
                                 <ExternalLink className="h-4 w-4 mr-2" /> Visit
                             </Button>
-                            <Button variant="outline" size="sm" className="bg-zinc-800 border-zinc-700 hover:bg-zinc-700 text-zinc-300" onClick={() => window.location.href = `/admin/sites/${site.id}`}>
-                                Manage Content
-                            </Button>
+                            <div className="flex gap-2">
+                                <Button variant="outline" size="sm" className="bg-zinc-800 border-zinc-700 hover:bg-zinc-700 text-zinc-300" onClick={() => window.location.href = `/admin/sites/${site.id}`}>
+                                    Manage Content
+                                </Button>
+                                <Button variant="outline" size="sm" className="bg-purple-900/30 border-purple-700 hover:bg-purple-800/40 text-purple-300" onClick={() => window.open(`/preview/site/${site.id}`, '_blank')}>
+                                    👁️ Preview
+                                </Button>
+                            </div>
                             <div className="flex gap-1">
                                 <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-400 hover:text-white" onClick={() => { setEditingSite(site); setEditorOpen(true); }}>
                                     <Settings className="h-4 w-4" />
