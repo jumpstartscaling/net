@@ -1,13 +1,8 @@
-# Environment Variables for Coolify
+# Coolify Environment Variables
+# Only set these 5 variables - domains are configured in the YAML
 
 ADMIN_EMAIL=admin@sparkplatform.com
 ADMIN_PASSWORD=SecurePass2024!Change
-
-DB_USER=sparkuser
 DB_PASSWORD=DbPass2024!Change
-DB_DATABASE=directus
-
 KEY=nGs2S6Ue/tl03SNao1BIkXPxQtoEIZoUs+roKurD3UlSK8x9XrjyKySWf7tr0ABPkH7SB9wEzYnCDEX4ycB01Q==
 SECRET=bVu+i1Yqp6aoxpe/o0ySfeE4GSAQCdlitOVCBZklQFcayXPQ1Nwc5jhLUjjrSIJsI1CH6UyRMsLo/fVSIf997w==
-
-DIRECTUS_ADMIN_TOKEN=

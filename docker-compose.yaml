@@ -5,11 +5,11 @@ services:
     volumes:
       - 'postgres-data:/var/lib/postgresql/data'
     environment:
-      POSTGRES_USER: ${DB_USER}
+      POSTGRES_USER: ${DB_USER:-sparkuser}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_DB: ${DB_DATABASE:-directus}
     healthcheck:
-      test: [ 'CMD-SHELL', 'pg_isready -U ${DB_USER} -d ${DB_DATABASE}' ]
+      test: [ 'CMD-SHELL', 'pg_isready -U ${DB_USER:-sparkuser} -d ${DB_DATABASE:-directus}' ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -40,8 +40,8 @@ services:
       DB_CLIENT: postgres
       DB_HOST: postgresql
       DB_PORT: 5432
-      DB_DATABASE: ${DB_DATABASE}
-      DB_USER: ${DB_USER}
+      DB_DATABASE: ${DB_DATABASE:-directus}
+      DB_USER: ${DB_USER:-sparkuser}
       DB_PASSWORD: ${DB_PASSWORD}
       WEBSOCKETS_ENABLED: 'true'
       CACHE_ENABLED: 'false'
@@ -49,6 +49,11 @@ services:
       CORS_ENABLED: 'true'
       CORS_ORIGIN: 'https://launch.jumpstartscaling.com,http://localhost:4321'
       PUBLIC_URL: 'https://spark.jumpstartscaling.com'
+    labels:
+      coolify.managed: 'true'
+      coolify.name: 'directus'
+      coolify.fqdn: 'spark.jumpstartscaling.com'
+      coolify.port: '8055'
     healthcheck:
       test: [ 'CMD', 'wget', '--no-verbose', '--tries=1', '--spider', 'http://localhost:8055/server/health' ]
       interval: 30s
@@ -68,8 +73,13 @@ services:
     restart: always
     environment:
       PUBLIC_DIRECTUS_URL: 'https://spark.jumpstartscaling.com'
-      DIRECTUS_ADMIN_TOKEN: ${DIRECTUS_ADMIN_TOKEN}
+      DIRECTUS_ADMIN_TOKEN: ${DIRECTUS_ADMIN_TOKEN:-}
       PUBLIC_PLATFORM_DOMAIN: 'launch.jumpstartscaling.com'
+    labels:
+      coolify.managed: 'true'
+      coolify.name: 'frontend'
+      coolify.fqdn: 'launch.jumpstartscaling.com'
+      coolify.port: '4321'
     depends_on:
       - directus
 
