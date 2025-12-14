@@ -104,6 +104,7 @@ if (!page) {
     </div>
 
     <!-- Page Content -->
+    <!-- Page Content -->
     <div class="preview-content">
         {error ? (
             <div style="background: #fee; border: 1px solid #fcc; color: #c00; padding: 20px; border-radius: 8px;">
@@ -111,21 +112,44 @@ if (!page) {
                 <p>{error}</p>
             </div>
         ) : (
-            <>
-                <h1 style="font-size: 2.5rem; margin-bottom: 1rem; font-weight: 700;">
-                    {page.title}
-                </h1>
-                
-                {page.content && (
+            <div class="page-blocks" style="display: flex; flex-direction: column; gap: 40px;">
+                {/* Render Blocks */}
+                {page.blocks && Array.isArray(page.blocks) ? page.blocks.map((block: any) => {
+                    if (block.block_type === 'hero') {
+                        return (
+                            <div style="background: #111; color: white; padding: 60px 20px; text-align: center; border-radius: 12px;">
+                                <h1 style="font-size: 3rem; margin-bottom: 20px;">{block.block_config?.title}</h1>
+                                <p style="font-size: 1.5rem; color: #ccc;">{block.block_config?.subtitle}</p>
+                            </div>
+                        );
+                    }
+                    if (block.block_type === 'content') {
+                        return (
+                            <div style="max-width: 800px; margin: 0 auto; line-height: 1.8; color: #333; font-size: 1.1rem;">
+                                <Fragment set:html={block.block_config?.content || ''} />
+                            </div>
+                        );
+                    }
+                    if (block.block_type === 'features') {
+                        return (
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; padding: 40px 0;">
+                                {block.block_config?.items?.map((item: any) => (
+                                    <div style="background: #f9f9f9; padding: 30px; border-radius: 8px; border: 1px solid #eee;">
+                                        <h3 style="margin-top: 0; font-size: 1.2rem; font-weight: bold;">{item.title}</h3>
+                                        <p style="color: #666; margin-bottom: 0;">{item.desc}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        );
+                    }
+                    return null;
+                }) : (
+                     // Fallback for legacy content field
                     <div style="line-height: 1.8; color: #333;">
-                        <Fragment set:html={page.content} />
+                         <Fragment set:html={page.content || '<p>No content.</p>'} />
                     </div>
                 )}
-                
-                {!page.content && (
-                    <p style="color: #999; font-style: italic;">No content yet</p>
-                )}
-            </>
+            </div>
         )}
     </div>
 </body>
