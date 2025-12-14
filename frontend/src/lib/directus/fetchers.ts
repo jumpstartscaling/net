@@ -60,7 +60,9 @@ export async function fetchSiteGlobals(siteId: string): Promise<Globals | null> 
                 fields: ['*']
             })
         );
-        return (globals as unknown as Globals[])?.[0] || null;
+        // SDK returns array directly - cast only the final result
+        const result = globals as Globals[];
+        return result?.[0] ?? null;
     } catch (err) {
         console.error('Error fetching globals:', err);
         return null;
@@ -79,7 +81,8 @@ export async function fetchNavigation(siteId: string): Promise<Partial<Navigatio
                 fields: ['id', 'label', 'url', 'parent', 'target', 'sort']
             })
         );
-        return (nav as unknown as Navigation[]) || [];
+        // SDK returns array directly
+        return (nav as Navigation[]) ?? [];
     } catch (err) {
         console.error('Error fetching navigation:', err);
         return [];

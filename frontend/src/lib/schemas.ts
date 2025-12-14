@@ -82,8 +82,10 @@ export interface GeneratedArticles {
     title?: string;
     content?: string;
     slug?: string;
+    is_published?: boolean;
     schema_json?: Record<string, any>;
     date_created?: string;
+    date_updated?: string;
 }
 
 export interface GenerationJobs {
@@ -103,8 +105,15 @@ export interface Pages {
     site_id: string | Sites;
     title?: string;
     slug?: string;
+    permalink?: string;
     content?: string;
+    blocks?: Record<string, any>;
     schema_json?: Record<string, any>;
+    seo_title?: string;
+    seo_description?: string;
+    seo_image?: string | DirectusFiles;
+    date_created?: string;
+    date_updated?: string;
 }
 
 export interface Posts {
@@ -113,8 +122,15 @@ export interface Posts {
     site_id: string | Sites;
     title?: string;
     slug?: string;
+    excerpt?: string;
     content?: string;
+    featured_image?: string | DirectusFiles;
+    published_at?: string;
+    category?: string;
+    author?: string | DirectusUsers;
     schema_json?: Record<string, any>;
+    date_created?: string;
+    date_updated?: string;
 }
 
 export interface Leads {
@@ -169,6 +185,7 @@ export interface Navigation {
     label: string;
     url: string;
     parent?: string | Navigation;
+    target?: '_blank' | '_self';
     sort?: number;
 }
 
@@ -237,45 +254,45 @@ export interface DirectusActivity {
 
 export interface DirectusSchema {
     // Batch 1: Foundation
-    sites: Sites;
-    campaign_masters: CampaignMasters;
-    avatar_intelligence: AvatarIntelligence;
-    avatar_variants: AvatarVariants;
-    cartesian_patterns: CartesianPatterns;
-    geo_intelligence: GeoIntelligence;
-    offer_blocks: OfferBlocks;
+    sites: Sites[];
+    campaign_masters: CampaignMasters[];
+    avatar_intelligence: AvatarIntelligence[];
+    avatar_variants: AvatarVariants[];
+    cartesian_patterns: CartesianPatterns[];
+    geo_intelligence: GeoIntelligence[];
+    offer_blocks: OfferBlocks[];
 
     // Batch 2: Children
-    generated_articles: GeneratedArticles;
-    generation_jobs: GenerationJobs;
-    pages: Pages;
-    posts: Posts;
-    leads: Leads;
-    headline_inventory: HeadlineInventory;
-    content_fragments: ContentFragments;
+    generated_articles: GeneratedArticles[];
+    generation_jobs: GenerationJobs[];
+    pages: Pages[];
+    posts: Posts[];
+    leads: Leads[];
+    headline_inventory: HeadlineInventory[];
+    content_fragments: ContentFragments[];
 
     // Batch 3: Complex
-    link_targets: LinkTargets;
-    globals: Globals;
-    navigation: Navigation;
+    link_targets: LinkTargets[];
+    globals: Globals[];
+    navigation: Navigation[];
 
     // System & Analytics
-    work_log: WorkLog;
-    hub_pages: HubPages;
-    forms: Forms;
-    form_submissions: FormSubmissions;
-    site_analytics: SiteAnalytics;
-    events: AnalyticsEvents;
-    pageviews: PageViews;
-    conversions: Conversions;
-    locations_states: LocationsStates;
-    locations_counties: LocationsCounties;
-    locations_cities: LocationsCities;
+    work_log: WorkLog[];
+    hub_pages: HubPages[];
+    forms: Forms[];
+    form_submissions: FormSubmissions[];
+    site_analytics: SiteAnalytics[];
+    events: AnalyticsEvents[];
+    pageviews: PageViews[];
+    conversions: Conversions[];
+    locations_states: LocationsStates[];
+    locations_counties: LocationsCounties[];
+    locations_cities: LocationsCities[];
 
     // Directus System
-    directus_users: DirectusUsers;
-    directus_files: DirectusFiles;
-    directus_activity: DirectusActivity;
+    directus_users: DirectusUsers[];
+    directus_files: DirectusFiles[];
+    directus_activity: DirectusActivity[];
 }
 
 // ============================================================================
@@ -365,6 +382,7 @@ export interface LocationsCities {
     id: string;
     name: string;
     state: string | LocationsStates;
+    county?: string | LocationsCounties;
     population?: number;
 }
 
