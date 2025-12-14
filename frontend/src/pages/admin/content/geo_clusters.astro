@@ -1,17 +1,18 @@
 ---
 import Layout from '@/layouts/AdminLayout.astro';
-import GeoManager from '@/components/admin/content/GeoManager';
-import { getDirectusClient, readItems } from '@/lib/directus/client';
-
-const directus = getDirectusClient();
-const clusters = await directus.request(readItems('geo_intelligence')).catch(() => []);
+import GeoIntelligenceManager from '@/components/admin/intelligence/GeoIntelligenceManager';
 ---
-<Layout title="Geo Clusters">
-  <div class="p-8">
-    <div class="mb-6">
-      <h1 class="text-3xl font-bold text-white mb-2">Geo Intelligence</h1>
-      <p class="text-gray-400">Manage your geographic targeting clusters.</p>
+<Layout title="Geo Intelligence | Spark Platform">
+  <div class="p-8 space-y-6">
+    <div class="flex justify-between items-start">
+      <div>
+        <h1 class="text-3xl font-bold text-white tracking-tight">🌍 Geo Intelligence</h1>
+        <p class="text-zinc-400 mt-2">
+          Visualize your market dominance. Manage region clusters and target specific cities for localized content campaigns.
+        </p>
+      </div>
     </div>
-    <GeoManager client:load initialClusters={clusters} />
+
+    <GeoIntelligenceManager client:only="react" />
   </div>
 </Layout>

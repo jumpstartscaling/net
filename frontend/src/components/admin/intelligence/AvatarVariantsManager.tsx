@@ -35,7 +35,7 @@ export default function AvatarVariantsManager() {
     const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
 
     // 1. Fetch Data
-    const { data: variants = [], isLoading: isLoadingVariants } = useQuery({
+    const { data: variantsRaw = [], isLoading: isLoadingVariants } = useQuery({
         queryKey: ['avatar_variants'],
         queryFn: async () => {
             // @ts-ignore
@@ -43,7 +43,9 @@ export default function AvatarVariantsManager() {
         }
     });
 
-    const { data: avatars = [] } = useQuery({
+    const variants = variantsRaw as Variant[];
+
+    const { data: avatarsRaw = [] } = useQuery({
         queryKey: ['avatar_intelligence'],
         queryFn: async () => {
             // @ts-ignore
@@ -51,12 +53,14 @@ export default function AvatarVariantsManager() {
         }
     });
 
+    const avatars = avatarsRaw as Avatar[];
+
     // 2. Compute Stats
     const stats = {
         total: variants.length,
-        male: variants.filter((v: Variant) => v.gender === 'Male').length,
-        female: variants.filter((v: Variant) => v.gender === 'Female').length,
-        neutral: variants.filter((v: Variant) => v.gender === 'Neutral').length
+        male: variants.filter((v) => v.gender === 'Male').length,
+        female: variants.filter((v) => v.gender === 'Female').length,
+        neutral: variants.filter((v) => v.gender === 'Neutral').length
     };
 
     // 3. deletion
@@ -73,10 +77,10 @@ export default function AvatarVariantsManager() {
     });
 
     // 4. Grouping Logic
-    const groupedVariants = avatars.map((avatar: Avatar) => {
-        const avatarVariants = variants.filter((v: Variant) => v.avatar_key === avatar.slug);
+    const groupedVariants = avatars.map((avatar) => {
+        const avatarVariants = variants.filter((v) => v.avatar_key === avatar.slug);
         // Filter by search
-        const filtered = avatarVariants.filter((v: Variant) =>
+        const filtered = avatarVariants.filter((v) =>
             v.name.toLowerCase().includes(search.toLowerCase()) ||
             v.tone.toLowerCase().includes(search.toLowerCase())
         );
@@ -85,7 +89,7 @@ export default function AvatarVariantsManager() {
             variants: filtered,
             count: avatarVariants.length
         };
-    }).filter((group: any) => group.variants.length > 0 || search === ''); // Hide empty groups only if searching
+    }).filter((group) => group.variants.length > 0 || search === ''); // Hide empty groups only if searching
 
     const toggleGroup = (slug: string) => {
         setExpandedGroups(prev => ({ ...prev, [slug]: !prev[slug] }));
