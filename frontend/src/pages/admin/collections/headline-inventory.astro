@@ -1,138 +1,21 @@
 ---
-/**
- * Headline Inventory Management
- * Pre-written headlines library with spintax support
- */
-import AdminLayout from '@/layouts/AdminLayout.astro';
-import { getDirectusClient } from '@/lib/directus/client';
-import { readItems } from '@directus/sdk';
-
-const client = getDirectusClient();
-
-let headlines = [];
-let error = null;
-let stats = {
-  total: 0,
-  byCategory: {} as Record<string, number>,
-};
-
-try {
-  headlines = await client.request(readItems('headline_inventory', {
-    fields: ['*'],
-    sort: ['-date_created'],
-    limit: 200,
-  }));
-  
-  stats.total = headlines.length;
-  headlines.forEach((h: any) => {
-    const cat = h.category || 'uncategorized';
-    stats.byCategory[cat] = (stats.byCategory[cat] || 0) + 1;
-  });
-} catch (e) {
-  console.error('Error fetching headlines:', e);
-  error = e instanceof Error ? e.message : 'Unknown error';
-}
+import Layout from '@/layouts/AdminLayout.astro';
+import GenericCollectionManager from '@/components/admin/collections/GenericCollectionManager';
 ---
 
-<AdminLayout title="Headline Inventory">
-  <div class="space-y-6">
-    <!-- Header -->
-    <div class="flex justify-between items-center">
-      <div>
-        <h1 class="spark-heading text-3xl">💬 Headline Inventory</h1>
-        <p class="text-silver mt-1">Pre-written headlines library with spintax variations</p>
-      </div>
-      <div class="flex gap-3">
-        <button class="spark-btn-secondary text-sm" onclick="window.dispatchEvent(new CustomEvent('import-modal'))">
-          📥 Import
-        </button>
-        <button class="spark-btn-secondary text-sm" onclick="window.dispatchEvent(new CustomEvent('export-data', {detail: {collection: 'headline_inventory'}}))">
-          📤 Export
-        </button>
-        <a href="/admin/collections/headline-inventory/new" class="spark-btn-primary text-sm">
-          ✨ New Headline
-        </a>
-      </div>
-    </div>
-
-    {error && (
-      <div class="spark-card p-4 border-red-500 text-red-400">
-        <strong>Error:</strong> {error}
-      </div>
-    )}
-
-    <!-- Stats -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div class="spark-card p-6">
-        <div class="spark-label mb-2">Total Headlines</div>
-        <div class="spark-data text-3xl">{stats.total}</div>
-      </div>
-      {Object.entries(stats.byCategory).slice(0, 3).map(([cat, count]) => (
-        <div class="spark-card p-6">
-          <div class="spark-label mb-2">{cat}</div>
-          <div class="spark-data text-3xl text-gold">{count}</div>
-        </div>
-      ))}
-    </div>
-
-    <!-- Headlines List -->
-    <div class="space-y-3">
-      {headlines.map((headline: any) => (
-        <div class="spark-card spark-card-hover p-5">
-          <div class="flex items-start justify-between gap-4">
-            <div class="flex-1">
-              <div class="flex items-center gap-2 mb-2">
-                <span class="px-2 py-0.5 bg-gold/10 text-gold text-xs rounded">
-                  {headline.category || 'general'}
-                </span>
-                {headline.spintax_count && (
-                  <span class="px-2 py-0.5 bg-blue-500/10 text-blue-400 text-xs rounded">
-                    {headline.spintax_count} variations
-                  </span>
-                )}
-              </div>
-              <div class="text-white font-medium mb-1 leading-tight">
-                {headline.headline_text}
-              </div>
-              {headline.preview && (
-                <div class="text-silver/50 text-sm">
-                  Example: {headline.preview}
-                </div>
-              )}
-            </div>
-            <div class="flex gap-2 flex-shrink-0">
-              <button 
-                class="spark-btn-ghost text-xs px-3 py-1"
-                onclick={`navigator.clipboard.writeText(${JSON.stringify(headline.headline_text)})`}
-              >
-                📋 Copy
-              </button>
-              <a href={`/admin/collections/headline-inventory/${headline.id}`} class="spark-btn-ghost text-xs px-3 py-1">
-                Edit
-              </a>
-            </div>
-          </div>
-        </div>
-      ))}
-      
-      {headlines.length === 0 && !error && (
-        <div class="spark-card p-12 text-center">
-          <p class="text-silver/50">No headlines found. Start building your library!</p>
-        </div>
-      )}
-    </div>
+<Layout title="Headlines | Spark Intelligence">
+  <div class="p-8">
+     <GenericCollectionManager 
+        client:only="react" 
+        collection="headline_inventory" 
+        title="Headline Inventory"
+        displayField="text"
+        fields={[
+            { key: 'text', label: 'Headline Text', type: 'text' },
+            { key: 'type', label: 'Type (H1/H2)', type: 'text' },
+            { key: 'category', label: 'Category', type: 'text' },
+            { key: 'spintax_root', label: 'Spintax Root', type: 'text' }
+        ]}
+     />
   </div>
-</AdminLayout>
-
-<script>
-  window.addEventListener('export-data', async (e: any) => {
-    const { collection } = e.detail;
-    const response = await fetch(`/api/collections/${collection}/export`);
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${collection}-${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
-  });
-</script>
+</Layout>

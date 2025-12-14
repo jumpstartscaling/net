@@ -1,0 +1,21 @@
+---
+import Layout from '@/layouts/AdminLayout.astro';
+import GenericCollectionManager from '@/components/admin/collections/GenericCollectionManager';
+---
+
+<Layout title="Page Blocks | Spark Intelligence">
+  <div class="p-8">
+     <GenericCollectionManager 
+        client:only="react" 
+        collection="page_blocks" 
+        title="Page Layout Blocks"
+        displayField="name"
+        fields={[
+            { key: 'name', label: 'Block Name', type: 'text' },
+            { key: 'category', label: 'Category', type: 'text' },
+            { key: 'html_content', label: 'HTML Structure', type: 'textarea' },
+            { key: 'css_content', label: 'CSS / Tailwind', type: 'textarea' }
+        ]}
+     />
+  </div>
+</Layout>

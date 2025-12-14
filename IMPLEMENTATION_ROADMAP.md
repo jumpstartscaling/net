@@ -406,57 +406,23 @@ echo "✅ Milestone 2 file structure created!"
 
 ### Collections Needing Pages:
 
-#### Task 3.1: Content Collections
-**Collections**:
-- Page Blocks
-- Content Fragments
-- Headline Inventory
-- Offer Blocks (3 types)
+#### Task 3.1: Content Collections ✅ (COMPLETED)
+**What Was Built**:
+- ✅ GenericCollectionManager (reused for CRUD)
+- ✅ /admin/collections/page-blocks
+- ✅ /admin/collections/offer-blocks
+- ✅ /admin/collections/headline-inventory
+- ✅ /admin/collections/content-fragments
 
-**Files to Create**:
-```bash
-frontend/src/pages/admin/collections/page-blocks.astro
-frontend/src/pages/admin/collections/content-fragments.astro
-frontend/src/pages/admin/collections/headline-inventory.astro
-frontend/src/pages/admin/collections/offer-blocks.astro
-frontend/src/components/admin/collections/PageBlocksManager.tsx
-frontend/src/components/admin/collections/FragmentsManager.tsx
-frontend/src/components/admin/collections/HeadlinesManager.tsx
-frontend/src/components/admin/collections/OffersManager.tsx
-```
+#### Task 3.2: Site & Content Management ✅ (COMPLETED via M4)
+- See Milestone 4.
 
-**Command**:
-```bash
-cd /Users/christopheramaya/Downloads/spark/frontend/src
-touch pages/admin/collections/page-blocks.astro
-touch pages/admin/collections/content-fragments.astro
-touch pages/admin/collections/headline-inventory.astro
-touch pages/admin/collections/offer-blocks.astro
-touch components/admin/collections/PageBlocksManager.tsx
-touch components/admin/collections/FragmentsManager.tsx
-touch components/admin/collections/HeadlinesManager.tsx
-touch components/admin/collections/OffersManager.tsx
-```
+#### Task 3.3: Campaign & Scheduler ✅ (COMPLETED)
+**What Was Built**:
+- ✅ Campaigns Collection & Schema
+- ✅ Scheduler Dashboard
+- ✅ Campaign Wizard (Geo & Spintax Modes)
 
----
-
-#### Task 3.2: Site & Content Management
-**Collections**:
-- Sites
-- Posts
-- Pages
-- Generated Articles
-
-**Files to Create**:
-```bash
-frontend/src/pages/admin/sites/index.astro
-frontend/src/pages/admin/content/posts.astro
-frontend/src/pages/admin/content/pages.astro
-frontend/src/components/admin/sites/SitesManager.tsx
-frontend/src/components/admin/content/PostsManager.tsx
-frontend/src/components/admin/content/PagesManager.tsx
-frontend/src/components/admin/content/ArticlesManager.tsx
-```
 
 ---
 

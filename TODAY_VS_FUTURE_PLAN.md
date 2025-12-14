@@ -20,17 +20,20 @@
 - **Leads Manager**: CRM Table + Status Workflow + Backend Schema ✅
 - **Jobs Queue**: Real-time Monitoring + Action Controls + Config Viewer ✅
 - **Launchpad**: Sites + Pages + Navigation + Theme Managers (Complete Site Builder) ✅
+- **Automation Center**: Campaign Scheduler + 4-Step Wizard + Directus Schema ✅
+- **Content Inventory**: Managers for Headlines, Offers, Fragments, Blocks ✅
 - **Page Editor**: Visual Block Editor saving to JSON ✅
-- **File Structure**: 45+ components created and organized ✅
+- **File Structure**: 50+ components created and organized ✅
 
 **Files Modified**:
 - `components/admin/intelligence/*` (Complete Suite)
 - `components/admin/factory/*` (Kanban + Jobs)
 - `components/admin/leads/*` (Leads)
 - `components/admin/sites/*` (Launchpad)
-- `pages/admin/factory/*`
-- `pages/admin/leads/*`
-- `pages/admin/sites/**/*`
+- `components/admin/scheduler/*` (Automation)
+- `components/admin/collections/*` (Inventory)
+- `pages/admin/**/*`
+
 
 
 
