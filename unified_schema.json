@@ -1,0 +1,1525 @@
+[
+    {
+        "collection": "sites",
+        "meta": {
+            "icon": "language",
+            "note": "Managed WordPress sites"
+        },
+        "fields": [
+            {
+                "field": "name",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "required": true
+                }
+            },
+            {
+                "field": "url",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "required": true
+                }
+            },
+            {
+                "field": "wp_username",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "wp_app_password",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "special": [
+                        "hash"
+                    ]
+                }
+            },
+            {
+                "field": "status",
+                "type": "string",
+                "meta": {
+                    "interface": "select-dropdown",
+                    "options": {
+                        "choices": [
+                            {
+                                "text": "Active",
+                                "value": "active"
+                            },
+                            {
+                                "text": "Paused",
+                                "value": "paused"
+                            },
+                            {
+                                "text": "Inactive",
+                                "value": "inactive"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "field": "domain_age_years",
+                "type": "integer",
+                "meta": {
+                    "interface": "input",
+                    "note": "For velocity calc"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "pages",
+        "meta": {
+            "icon": "description",
+            "note": "Static pages"
+        },
+        "fields": [
+            {
+                "field": "title",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "slug",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "content",
+                "type": "text",
+                "meta": {
+                    "interface": "input-rich-text-html"
+                }
+            },
+            {
+                "field": "site_id",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o"
+                },
+                "schema": {
+                    "foreign_key_table": "sites"
+                }
+            },
+            {
+                "field": "status",
+                "type": "string",
+                "meta": {
+                    "interface": "select-dropdown",
+                    "options": {
+                        "choices": [
+                            {
+                                "text": "Draft",
+                                "value": "draft"
+                            },
+                            {
+                                "text": "Published",
+                                "value": "published"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "field": "schema_json",
+                "type": "json",
+                "meta": {
+                    "interface": "input-code"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "posts",
+        "meta": {
+            "icon": "article",
+            "note": "Generated content posts (Legacy)"
+        },
+        "fields": [
+            {
+                "field": "title",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "slug",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "content",
+                "type": "text",
+                "meta": {
+                    "interface": "input-rich-text-html"
+                }
+            },
+            {
+                "field": "excerpt",
+                "type": "text",
+                "meta": {
+                    "interface": "textarea"
+                }
+            },
+            {
+                "field": "site_id",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o"
+                },
+                "schema": {
+                    "foreign_key_table": "sites"
+                }
+            },
+            {
+                "field": "status",
+                "type": "string",
+                "meta": {
+                    "interface": "select-dropdown",
+                    "options": {
+                        "choices": [
+                            {
+                                "text": "Draft",
+                                "value": "draft"
+                            },
+                            {
+                                "text": "Published",
+                                "value": "published"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "field": "meta_title",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "seo_title",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "seo_description",
+                "type": "string",
+                "meta": {
+                    "interface": "textarea"
+                }
+            },
+            {
+                "field": "schema_json",
+                "type": "json",
+                "meta": {
+                    "interface": "input-code"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "leads",
+        "meta": {
+            "icon": "contacts",
+            "note": "Lead capture data"
+        },
+        "fields": [
+            {
+                "field": "email",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "name",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "phone",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "source",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "site_id",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o"
+                },
+                "schema": {
+                    "foreign_key_table": "sites"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "campaign_masters",
+        "meta": {
+            "icon": "campaign",
+            "note": "SEO Campaigns"
+        },
+        "fields": [
+            {
+                "field": "site_id",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o",
+                    "display": "related-values"
+                },
+                "schema": {
+                    "foreign_key_table": "sites",
+                    "foreign_key_column": "id"
+                }
+            },
+            {
+                "field": "name",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "required": true
+                }
+            },
+            {
+                "field": "headline_spintax_root",
+                "type": "text",
+                "meta": {
+                    "interface": "input-multiline"
+                }
+            },
+            {
+                "field": "niche_variables",
+                "type": "json",
+                "meta": {
+                    "interface": "input-code",
+                    "options": {
+                        "language": "json"
+                    }
+                }
+            },
+            {
+                "field": "target_word_count",
+                "type": "integer",
+                "meta": {
+                    "interface": "input",
+                    "default_value": 1500
+                }
+            },
+            {
+                "field": "velocity_mode",
+                "type": "string",
+                "meta": {
+                    "interface": "select-dropdown",
+                    "options": {
+                        "choices": [
+                            {
+                                "text": "Ramp Up",
+                                "value": "RAMP_UP"
+                            },
+                            {
+                                "text": "Consistent",
+                                "value": "CONSISTENT"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "field": "status",
+                "type": "string",
+                "meta": {
+                    "interface": "select-dropdown",
+                    "options": {
+                        "choices": [
+                            {
+                                "text": "Active",
+                                "value": "active"
+                            },
+                            {
+                                "text": "Paused",
+                                "value": "paused"
+                            },
+                            {
+                                "text": "Completed",
+                                "value": "completed"
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "collection": "generated_articles",
+        "meta": {
+            "icon": "article",
+            "note": "SEO Generated Articles"
+        },
+        "fields": [
+            {
+                "field": "site_id",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o"
+                },
+                "schema": {
+                    "foreign_key_table": "sites"
+                }
+            },
+            {
+                "field": "campaign_id",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o"
+                },
+                "schema": {
+                    "foreign_key_table": "campaign_masters"
+                }
+            },
+            {
+                "field": "title",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "slug",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "html_content",
+                "type": "text",
+                "meta": {
+                    "interface": "input-rich-text-html"
+                }
+            },
+            {
+                "field": "schema_json",
+                "type": "json",
+                "meta": {
+                    "interface": "input-code"
+                }
+            },
+            {
+                "field": "meta_title",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "meta_desc",
+                "type": "text",
+                "meta": {
+                    "interface": "textarea"
+                }
+            },
+            {
+                "field": "generation_hash",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "readonly": true
+                }
+            },
+            {
+                "field": "is_published",
+                "type": "boolean",
+                "meta": {
+                    "interface": "boolean"
+                }
+            },
+            {
+                "field": "status",
+                "type": "string",
+                "meta": {
+                    "interface": "select-dropdown",
+                    "options": {
+                        "choices": [
+                            {
+                                "text": "Queued",
+                                "value": "queued"
+                            },
+                            {
+                                "text": "Processing",
+                                "value": "processing"
+                            },
+                            {
+                                "text": "Approved",
+                                "value": "approved"
+                            },
+                            {
+                                "text": "Published",
+                                "value": "published"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "field": "sitemap_status",
+                "type": "string",
+                "meta": {
+                    "interface": "select-dropdown",
+                    "options": {
+                        "choices": [
+                            {
+                                "text": "Ghost",
+                                "value": "ghost"
+                            },
+                            {
+                                "text": "Queued",
+                                "value": "queued"
+                            },
+                            {
+                                "text": "Indexed",
+                                "value": "indexed"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "field": "is_test_batch",
+                "type": "boolean",
+                "meta": {
+                    "interface": "boolean"
+                }
+            },
+            {
+                "field": "date_updated",
+                "type": "timestamp",
+                "meta": {
+                    "interface": "datetime",
+                    "special": [
+                        "date-updated"
+                    ]
+                }
+            },
+            {
+                "field": "date_published",
+                "type": "timestamp",
+                "meta": {
+                    "interface": "datetime"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "headline_inventory",
+        "meta": {
+            "icon": "title",
+            "note": "Generated Headlines"
+        },
+        "fields": [
+            {
+                "field": "campaign_id",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o"
+                },
+                "schema": {
+                    "foreign_key_table": "campaign_masters"
+                }
+            },
+            {
+                "field": "final_title_text",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "status",
+                "type": "string",
+                "meta": {
+                    "interface": "select-dropdown",
+                    "options": {
+                        "choices": [
+                            {
+                                "text": "Available",
+                                "value": "available"
+                            },
+                            {
+                                "text": "Used",
+                                "value": "used"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "field": "used_on_article",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o"
+                },
+                "schema": {
+                    "foreign_key_table": "generated_articles"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "content_fragments",
+        "meta": {
+            "icon": "extension",
+            "note": "Content Blocks"
+        },
+        "fields": [
+            {
+                "field": "campaign_id",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o"
+                },
+                "schema": {
+                    "foreign_key_table": "campaign_masters"
+                }
+            },
+            {
+                "field": "fragment_type",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "content_body",
+                "type": "text",
+                "meta": {
+                    "interface": "textarea"
+                }
+            },
+            {
+                "field": "word_count",
+                "type": "integer",
+                "meta": {
+                    "interface": "input"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "production_queue",
+        "meta": {
+            "icon": "schedule",
+            "note": "Content Schedule"
+        },
+        "fields": [
+            {
+                "field": "site",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o"
+                },
+                "schema": {
+                    "foreign_key_table": "sites"
+                }
+            },
+            {
+                "field": "campaign",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o"
+                },
+                "schema": {
+                    "foreign_key_table": "campaign_masters"
+                }
+            },
+            {
+                "field": "status",
+                "type": "string",
+                "meta": {
+                    "interface": "select-dropdown",
+                    "options": {
+                        "choices": [
+                            {
+                                "text": "Test Batch",
+                                "value": "test_batch"
+                            },
+                            {
+                                "text": "Pending",
+                                "value": "pending"
+                            },
+                            {
+                                "text": "Active",
+                                "value": "active"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "field": "total_requested",
+                "type": "integer",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "completed_count",
+                "type": "integer",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "velocity_mode",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "schedule_data",
+                "type": "json",
+                "meta": {
+                    "interface": "input-code"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "quality_flags",
+        "meta": {
+            "icon": "flag",
+            "note": "Content Quality Issues"
+        },
+        "fields": [
+            {
+                "field": "site",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o"
+                },
+                "schema": {
+                    "foreign_key_table": "sites"
+                }
+            },
+            {
+                "field": "article_a",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "article_b",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "collision_text",
+                "type": "text",
+                "meta": {
+                    "interface": "textarea"
+                }
+            },
+            {
+                "field": "similarity_score",
+                "type": "float",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "status",
+                "type": "string",
+                "meta": {
+                    "interface": "select-dropdown",
+                    "options": {
+                        "choices": [
+                            {
+                                "text": "Pending",
+                                "value": "pending"
+                            },
+                            {
+                                "text": "Resolved",
+                                "value": "resolved"
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "collection": "avatar_intelligence",
+        "meta": {
+            "icon": "person",
+            "note": "Avatar User Personas"
+        },
+        "fields": [
+            {
+                "field": "avatar_key",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "required": true,
+                    "unique": true
+                }
+            },
+            {
+                "field": "base_name",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "wealth_cluster",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "business_niches",
+                "type": "json",
+                "meta": {
+                    "interface": "input-code"
+                }
+            },
+            {
+                "field": "data",
+                "type": "json",
+                "meta": {
+                    "interface": "input-code"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "avatar_variants",
+        "meta": {
+            "icon": "people",
+            "note": "Avatar Variations"
+        },
+        "fields": [
+            {
+                "field": "avatar_key",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "variant_type",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "data",
+                "type": "json",
+                "meta": {
+                    "interface": "input-code"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "geo_intelligence",
+        "meta": {
+            "icon": "map",
+            "note": "Geographic Data Clusters"
+        },
+        "fields": [
+            {
+                "field": "cluster_key",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "unique": true
+                }
+            },
+            {
+                "field": "data",
+                "type": "json",
+                "meta": {
+                    "interface": "input-code"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "spintax_dictionaries",
+        "meta": {
+            "icon": "book",
+            "note": "Spintax Dictionaries"
+        },
+        "fields": [
+            {
+                "field": "category",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "data",
+                "type": "json",
+                "meta": {
+                    "interface": "input-code"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "cartesian_patterns",
+        "meta": {
+            "icon": "grid_on",
+            "note": "Logic patterns for Cartesian Engine"
+        },
+        "fields": [
+            {
+                "field": "pattern_key",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "unique": true
+                }
+            },
+            {
+                "field": "pattern_type",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "data",
+                "type": "json",
+                "meta": {
+                    "interface": "input-code"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "offer_blocks",
+        "meta": {
+            "icon": "inventory",
+            "note": "Offer Content Blocks"
+        },
+        "fields": [
+            {
+                "field": "block_type",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "avatar_key",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "data",
+                "type": "json",
+                "meta": {
+                    "interface": "input-code"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "generation_jobs",
+        "meta": {
+            "icon": "engineering",
+            "note": "Cartesian Generation Jobs"
+        },
+        "fields": [
+            {
+                "field": "site_id",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o"
+                },
+                "schema": {
+                    "foreign_key_table": "sites"
+                }
+            },
+            {
+                "field": "target_quantity",
+                "type": "integer",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "status",
+                "type": "string",
+                "meta": {
+                    "interface": "select-dropdown",
+                    "options": {
+                        "choices": [
+                            {
+                                "text": "Pending",
+                                "value": "Pending"
+                            },
+                            {
+                                "text": "Processing",
+                                "value": "Processing"
+                            },
+                            {
+                                "text": "Complete",
+                                "value": "Complete"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "field": "filters",
+                "type": "json",
+                "meta": {
+                    "interface": "input-code"
+                }
+            },
+            {
+                "field": "current_offset",
+                "type": "integer",
+                "meta": {
+                    "interface": "input"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "image_templates",
+        "meta": {
+            "icon": "image",
+            "note": "SVG Templates"
+        },
+        "fields": [
+            {
+                "field": "name",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "required": true
+                }
+            },
+            {
+                "field": "svg_template",
+                "type": "text",
+                "meta": {
+                    "interface": "input-multiline"
+                }
+            },
+            {
+                "field": "svg_source",
+                "type": "text",
+                "meta": {
+                    "interface": "input-multiline"
+                }
+            },
+            {
+                "field": "is_default",
+                "type": "boolean",
+                "meta": {
+                    "interface": "boolean"
+                }
+            },
+            {
+                "field": "preview",
+                "type": "string",
+                "meta": {
+                    "interface": "image"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "events",
+        "meta": {
+            "icon": "touch_app",
+            "note": "Custom Interaction Events"
+        },
+        "fields": [
+            {
+                "field": "site",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o"
+                },
+                "schema": {
+                    "foreign_key_table": "sites"
+                }
+            },
+            {
+                "field": "event_name",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "event_category",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "event_label",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "event_value",
+                "type": "integer",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "page_path",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "session_id",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "metadata",
+                "type": "json",
+                "meta": {
+                    "interface": "input-code"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "pageviews",
+        "meta": {
+            "icon": "visibility",
+            "note": "Traffic Logs"
+        },
+        "fields": [
+            {
+                "field": "site",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o"
+                },
+                "schema": {
+                    "foreign_key_table": "sites"
+                }
+            },
+            {
+                "field": "page_path",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "page_title",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "referrer",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "user_agent",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "ip_address",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "device_type",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "utm_source",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "utm_medium",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "utm_campaign",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "utm_content",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "utm_term",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "is_bot",
+                "type": "boolean",
+                "meta": {
+                    "interface": "boolean"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "conversions",
+        "meta": {
+            "icon": "monetization_on",
+            "note": "Goal Completions"
+        },
+        "fields": [
+            {
+                "field": "site",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o"
+                },
+                "schema": {
+                    "foreign_key_table": "sites"
+                }
+            },
+            {
+                "field": "conversion_type",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "value",
+                "type": "float",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "currency",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "source",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "gclid",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "fbclid",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "sent_to_google",
+                "type": "boolean",
+                "meta": {
+                    "interface": "boolean"
+                }
+            },
+            {
+                "field": "sent_to_facebook",
+                "type": "boolean",
+                "meta": {
+                    "interface": "boolean"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "site_analytics",
+        "meta": {
+            "icon": "settings_input_component",
+            "note": "Analytics Config"
+        },
+        "fields": [
+            {
+                "field": "site",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o"
+                },
+                "schema": {
+                    "foreign_key_table": "sites"
+                }
+            },
+            {
+                "field": "google_ads_id",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "google_ads_conversion_label",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "fb_pixel_id",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "fb_access_token",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "special": [
+                        "cast-hash"
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "collection": "hub_pages",
+        "meta": {
+            "icon": "hub",
+            "note": "Internal Linking Hubs"
+        },
+        "fields": [
+            {
+                "field": "site",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o"
+                },
+                "schema": {
+                    "foreign_key_table": "sites"
+                }
+            },
+            {
+                "field": "title",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "slug",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "parent_hub",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o"
+                },
+                "schema": {
+                    "foreign_key_table": "hub_pages"
+                }
+            },
+            {
+                "field": "level",
+                "type": "integer",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "articles_count",
+                "type": "integer",
+                "meta": {
+                    "interface": "input"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "link_targets",
+        "meta": {
+            "icon": "link",
+            "note": "Internal Linking Targets"
+        },
+        "fields": [
+            {
+                "field": "site",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o"
+                },
+                "schema": {
+                    "foreign_key_table": "sites"
+                }
+            },
+            {
+                "field": "target_url",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "anchor_text",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "priority",
+                "type": "integer",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "is_active",
+                "type": "boolean",
+                "meta": {
+                    "interface": "boolean"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "work_log",
+        "meta": {
+            "icon": "history",
+            "note": "System Audit Trail"
+        },
+        "fields": [
+            {
+                "field": "site",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o"
+                },
+                "schema": {
+                    "foreign_key_table": "sites"
+                }
+            },
+            {
+                "field": "action",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "entity_type",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "entity_id",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "details",
+                "type": "json",
+                "meta": {
+                    "interface": "input-code"
+                }
+            },
+            {
+                "field": "user",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            }
+        ]
+    }
+]

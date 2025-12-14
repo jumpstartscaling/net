@@ -47,6 +47,7 @@ export interface Post {
     published_at?: string;
     category?: string;
     author?: string;
+    meta_title?: string;
     seo_title?: string;
     seo_description?: string;
     date_created?: string;
@@ -132,6 +133,9 @@ export interface ImageTemplate {
     id: string;
     name: string;
     svg_template: string;
+    svg_source?: string;
+    is_default?: boolean;
+    preview?: string;
 }
 
 export interface LocationState {
@@ -254,11 +258,15 @@ export interface GeneratedArticle {
     due_date?: string;
     seo_score?: number;
     generation_hash: string;
+    meta_title?: string;
     meta_desc?: string;
     is_published?: boolean;
     sync_status?: string;
     schema_json?: Record<string, any>;
+    is_test_batch?: boolean;
     date_created?: string;
+    date_updated?: string;
+    date_published?: string;
 
 }
 
@@ -306,6 +314,9 @@ export interface FormSubmission {
 /**
  * Full Spark Platform Schema for Directus SDK
  */
+/**
+ * Full Spark Platform Schema for Directus SDK
+ */
 export interface SparkSchema {
     sites: Site[];
     pages: Page[];
@@ -314,7 +325,7 @@ export interface SparkSchema {
     navigation: Navigation[];
     authors: Author[];
 
-    // Legacy SEO Engine (Keep for compatibility if needed)
+    // SEO Engine
     campaign_masters: CampaignMaster[];
     headline_inventory: HeadlineInventory[];
     content_fragments: ContentFragment[];
@@ -322,8 +333,10 @@ export interface SparkSchema {
     locations_states: LocationState[];
     locations_counties: LocationCounty[];
     locations_cities: LocationCity[];
+    production_queue: ProductionQueueItem[];
+    quality_flags: QualityFlag[];
 
-    // New Cartesian Engine
+    // Cartesian Engine
     generation_jobs: GenerationJob[];
     article_templates: ArticleTemplate[];
     avatars: Avatar[];
@@ -336,26 +349,131 @@ export interface SparkSchema {
     offer_blocks_personalized: OfferBlockPersonalized[];
     generated_articles: GeneratedArticle[];
 
+    // CRM & Forms
     leads: Lead[];
     newsletter_subscribers: NewsletterSubscriber[];
     forms: Form[];
     form_submissions: FormSubmission[];
+
+    // Infrastructure & Analytics
     link_targets: LinkTarget[];
+    hub_pages: HubPage[];
     work_log: WorkLog[];
+    events: AnalyticsEvent[];
+    pageviews: PageView[];
+    conversions: Conversion[];
+    site_analytics: SiteAnalyticsConfig[];
+}
+
+export interface ProductionQueueItem {
+    id: string;
+    site: string | Site;
+    campaign: string | CampaignMaster;
+    status: 'test_batch' | 'pending' | 'active' | 'completed' | 'paused';
+    total_requested: number;
+    completed_count: number;
+    velocity_mode: string;
+    schedule_data: any[]; // JSON
+    date_created?: string;
+}
+
+export interface QualityFlag {
+    id: string;
+    site: string | Site;
+    batch_id?: string;
+    article_a: string;
+    article_b: string;
+    collision_text: string;
+    similarity_score: number;
+    status: 'pending' | 'resolved' | 'ignored';
+    date_created?: string;
+}
+
+export interface HubPage {
+    id: string;
+    site: string | Site;
+    title: string;
+    slug: string;
+    parent_hub?: string | HubPage;
+    level: number;
+    articles_count: number;
+    schema_json?: Record<string, any>;
+    date_created?: string;
+}
+
+export interface AnalyticsEvent {
+    id: string;
+    site: string | Site;
+    event_name: string;
+    event_category?: string;
+    event_label?: string;
+    event_value?: number;
+    page_path: string;
+    session_id?: string;
+    visitor_id?: string;
+    metadata?: Record<string, any>;
+    timestamp?: string;
+}
+
+export interface PageView {
+    id: string;
+    site: string | Site;
+    page_path: string;
+    page_title?: string | null;
+    referrer?: string | null;
+    user_agent?: string | null;
+    device_type?: string | null;
+    browser?: string | null;
+    os?: string | null;
+    utm_source?: string | null;
+    utm_medium?: string | null;
+    utm_campaign?: string | null;
+    utm_content?: string | null;
+    utm_term?: string | null;
+    is_bot?: boolean;
+    bot_name?: string | null;
+    session_id?: string | null;
+    visitor_id?: string | null;
+    timestamp?: string;
+}
+
+export interface Conversion {
+    id: string;
+    site: string | Site;
+    lead?: string | Lead;
+    conversion_type: string;
+    value?: number;
+    currency?: string;
+    source?: string;
+    campaign?: string;
+    gclid?: string;
+    fbclid?: string;
+    sent_to_google?: boolean;
+    sent_to_facebook?: boolean;
+    date_created?: string;
+}
+
+export interface SiteAnalyticsConfig {
+    id: string;
+    site: string | Site;
+    google_ads_id?: string;
+    google_ads_conversion_label?: string;
+    fb_pixel_id?: string;
+    fb_access_token?: string;
 }
 
 export interface WorkLog {
     id: number;
-    site?: number;
+    site?: number | string; // Relaxed type
     action: string;
     entity_type?: string;
     entity_id?: string | number;
-    details?: string;
+    details?: string | Record<string, any>; // Relaxed to allow JSON object
     level?: string;
     status?: string;
-    timestamp?: string; // Directus uses date_created
+    timestamp?: string;
     date_created?: string;
-    user?: string; // user ID
+    user?: string;
 }
 
 export interface LinkTarget {
@@ -370,3 +488,4 @@ export interface LinkTarget {
     is_hub?: boolean;
     max_per_article?: number;
 }
+
