@@ -869,35 +869,109 @@
                 "meta": {
                     "interface": "input",
                     "required": true,
-                    "unique": true
+                    "note": "Unique slug"
+                }
+            },
+            {
+                "field": "slug",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "required": true,
+                    "note": "URL-friendly identifier"
                 }
             },
             {
                 "field": "base_name",
                 "type": "string",
                 "meta": {
-                    "interface": "input"
+                    "interface": "input",
+                    "required": true
                 }
             },
             {
                 "field": "wealth_cluster",
                 "type": "string",
                 "meta": {
-                    "interface": "input"
+                    "interface": "select-dropdown",
+                    "options": {
+                        "choices": [
+                            {
+                                "text": "High Net Worth",
+                                "value": "high_net_worth"
+                            },
+                            {
+                                "text": "Mass Affluent",
+                                "value": "mass_affluent"
+                            },
+                            {
+                                "text": "Emerging",
+                                "value": "emerging"
+                            }
+                        ]
+                    }
                 }
             },
             {
                 "field": "business_niches",
                 "type": "json",
                 "meta": {
-                    "interface": "input-code"
+                    "interface": "list",
+                    "note": "Array of niche strings"
+                }
+            },
+            {
+                "field": "tech_stack",
+                "type": "json",
+                "meta": {
+                    "interface": "list",
+                    "note": "Technologies used"
+                }
+            },
+            {
+                "field": "identity_male",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "identity_female",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "identity_neutral",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "pain_points",
+                "type": "json",
+                "meta": {
+                    "interface": "list"
+                }
+            },
+            {
+                "field": "goals",
+                "type": "json",
+                "meta": {
+                    "interface": "list"
                 }
             },
             {
                 "field": "data",
                 "type": "json",
                 "meta": {
-                    "interface": "input-code"
+                    "interface": "input-code",
+                    "options": {
+                        "language": "json"
+                    },
+                    "note": "Additional JSON data"
                 }
             }
         ]
@@ -1771,6 +1845,114 @@
                 "type": "integer",
                 "meta": {
                     "interface": "input"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "geo_clusters",
+        "meta": {
+            "icon": "map",
+            "note": "Geographic clusters for targeting"
+        },
+        "fields": [
+            {
+                "field": "cluster_key",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "required": true
+                }
+            },
+            {
+                "field": "name",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "required": true
+                }
+            },
+            {
+                "field": "state",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "description",
+                "type": "text",
+                "meta": {
+                    "interface": "input-multiline"
+                }
+            },
+            {
+                "field": "data",
+                "type": "json",
+                "meta": {
+                    "interface": "input-code",
+                    "options": {
+                        "language": "json"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "collection": "geo_locations",
+        "meta": {
+            "icon": "location_on",
+            "note": "Individual locations within clusters"
+        },
+        "fields": [
+            {
+                "field": "cluster",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o",
+                    "special": [
+                        "m2o"
+                    ]
+                }
+            },
+            {
+                "field": "city",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "required": true
+                }
+            },
+            {
+                "field": "state",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "zip",
+                "type": "string",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "population",
+                "type": "integer",
+                "meta": {
+                    "interface": "input"
+                }
+            },
+            {
+                "field": "coordinates",
+                "type": "json",
+                "meta": {
+                    "interface": "input-code",
+                    "options": {
+                        "language": "json"
+                    },
+                    "note": "{lat, lng}"
                 }
             }
         ]
