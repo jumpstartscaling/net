@@ -8,10 +8,14 @@ import pg from 'pg'; // Default import for some environments
 const { Pool } = pg;
 import Redis from 'ioredis';
 
-// Database connection
-// Coolify provides DATABASE_URL in format: postgres://user:pass@host:5432/db
+// Direct PostgreSQL connection (Strict Connection String)
+// God Mode requires Superuser access (postgres) to effectively diagnose and fix the DB.
+if (!process.env.DATABASE_URL) {
+    console.error("❌ FATAL: DATABASE_URL environment variable is missing!");
+}
+
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL || process.env.DB_CONNECTION_STRING,
+    connectionString: process.env.DATABASE_URL,
     max: 3,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 5000,
