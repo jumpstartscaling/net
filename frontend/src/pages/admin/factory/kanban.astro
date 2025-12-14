@@ -1,0 +1,33 @@
+---
+import Layout from '@/layouts/AdminLayout.astro';
+import KanbanBoard from '@/components/admin/factory/KanbanBoard';
+import { Button } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
+---
+
+<Layout title="Content Factory Board | Spark Intelligence">
+  <div class="h-screen flex flex-col overflow-hidden">
+    <div className="flex-none p-6 pb-2 flex justify-between items-center border-b border-zinc-800/50 bg-zinc-950/50 backdrop-blur-sm z-10">
+      <div>
+        <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+           🏭 Content Factory
+           <span className="text-xs font-normal text-zinc-500 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded-full">Beta</span>
+        </h1>
+        <p className="text-zinc-400 text-sm mt-1">
+          Drag and drop articles to move them through the production pipeline.
+        </p>
+      </div>
+      <div className="flex gap-2">
+         <a href="/admin/jumpstart/wizard">
+            <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 border-0">
+                <Plus className="mr-2 h-4 w-4" /> New Article
+            </Button>
+         </a>
+      </div>
+    </div>
+
+    <div className="flex-1 overflow-hidden p-6 bg-zinc-950">
+        <KanbanBoard client:only="react" />
+    </div>
+  </div>
+</Layout>
