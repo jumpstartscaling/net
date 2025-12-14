@@ -16,11 +16,15 @@
 - **Geo Intelligence**: Interactive Map (Leaflet) + Cluster Cards + Market Stats ✅
 - **Spintax Manager**: Interactive dashboard + Live Preview + Schema Mapping ✅
 - **Cartesian Manager**: Formula Builder + Dynamic Live Data Preview ✅
-- **File Structure**: 25 components created and organized ✅
+- **Kanban Board**: Drag & Drop Article Pipeline + Backend Schema Setup ✅
+- **File Structure**: 30+ components created and organized ✅
 
 **Files Modified**:
 - `components/admin/intelligence/*` (Complete Suite)
+- `components/admin/factory/*` (Kanban)
 - `pages/admin/content/*`
+- `pages/admin/factory/*`
+
 
 ---
 
