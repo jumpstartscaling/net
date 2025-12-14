@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import SendToFactoryButton from '@/components/admin/factory/SendToFactoryButton';
 
 type Step = 'connect' | 'inventory' | 'qc' | 'launch';
 
@@ -253,7 +254,23 @@ export default function JumpstartWizard() {
                                                 <span className="text-slate-200 font-medium truncate w-64">{item.title}</span>
                                                 <a href={item.link} target="_blank" className="text-xs text-blue-400 hover:underline">View Original</a>
                                             </div>
-                                            <Badge variant="outline" className="text-yellow-400 border-yellow-400">Review Needed</Badge>
+                                            <div className="flex items-center gap-2">
+                                                <SendToFactoryButton
+                                                    postId={item.id}
+                                                    postTitle={item.title}
+                                                    siteUrl={siteUrl}
+                                                    siteAuth={appPassword ? `${username}:${appPassword}` : undefined}
+                                                    variant="small"
+                                                    onSuccess={(result) => {
+                                                        addLog(`✅ Article generated: ${result.article.title}`);
+                                                        addLog(`🔗 Preview: ${result.previewUrl}`);
+                                                    }}
+                                                    onError={(error) => {
+                                                        addLog(`❌ Factory error: ${error}`);
+                                                    }}
+                                                />
+                                                <Badge variant="outline" className="text-yellow-400 border-yellow-400">Review Needed</Badge>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
