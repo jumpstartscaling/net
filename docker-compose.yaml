@@ -2,7 +2,7 @@ services:
   postgresql:
     image: 'postgis/postgis:16-3.4-alpine'
     command: "postgres -c 'max_connections=200'"
-    restart: always
+    restart: on-failure:5
     volumes:
       - 'postgres-data-fresh:/var/lib/postgresql/data'
     environment:
@@ -19,7 +19,7 @@ services:
   redis:
     image: 'redis:7-alpine'
     command: 'redis-server --appendonly yes'
-    restart: always
+    restart: on-failure:5
     volumes:
       - 'redis-data:/data'
     healthcheck:
@@ -30,7 +30,7 @@ services:
 
   directus:
     image: 'directus/directus:11'
-    restart: always
+    restart: on-failure:5
     volumes:
       - 'directus-uploads:/directus/uploads'
       - ./directus-extensions:/directus/extensions
@@ -88,7 +88,7 @@ services:
     build:
       context: https://gitthis.jumpstartscaling.com/gatekeeper/net.git#main:frontend
       dockerfile: Dockerfile
-    restart: always
+    restart: on-failure:5
     environment:
       PUBLIC_DIRECTUS_URL: 'https://spark.jumpstartscaling.com'
       DIRECTUS_ADMIN_TOKEN: ''
