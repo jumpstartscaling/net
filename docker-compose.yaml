@@ -7,12 +7,12 @@ services:
     volumes:
       - 'postgres-data:/var/lib/postgresql/data'
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: sparkuser
+      POSTGRES_PASSWORD: z84S0ss3xFN/Q8A/QHtR2WDFcVAom/EszyCg8FMMSQw=
+      POSTGRES_DB: directus
     healthcheck:
       # SELF-CHECK: Uses 127.0.0.1 to check ITSELF inside the container (not external)
-      test: [ "CMD-SHELL", "pg_isready -h 127.0.0.1" ]
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -24,7 +24,7 @@ services:
     volumes:
       - 'redis-data:/data'
     healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
+      test: ["CMD", "redis-cli", "ping"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -36,34 +36,34 @@ services:
       - 'directus-uploads:/directus/uploads'
       - 'directus-extensions:/directus/extensions'
     environment:
-      KEY: ${KEY}
-      SECRET: ${SECRET}
-      ADMIN_EMAIL: ${ADMIN_EMAIL}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      KEY: 9i2t1bMAIITWCZ+WrzUEk4EuNmIu3kfyB9Peysk7f/jnUZ7hzQ5HoNC8yOT5vi/rwTmDWX3a1+4j2llgAE2VvA==
+      SECRET: Mr4YSrOAfwToxCDFOPwUa8qtxd7BXOvmqXalk3ReikpfcIwf08Kp+hlNjGcr1NtcLIcIZoraaULnMefD5IukGA==
+      ADMIN_EMAIL: admin@sparkplatform.com
+      ADMIN_PASSWORD: SecureAdmin2024!
       DB_CLIENT: postgres
       DB_HOST: postgresql
       DB_PORT: 5432
-      DB_DATABASE: ${DB_DATABASE}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-
+      DB_DATABASE: directus
+      DB_USER: sparkuser
+      DB_PASSWORD: z84S0ss3xFN/Q8A/QHtR2WDFcVAom/EszyCg8FMMSQw=
+      
       # --- LIMITS MAXED OUT ---
       MAX_PAYLOAD_SIZE: '500mb'
       RATE_LIMITER_ENABLED: 'false' # False = Infinite/Unlimited
-
+      
       # --- CORS / SECURITY ---
       # This allows your LIVE site AND your LOCAL laptop to talk to the DB
       CORS_ORIGIN: 'https://launch.jumpstartscaling.com,http://localhost:4321'
       CORS_ENABLED: 'true'
       PUBLIC_URL: 'https://spark.jumpstartscaling.com'
-
+      
     depends_on:
       postgresql:
         condition: service_healthy
       redis:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "wget", "--spider", "--no-verbose", "http://127.0.0.1:8055/server/health" ]
+      test: ["CMD", "wget", "--spider", "--no-verbose", "http://127.0.0.1:8055/server/health"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -83,7 +83,7 @@ services:
     restart: always
     environment:
       PUBLIC_DIRECTUS_URL: 'https://spark.jumpstartscaling.com'
-      DIRECTUS_ADMIN_TOKEN: ${DIRECTUS_ADMIN_TOKEN}
+      DIRECTUS_ADMIN_TOKEN: ''
       PUBLIC_PLATFORM_DOMAIN: 'launch.jumpstartscaling.com'
     depends_on:
       - directus
