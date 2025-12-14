@@ -64,8 +64,8 @@ export default function DebugToolbar() {
                                 key={tab}
                                 onClick={() => activeTab.set(tab)}
                                 className={`px-3 py-1 rounded text-xs uppercase font-medium transition-colors ${currentTab === tab
-                                        ? 'bg-gray-700 text-white'
-                                        : 'text-gray-400 hover:text-white'
+                                    ? 'bg-gray-700 text-white'
+                                    : 'text-gray-400 hover:text-white'
                                     }`}
                             >
                                 {tab}
@@ -96,8 +96,8 @@ export default function DebugToolbar() {
                             <div key={log.id} className="flex gap-2 font-mono text-xs border-b border-gray-800/50 pb-1">
                                 <span className="text-gray-500 shrink-0">[{log.timestamp}]</span>
                                 <span className={`shrink-0 w-12 font-bold uppercase ${log.type === 'error' ? 'text-red-500' :
-                                        log.type === 'warn' ? 'text-yellow-500' :
-                                            'text-blue-400'
+                                    log.type === 'warn' ? 'text-yellow-500' :
+                                        'text-blue-400'
                                     }`}>
                                     {log.type}
                                 </span>
@@ -121,8 +121,8 @@ export default function DebugToolbar() {
                 {currentTab === 'backend' && (
                     <div className="h-full p-6 flex flex-col items-center justify-center gap-4">
                         <div className={`text-4xl ${backendStatus === 'online' ? 'text-green-500' :
-                                backendStatus === 'error' ? 'text-red-500' :
-                                    'text-yellow-500 animate-pulse'
+                            backendStatus === 'error' ? 'text-red-500' :
+                                'text-yellow-500 animate-pulse'
                             }`}>
                             {backendStatus === 'online' ? '● Online' :
                                 backendStatus === 'error' ? '✖ Error' : '● Checking...'}
@@ -167,7 +167,7 @@ export default function DebugToolbar() {
                         </div>
                         {/* We force mount devtools panel here if possible */}
                         <QueryClientProvider client={queryClient}>
-                            <ReactQueryDevtools initialIsOpen={true} panelPosition="relative" />
+                            <ReactQueryDevtools initialIsOpen={true} />
                         </QueryClientProvider>
                     </div>
                 )}
