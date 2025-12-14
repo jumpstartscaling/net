@@ -8,17 +8,16 @@ services:
       - 'directus-extensions:/directus/extensions'
       - 'directus-templates:/directus/templates'
     environment:
-      - SERVICE_URL_DIRECTUS_8055
-      - KEY=$SERVICE_BASE64_64_KEY
-      - SECRET=$SERVICE_BASE64_64_SECRET
-      - 'ADMIN_EMAIL=${ADMIN_EMAIL:-admin@example.com}'
-      - ADMIN_PASSWORD=$SERVICE_PASSWORD_ADMIN
+      - KEY=ZnznO66q47ZPWNurIJ20tHLj5usIu902QPtHumzt5cN15RWM2FrjnolpT2f1WY6y
+      - SECRET=I3FaUWDMi5rc3Qwc9qeNB25eBPvZPatVv2GDnT2f58nc19nTteFjwu6hIJF7lFwt
+      - ADMIN_EMAIL=insanecorp@gmail.com
+      - ADMIN_PASSWORD=Idk@ai2026yayhappy
       - DB_CLIENT=postgres
       - DB_HOST=postgresql
       - DB_PORT=5432
-      - 'DB_DATABASE=${POSTGRESQL_DATABASE:-directus}'
-      - DB_USER=$SERVICE_USER_POSTGRESQL
-      - DB_PASSWORD=$SERVICE_PASSWORD_POSTGRESQL
+      - DB_DATABASE=directus
+      - DB_USER=T80MG130m8fltgux
+      - DB_PASSWORD=NXvk7sCqknCLmkE36GRGO0cF29BKQYtj
       - CACHE_ENABLED=false
       - CACHE_STORE=memory
       - WEBSOCKETS_ENABLED=true
@@ -63,13 +62,13 @@ services:
     volumes:
       - 'directus-postgresql-data:/var/lib/postgresql/data'
     environment:
-      - 'POSTGRES_USER=${SERVICE_USER_POSTGRESQL}'
-      - 'POSTGRES_PASSWORD=${SERVICE_PASSWORD_POSTGRESQL}'
-      - 'POSTGRES_DB=${POSTGRESQL_DATABASE:-directus}'
+      - POSTGRES_USER=T80MG130m8fltgux
+      - POSTGRES_PASSWORD=NXvk7sCqknCLmkE36GRGO0cF29BKQYtj
+      - POSTGRES_DB=directus
     healthcheck:
       test:
         - CMD-SHELL
-        - 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}'
+        - 'pg_isready -U T80MG130m8fltgux -d directus'
       interval: 5s
       timeout: 20s
       retries: 10
@@ -94,7 +93,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - PUBLIC_DIRECTUS_URL=https://spark.jumpstartscaling.com
-      - DIRECTUS_ADMIN_TOKEN=${DIRECTUS_ADMIN_TOKEN:-}
+      - DIRECTUS_ADMIN_TOKEN=eufOJ_oKEx_FVyGoz1GxWu6nkSOcgIVS
       - PUBLIC_PLATFORM_DOMAIN=launch.jumpstartscaling.com
     labels:
       - "traefik.enable=true"
