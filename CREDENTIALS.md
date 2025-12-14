@@ -1,18 +1,14 @@
-# Hardcoded Credentials (Saved for Reference)
+# Credentials (Using Existing Database)
 
 ## Directus Admin Login
 - **URL**: https://spark.jumpstartscaling.com
-- **Email**: admin@sparkplatform.com
-- **Password**: SecureAdmin2024!
+- **Email**: somescreenname@gmail.com
+- **Password**: Idk@2026lolhappyha232
 
-## Database Credentials
-- **User**: sparkuser
-- **Password**: z84S0ss3xFN/Q8A/QHtR2WDFcVAom/EszyCg8FMMSQw=
+## Database Credentials (Existing)
+- **User**: bbdf554
+- **Password**: Idk@2026lolhappyha232
 - **Database**: directus
 
-## Directus Keys
-- **KEY**: 9i2t1bMAIITWCZ+WrzUEk4EuNmIu3kfyB9Peysk7f/jnUZ7hzQ5HoNC8yOT5vi/rwTmDWX3a1+4j2llgAE2VvA==
-- **SECRET**: Mr4YSrOAfwToxCDFOPwUa8qtxd7BXOvmqXalk3ReikpfcIwf08Kp+hlNjGcr1NtcLIcIZoraaULnMefD5IukGA==
-
-## Deployment
-**No environment variables needed!** Just deploy the docker-compose.yaml in Coolify and everything will work.
+## Note
+These credentials match the existing PostgreSQL database volume. The database was already initialized with these credentials from a previous deployment.

@@ -1,17 +1,16 @@
 services:
   postgresql:
     image: 'postgis/postgis:16-3.4-alpine'
-    # MAX LIMIT: Allow 200 concurrent connections
     command: postgres -c 'max_connections=200'
     restart: always
     volumes:
       - 'postgres-data:/var/lib/postgresql/data'
     environment:
-      POSTGRES_USER: sparkuser
-      POSTGRES_PASSWORD: z84S0ss3xFN/Q8A/QHtR2WDFcVAom/EszyCg8FMMSQw=
+      # Using credentials from existing database volume
+      POSTGRES_USER: bbdf554
+      POSTGRES_PASSWORD: Idk@2026lolhappyha232
       POSTGRES_DB: directus
     healthcheck:
-      # SELF-CHECK: Uses 127.0.0.1 to check ITSELF inside the container (not external)
       test: ["CMD-SHELL", "pg_isready -h 127.0.0.1"]
       interval: 5s
       timeout: 5s
@@ -38,21 +37,18 @@ services:
     environment:
       KEY: 9i2t1bMAIITWCZ+WrzUEk4EuNmIu3kfyB9Peysk7f/jnUZ7hzQ5HoNC8yOT5vi/rwTmDWX3a1+4j2llgAE2VvA==
       SECRET: Mr4YSrOAfwToxCDFOPwUa8qtxd7BXOvmqXalk3ReikpfcIwf08Kp+hlNjGcr1NtcLIcIZoraaULnMefD5IukGA==
-      ADMIN_EMAIL: admin@sparkplatform.com
-      ADMIN_PASSWORD: SecureAdmin2024!
+      ADMIN_EMAIL: somescreenname@gmail.com
+      ADMIN_PASSWORD: Idk@2026lolhappyha232
       DB_CLIENT: postgres
       DB_HOST: postgresql
       DB_PORT: 5432
       DB_DATABASE: directus
-      DB_USER: sparkuser
-      DB_PASSWORD: z84S0ss3xFN/Q8A/QHtR2WDFcVAom/EszyCg8FMMSQw=
+      # Match existing database credentials
+      DB_USER: bbdf554
+      DB_PASSWORD: Idk@2026lolhappyha232
       
-      # --- LIMITS MAXED OUT ---
       MAX_PAYLOAD_SIZE: '500mb'
-      RATE_LIMITER_ENABLED: 'false' # False = Infinite/Unlimited
-      
-      # --- CORS / SECURITY ---
-      # This allows your LIVE site AND your LOCAL laptop to talk to the DB
+      RATE_LIMITER_ENABLED: 'false'
       CORS_ORIGIN: 'https://launch.jumpstartscaling.com,http://localhost:4321'
       CORS_ENABLED: 'true'
       PUBLIC_URL: 'https://spark.jumpstartscaling.com'
@@ -67,7 +63,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      # PATIENCE: Give Directus 3 minutes to start before giving up
       start_period: 180s
     labels:
       coolify.managed: 'true'
@@ -77,7 +72,6 @@ services:
 
   frontend:
     build:
-      # MAGIC URL: Repo URL + #Branch + :Subfolder
       context: https://gitthis.jumpstartscaling.com/gatekeeper/net.git#main:frontend
       dockerfile: Dockerfile
     restart: always
