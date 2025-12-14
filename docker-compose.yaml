@@ -49,9 +49,9 @@ services:
 
       MAX_PAYLOAD_SIZE: '500mb'
       RATE_LIMITER_ENABLED: 'false'
-      CORS_ORIGIN: 'https://launch.jumpstartscaling.com,http://localhost:4321'
+      CORS_ORIGIN: 'https://launch.jumpstartscaling.com,https://spark.jumpstartscaling.com,http://localhost:4321'
       CORS_ENABLED: 'true'
-      PUBLIC_URL: 'https://spark.jumpstartscaling.com'
+      PUBLIC_URL: 'https://launch.jumpstartscaling.com'
 
     depends_on:
       postgresql:
