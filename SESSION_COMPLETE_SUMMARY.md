@@ -235,11 +235,17 @@ https://launch.jumpstartscaling.com/preview/article/990aefad-564d-4fab-9599-8470
 - **Verification Guide**: See `DEPLOYMENT_VERIFICATION.md`.
 - **Guided Tour**: Located at `/admin/sites/jumpstart` (Sidebar: "**Jumpstart Test 🚀**").
 - **Flagship Demo**: Content generated and available in Launchpad.
+- **Frontend Engine**: `[...slug].astro` and `BlockRenderer` implemented (Public + Preview ready).
+- **Admin Routing Fixes**:
+  - Fixed `Avatar Variants` (Moved to correct path).
+  - Fixed `Geo Intelligence` (Moved to correct path).
+  - Fixed `Generated Articles` (Removed invalid field query).
 
 ### Next Steps for User
 1. Verify deployment via Coolify Dashboard.
 2. Access the Live URL (`https://launch.jumpstartscaling.com` / `https://spark.jumpstartscaling.com`).
 3. Follow the `DEPLOYMENT_VERIFICATION.md` checklist.
+4. Test **Preview** functionality (Admin -> Pages -> Preview).
 5. **Incremental Fixes**: Fixing one issue at a time led to success
 
 ---
