@@ -2272,5 +2272,140 @@
                 }
             }
         ]
+    },
+    {
+        "collection": "article_templates",
+        "meta": {
+            "icon": "article",
+            "note": "Article structure templates"
+        },
+        "fields": [
+            {
+                "field": "name",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "required": true
+                }
+            },
+            {
+                "field": "structure_json",
+                "type": "json",
+                "meta": {
+                    "interface": "list",
+                    "note": "Array of section types"
+                }
+            },
+            {
+                "field": "description",
+                "type": "text",
+                "meta": {
+                    "interface": "input-multiline"
+                }
+            },
+            {
+                "field": "is_default",
+                "type": "boolean",
+                "meta": {
+                    "interface": "boolean"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "avatars",
+        "meta": {
+            "icon": "person",
+            "note": "Simple avatar list (use avatar_intelligence for full data)"
+        },
+        "fields": [
+            {
+                "field": "name",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "required": true
+                }
+            },
+            {
+                "field": "slug",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "required": true
+                }
+            },
+            {
+                "field": "description",
+                "type": "text",
+                "meta": {
+                    "interface": "input-multiline"
+                }
+            }
+        ]
+    },
+    {
+        "collection": "campaigns",
+        "meta": {
+            "icon": "campaign",
+            "note": "Marketing campaigns (use campaign_masters for SEO campaigns)"
+        },
+        "fields": [
+            {
+                "field": "name",
+                "type": "string",
+                "meta": {
+                    "interface": "input",
+                    "required": true
+                }
+            },
+            {
+                "field": "site",
+                "type": "uuid",
+                "meta": {
+                    "interface": "select-dropdown-m2o",
+                    "special": [
+                        "m2o"
+                    ]
+                }
+            },
+            {
+                "field": "status",
+                "type": "string",
+                "meta": {
+                    "interface": "select-dropdown",
+                    "options": {
+                        "choices": [
+                            {
+                                "text": "Active",
+                                "value": "active"
+                            },
+                            {
+                                "text": "Paused",
+                                "value": "paused"
+                            },
+                            {
+                                "text": "Completed",
+                                "value": "completed"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "field": "start_date",
+                "type": "timestamp",
+                "meta": {
+                    "interface": "datetime"
+                }
+            },
+            {
+                "field": "end_date",
+                "type": "timestamp",
+                "meta": {
+                    "interface": "datetime"
+                }
+            }
+        ]
     }
 ]
