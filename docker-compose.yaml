@@ -51,7 +51,7 @@ services:
       RATE_LIMITER_ENABLED: 'false'
       CORS_ORIGIN: 'https://launch.jumpstartscaling.com,https://spark.jumpstartscaling.com,http://localhost:4321'
       CORS_ENABLED: 'true'
-      PUBLIC_URL: 'https://launch.jumpstartscaling.com'
+      PUBLIC_URL: 'https://spark.jumpstartscaling.com'
 
     depends_on:
       postgresql:
@@ -76,7 +76,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     environment:
-      PUBLIC_DIRECTUS_URL: 'https://launch.jumpstartscaling.com'
+      PUBLIC_DIRECTUS_URL: 'https://spark.jumpstartscaling.com'
       DIRECTUS_ADMIN_TOKEN: ''
       PUBLIC_PLATFORM_DOMAIN: 'launch.jumpstartscaling.com'
     depends_on:
