@@ -259,7 +259,13 @@ touch components/admin/factory/BulkActions.tsx
 
 ---
 
-#### Task 2.2: Lead Forms & Management
+#### Task 2.2: Lead Forms & Management ✅ (COMPLETED)
+**What Was Built**:
+- ✅ Leads Collection in Directus (Status, Source, Niche)
+- ✅ Leads Manager UI (Table, Add/Edit Modal)
+- ✅ Status Workflow (New -> Converted)
+- ✅ /admin/leads page
+
 **What to Build**:
 - Lead capture forms
 - Editable leads table

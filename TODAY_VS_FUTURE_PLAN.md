@@ -17,13 +17,17 @@
 - **Spintax Manager**: Interactive dashboard + Live Preview + Schema Mapping ✅
 - **Cartesian Manager**: Formula Builder + Dynamic Live Data Preview ✅
 - **Kanban Board**: Drag & Drop Article Pipeline + Backend Schema Setup ✅
-- **File Structure**: 30+ components created and organized ✅
+- **Leads Manager**: CRM Table + Status Workflow + Backend Schema ✅
+- **Jobs Queue**: Real-time Monitoring + Action Controls + Config Viewer ✅
+- **File Structure**: 35+ components created and organized ✅
 
 **Files Modified**:
 - `components/admin/intelligence/*` (Complete Suite)
-- `components/admin/factory/*` (Kanban)
-- `pages/admin/content/*`
+- `components/admin/factory/*` (Kanban + Jobs)
+- `components/admin/leads/*` (Leads)
 - `pages/admin/factory/*`
+- `pages/admin/leads/*`
+
 
 
 ---

@@ -157,12 +157,16 @@ export interface LocationCity {
 // ... (Existing types preserved above)
 
 // Cartesian Engine Types
+// Cartesian Engine Types
 export interface GenerationJob {
     id: string;
     site_id: string | Site;
     target_quantity: number;
-    status: 'Pending' | 'Processing' | 'Complete' | 'Failed';
-    filters: Record<string, any>; // { avatars: [], niches: [], cities: [], patterns: [] }
+    status: 'queued' | 'processing' | 'completed' | 'failed' | 'Pending' | 'Complete'; // allowing legacy for safety
+    type?: string;
+    progress?: number;
+    priority?: 'high' | 'medium' | 'low';
+    config: Record<string, any>;
     current_offset: number;
     date_created?: string;
 }
@@ -170,7 +174,7 @@ export interface GenerationJob {
 export interface ArticleTemplate {
     id: string;
     name: string;
-    structure_json: string[]; // Array of block IDs
+    structure_json: string[];
 }
 
 export interface Avatar {
@@ -202,16 +206,18 @@ export interface GeoLocation {
 export interface SpintaxDictionary {
     id: string;
     category: string;
-    variations: string; // Stored as "{option1|option2}" string
+    data: string[];
+    base_word?: string;
+    variations?: string; // legacy
 }
 
 export interface CartesianPattern {
     id: string;
-    pattern_name: string;
-    pattern_structure: string;
-    structure_type?: 'custom' | 'recipe';
-    category?: string;
-    formula?: string; // keeping for backward compat if needed
+    pattern_key: string;
+    pattern_type: string;
+    formula: string;
+    example_output?: string;
+    description?: string;
     date_created?: string;
 }
 
@@ -238,16 +244,22 @@ export interface OfferBlockPersonalized {
 // Updated GeneratedArticle to match Init Schema
 export interface GeneratedArticle {
     id: string;
-    site_id: number; // or string depending on schema
+    site_id: number | string;
     title: string;
     slug: string;
     html_content: string;
+    status: 'queued' | 'processing' | 'qc' | 'approved' | 'published' | 'draft' | 'archived';
+    priority?: 'high' | 'medium' | 'low';
+    assignee?: string;
+    due_date?: string;
+    seo_score?: number;
     generation_hash: string;
     meta_desc?: string;
     is_published?: boolean;
     sync_status?: string;
     schema_json?: Record<string, any>;
     date_created?: string;
+
 }
 
 /**

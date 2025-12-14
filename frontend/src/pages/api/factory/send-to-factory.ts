@@ -53,7 +53,7 @@ export const POST: APIRoute = async ({ request }) => {
         // @ts-ignore
         const job = await client.request(createItem('generation_jobs', {
             site_id: siteId,
-            status: 'Pending',
+            status: 'queued',
             // @ts-ignore
             type: options.mode || 'Refactor',
             target_quantity: 1,
@@ -99,7 +99,7 @@ export const POST: APIRoute = async ({ request }) => {
         // 5. Update job status
         // @ts-ignore
         await client.request(updateItem('generation_jobs', job.id, {
-            status: 'Complete',
+            status: 'completed',
             current_offset: 1
         }));
 

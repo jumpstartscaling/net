@@ -1,90 +1,19 @@
 ---
-/**
- * Leads Management
- * Customer lead tracking and management
- */
 import Layout from '@/layouts/AdminLayout.astro';
-import LeadList from '@/components/admin/leads/LeadList';
-import { getDirectusClient } from '@/lib/directus/client';
-import { readItems } from '@directus/sdk';
-
-const client = getDirectusClient();
-
-let stats = {
-  total: 0,
-  new: 0,
-  contacted: 0,
-  qualified: 0,
-};
-
-try {
-  const leads = await client.request(readItems('leads', {
-    fields: ['status'],
-  }));
-  
-  stats.total = leads.length;
-  stats.new = leads.filter((l: any) => l.status === 'new').length;
-  stats.contacted = leads.filter((l: any) => l.status === 'contacted').length;
-  stats.qualified = leads.filter((l: any) => l.status === 'qualified').length;
-} catch (e) {
-  console.error('Error fetching lead stats:', e);
-}
+import LeadsManager from '@/components/admin/leads/LeadsManager';
 ---
 
-<Layout title="Leads & Inquiries">
-  <div class="space-y-6">
-    <!-- Header -->
-    <div class="flex justify-between items-center">
+<Layout title="Leads Management | Spark Intelligence">
+  <div class="p-8 space-y-6">
+    <div class="flex justify-between items-start">
       <div>
-        <h1 class="spark-heading text-3xl">👤 Leads</h1>
-        <p class="text-silver mt-1">Customer lead tracking and management</p>
-      </div>
-      <div class="flex gap-3">
-        <button class="spark-btn-secondary text-sm" onclick="window.dispatchEvent(new CustomEvent('export-data', {detail: {collection: 'leads'}}))">
-          📤 Export CSV
-        </button>
-        <a href="/admin/leads/new" class="spark-btn-primary text-sm">
-          ✨ Add Lead
-        </a>
+        <h1 class="text-3xl font-bold text-white tracking-tight">👥 Leads & Prospects</h1>
+        <p class="text-zinc-400 mt-2 max-w-2xl">
+          Manage incoming leads and track their status from "New" to "Converted".
+        </p>
       </div>
     </div>
 
-    <!-- Stats -->
-    <div class="grid grid-cols-4 gap-4">
-      <div class="spark-card p-6">
-        <div class="spark-label mb-2">Total Leads</div>
-        <div class="spark-data text-3xl">{stats.total}</div>
-      </div>
-      <div class="spark-card p-6">
-        <div class="spark-label mb-2">New</div>
-        <div class="spark-data text-3xl text-yellow-400">{stats.new}</div>
-      </div>
-      <div class="spark-card p-6">
-        <div class="spark-label mb-2">Contacted</div>
-        <div class="spark-data text-3xl text-blue-400">{stats.contacted}</div>
-      </div>
-      <div class="spark-card p-6">
-        <div class="spark-label mb-2">Qualified</div>
-        <div class="spark-data text-3xl text-green-400">{stats.qualified}</div>
-      </div>
-    </div>
-
-    <!-- Leads List -->
-    <div class="spark-card overflow-hidden">
-      <LeadList client:load />
-    </div>
+    <LeadsManager client:only="react" />
   </div>
 </Layout>
-
-<script>
-  window.addEventListener('export-data', async (e: any) => {
-    const { collection } = e.detail;
-    const response = await fetch(`/api/collections/${collection}/export`);
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${collection}-${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-  });
-</script>
