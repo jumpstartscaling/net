@@ -1,18 +1,21 @@
 services:
   postgresql:
     image: 'postgis/postgis:16-3.4-alpine'
+    # MAX LIMIT: Allow 200 concurrent connections
+    command: postgres -c 'max_connections=200'
     restart: always
     volumes:
       - 'postgres-data:/var/lib/postgresql/data'
     environment:
-      POSTGRES_USER: ${DB_USER:-sparkuser}
+      POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_DATABASE:-directus}
+      POSTGRES_DB: ${DB_DATABASE}
     healthcheck:
-      test: [ 'CMD-SHELL', 'pg_isready -U ${DB_USER:-sparkuser} -d ${DB_DATABASE:-directus}' ]
-      interval: 10s
+      # SELF-CHECK: Uses 127.0.0.1 to check ITSELF inside the container (not external)
+      test: [ "CMD-SHELL", "pg_isready -h 127.0.0.1" ]
+      interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
 
   redis:
     image: 'redis:7-alpine'
@@ -21,8 +24,8 @@ services:
     volumes:
       - 'redis-data:/data'
     healthcheck:
-      test: [ 'CMD', 'redis-cli', 'ping' ]
-      interval: 10s
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
       timeout: 5s
       retries: 5
 
@@ -40,48 +43,55 @@ services:
       DB_CLIENT: postgres
       DB_HOST: postgresql
       DB_PORT: 5432
-      DB_DATABASE: ${DB_DATABASE:-directus}
-      DB_USER: ${DB_USER:-sparkuser}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
-      WEBSOCKETS_ENABLED: 'true'
-      CACHE_ENABLED: 'false'
-      RATE_LIMITER_ENABLED: 'false'
-      CORS_ENABLED: 'true'
+
+      # --- LIMITS MAXED OUT ---
+      MAX_PAYLOAD_SIZE: '500mb'
+      RATE_LIMITER_ENABLED: 'false' # False = Infinite/Unlimited
+
+      # --- CORS / SECURITY ---
+      # This allows your LIVE site AND your LOCAL laptop to talk to the DB
       CORS_ORIGIN: 'https://launch.jumpstartscaling.com,http://localhost:4321'
+      CORS_ENABLED: 'true'
       PUBLIC_URL: 'https://spark.jumpstartscaling.com'
-    labels:
-      coolify.managed: 'true'
-      coolify.name: 'directus'
-      coolify.fqdn: 'spark.jumpstartscaling.com'
-      coolify.port: '8055'
-    healthcheck:
-      test: [ 'CMD', 'wget', '--no-verbose', '--tries=1', '--spider', 'http://localhost:8055/server/health' ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+
     depends_on:
       postgresql:
         condition: service_healthy
       redis:
         condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "--no-verbose", "http://127.0.0.1:8055/server/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      # PATIENCE: Give Directus 3 minutes to start before giving up
+      start_period: 180s
+    labels:
+      coolify.managed: 'true'
+      coolify.name: 'directus'
+      coolify.fqdn: 'spark.jumpstartscaling.com'
+      coolify.port: '8055'
 
   frontend:
     build:
-      context: ./frontend
+      # MAGIC URL: Repo URL + #Branch + :Subfolder
+      context: https://gitthis.jumpstartscaling.com/gatekeeper/net.git#main:frontend
       dockerfile: Dockerfile
     restart: always
     environment:
       PUBLIC_DIRECTUS_URL: 'https://spark.jumpstartscaling.com'
-      DIRECTUS_ADMIN_TOKEN: ${DIRECTUS_ADMIN_TOKEN:-}
+      DIRECTUS_ADMIN_TOKEN: ${DIRECTUS_ADMIN_TOKEN}
       PUBLIC_PLATFORM_DOMAIN: 'launch.jumpstartscaling.com'
+    depends_on:
+      - directus
     labels:
       coolify.managed: 'true'
       coolify.name: 'frontend'
       coolify.fqdn: 'launch.jumpstartscaling.com'
       coolify.port: '4321'
-    depends_on:
-      - directus
 
 volumes:
   postgres-data:
