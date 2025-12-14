@@ -33,7 +33,6 @@ services:
     restart: always
     volumes:
       - 'directus-uploads:/directus/uploads'
-      - 'directus-extensions:/directus/extensions'
       - ./directus-extensions:/directus/extensions
       - ./start.sh:/directus/start.sh
       - ./complete_schema.sql:/directus/complete_schema.sql
@@ -77,8 +76,8 @@ services:
       test: [ "CMD", "wget", "--spider", "--no-verbose", "http://127.0.0.1:8055/server/health" ]
       interval: 10s
       timeout: 5s
-      retries: 5
-      start_period: 180s
+      retries: 10
+      start_period: 60s
     labels:
       coolify.managed: 'true'
       coolify.name: 'directus'
@@ -107,7 +106,6 @@ volumes:
   postgres-data-fresh:
   redis-data:
   directus-uploads:
-  directus-extensions:
 
     # NOTE: No env_file specified - all credentials are hardcoded above
     # This prevents Coolify from loading external .env files that might override values

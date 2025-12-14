@@ -27,7 +27,7 @@ if [ $DB_READY = false ]; then
 fi
 
 # === Fresh Install Mode ===
-if [ "$FORCE_FRESH_INSTALL" = "true" ]; then
+if [ "$FORCE_FRESH_INSTALL" = "true" ] || [ "$FORCE_FRESH_INSTALL" = "True" ]; then
     echo ""
     echo "⚠️  ============================================"
     echo "⚠️  FORCE_FRESH_INSTALL MODE ACTIVATED"
