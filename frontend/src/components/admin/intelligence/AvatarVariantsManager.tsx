@@ -43,7 +43,7 @@ export default function AvatarVariantsManager() {
         }
     });
 
-    const variants = variantsRaw as Variant[];
+    const variants = variantsRaw as unknown as Variant[];
 
     const { data: avatarsRaw = [] } = useQuery({
         queryKey: ['avatar_intelligence'],
@@ -53,7 +53,7 @@ export default function AvatarVariantsManager() {
         }
     });
 
-    const avatars = avatarsRaw as Avatar[];
+    const avatars = avatarsRaw as unknown as Avatar[];
 
     // 2. Compute Stats
     const stats = {
