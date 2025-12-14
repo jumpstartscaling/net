@@ -22,6 +22,9 @@ services:
       - CACHE_ENABLED=false
       - CACHE_STORE=memory
       - WEBSOCKETS_ENABLED=true
+      - PRESSURE_LIMITER_ENABLED=false
+      - RATE_LIMITER_ENABLED=false
+      - DB_POOL_MAX=100
       - CORS_ENABLED=true
       - 'CORS_ORIGIN=https://launch.jumpstartscaling.com,http://localhost:4321'
       - CORS_METHODS=GET,POST,PATCH,DELETE
