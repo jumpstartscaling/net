@@ -1,14 +1,18 @@
 #!/bin/sh
 set -e
 
-# Generate random passwords if not set
-export ADMIN_PASSWORD=${ADMIN_PASSWORD:-$(openssl rand -base64 32)}
-export DB_PASSWORD=${DB_PASSWORD:-$(openssl rand -base64 32)}
-export KEY=${KEY:-$(openssl rand -base64 64)}
-export SECRET=${SECRET:-$(openssl rand -base64 64)}
-
-# Save credentials to a file for reference
-cat > /directus/credentials.txt <<EOF
+# Only generate passwords if credentials file doesn't exist (first run)
+if [ ! -f /directus/data/.credentials_generated ]; then
+    echo "🔐 First run detected - generating credentials..."
+    
+    # Generate random passwords
+    export ADMIN_PASSWORD=${ADMIN_PASSWORD:-$(openssl rand -base64 32 | tr -d '=+/' | cut -c1-32)}
+    export DB_PASSWORD=${DB_PASSWORD:-$(openssl rand -base64 32 | tr -d '=+/' | cut -c1-32)}
+    export KEY=${KEY:-$(openssl rand -base64 64)}
+    export SECRET=${SECRET:-$(openssl rand -base64 64)}
+    
+    # Save credentials
+    cat > /directus/data/.credentials_generated <<EOF
 ===========================================
 DIRECTUS ADMIN CREDENTIALS
 ===========================================
@@ -21,12 +25,16 @@ Database Password: ${DB_PASSWORD}
 Directus Key: ${KEY}
 Directus Secret: ${SECRET}
 ===========================================
-IMPORTANT: Save these credentials securely!
+SAVE THESE CREDENTIALS - THEY WON'T BE SHOWN AGAIN!
 ===========================================
 EOF
+    
+    echo "✅ Credentials generated!"
+    cat /directus/data/.credentials_generated
+else
+    echo "📋 Using existing credentials from previous run"
+    cat /directus/data/.credentials_generated
+fi
 
-echo "✅ Credentials generated and saved to /directus/credentials.txt"
-cat /directus/credentials.txt
-
-# Start Directus
+# Start Directus normally
 exec node cli.js bootstrap && node cli.js start
