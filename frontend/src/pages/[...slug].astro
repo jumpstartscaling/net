@@ -56,8 +56,8 @@ if (page && (!blocks || blocks.length === 0) && page.content) {
 >
   {isGenerated ? (
     <article class="prose dark:prose-invert max-w-none container mx-auto px-4 py-8">
-      <h1 class="text-4xl font-bold mb-6">{activeEntity.headline}</h1>
-      <div set:html={activeEntity.full_html_body} />
+      <h1 class="text-4xl font-bold mb-6">{activeEntity.title}</h1>
+      <div set:html={activeEntity.html_content} />
     </article>
   ) : (
     <BlockRenderer blocks={blocks} />
