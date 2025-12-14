@@ -230,6 +230,16 @@ https://launch.jumpstartscaling.com/preview/article/990aefad-564d-4fab-9599-8470
 2. **Field Names**: Using `url` instead of `domain` was critical
 3. **Error Handling**: Better error messages help debug faster
 4. **API Testing**: Direct API tests revealed issues before UI testing
+### Deployment & Verification
+- **Status**: Deployment triggered manually by User.
+- **Verification Guide**: See `DEPLOYMENT_VERIFICATION.md`.
+- **Guided Tour**: Located at `/admin/sites/jumpstart` (Sidebar: "**Jumpstart Test 🚀**").
+- **Flagship Demo**: Content generated and available in Launchpad.
+
+### Next Steps for User
+1. Verify deployment via Coolify Dashboard.
+2. Access the Live URL (`https://launch.jumpstartscaling.com` / `https://spark.jumpstartscaling.com`).
+3. Follow the `DEPLOYMENT_VERIFICATION.md` checklist.
 5. **Incremental Fixes**: Fixing one issue at a time led to success
 
 ---
@@ -238,7 +248,7 @@ https://launch.jumpstartscaling.com/preview/article/990aefad-564d-4fab-9599-8470
 
 - **Frontend**: Astro, React, TypeScript
 - **Backend**: Directus (Headless CMS)
-- **Database**: PostgreSQL (via Directus)
+- **Database**: PostgreSQL
 - **Deployment**: Coolify (Docker)
 - **WordPress**: REST API integration
 - **Content**: Intelligence Library (Geo, Spintax, Cartesian, Avatars)
