@@ -225,7 +225,7 @@ export async function fetchGeneratedArticleBySlug(
                 filter: {
                     _and: [
                         { slug: { _eq: slug } },
-                        { site_id: { _eq: Number(siteId) } },
+                        { site_id: { _eq: siteId } },
                         { is_published: { _eq: true } }
                     ]
                 },
@@ -270,31 +270,46 @@ export async function fetchCampaigns(siteId?: string) {
  * Fetch locations (states, counties, cities)
  */
 export async function fetchStates() {
-    return directus.request(
-        readItems('locations_states', {
-            sort: ['name'],
-            fields: ['*']
-        })
-    );
+    try {
+        return await directus.request(
+            readItems('locations_states', {
+                sort: ['name'],
+                fields: ['*']
+            })
+        );
+    } catch (err) {
+        console.error('Error fetching states:', err);
+        return [];
+    }
 }
 
 export async function fetchCountiesByState(stateId: string) {
-    return directus.request(
-        readItems('locations_counties', {
-            filter: { state: { _eq: stateId } },
-            sort: ['name'],
-            fields: ['*']
-        })
-    );
+    try {
+        return await directus.request(
+            readItems('locations_counties', {
+                filter: { state: { _eq: stateId } },
+                sort: ['name'],
+                fields: ['*']
+            })
+        );
+    } catch (err) {
+        console.error('Error fetching counties:', err);
+        return [];
+    }
 }
 
 export async function fetchCitiesByCounty(countyId: string, limit = 50) {
-    return directus.request(
-        readItems('locations_cities', {
-            filter: { county: { _eq: countyId } },
-            sort: ['-population'],
-            limit,
-            fields: ['*']
-        })
-    );
+    try {
+        return await directus.request(
+            readItems('locations_cities', {
+                filter: { county: { _eq: countyId } },
+                sort: ['-population'],
+                limit,
+                fields: ['*']
+            })
+        );
+    } catch (err) {
+        console.error('Error fetching cities:', err);
+        return [];
+    }
 }
