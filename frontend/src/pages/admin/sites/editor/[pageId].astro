@@ -1,0 +1,10 @@
+---
+import Layout from '@/layouts/AdminLayout.astro';
+import PageEditor from '@/components/admin/sites/PageEditor';
+
+const { pageId } = Astro.params;
+---
+
+<Layout title="Page Editor | Spark Launchpad" hideSidebar={true}>
+    <PageEditor client:only="react" pageId={pageId!} onBack={() => history.back()} />
+</Layout>

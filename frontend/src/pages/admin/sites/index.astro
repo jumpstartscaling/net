@@ -1,27 +1,19 @@
 ---
 import Layout from '@/layouts/AdminLayout.astro';
-import SiteList from '@/components/admin/sites/SiteList';
+import SitesManager from '@/components/admin/sites/SitesManager';
 ---
 
-<Layout title="Site Management">
-  <div class="p-6 space-y-6">
-    <div class="flex justify-between items-center">
+<Layout title="Sites | Spark Launchpad">
+  <div class="p-8 space-y-6">
+    <div class="flex justify-between items-start">
       <div>
-        <h1 class="text-3xl font-bold text-slate-100">My Sites</h1>
-        <p class="text-slate-400">Manage your connected WordPress and Webflow sites.</p>
-      </div>
-      <div class="flex gap-3">
-        <a href="/admin/sites/import" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 border border-slate-600">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
-            Import Content
-        </a>
-        <a href="/admin/sites/new" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
-            Add Site
-        </a>
+        <h1 class="text-3xl font-bold text-white tracking-tight">🚀 Launchpad</h1>
+        <p class="text-zinc-400 mt-2 max-w-2xl">
+          Deploy and manage multiple websites from a single dashboard.
+        </p>
       </div>
     </div>
 
-    <SiteList client:load />
+    <SitesManager client:only="react" />
   </div>
 </Layout>
