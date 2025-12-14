@@ -265,6 +265,75 @@ Deploys, wipes DB, runs schema. **Data loss warning**.
 
 ---
 
+## 9A. Stability Patch & Permissions Protocol
+
+### 9A.1 The Foundation Gap (RESOLVED)
+
+**Issue**: TypeScript referenced 28 collections but SQL schema only had 15 tables.
+
+**Solution**: Stability Patch v1.0 added 13 missing tables to `complete_schema.sql`:
+
+| Category | Tables Added |
+|----------|-------------|
+| Analytics | site_analytics, events, pageviews, conversions |
+| Geo-Intelligence | locations_states, locations_counties, locations_cities |
+| Lead Capture | forms, form_submissions |
+| Site Builder | navigation, globals, hub_pages |
+| System | work_log |
+
+### 9A.2 Permissions Grant Protocol
+
+**Issue**: Creating tables in PostgreSQL does NOT grant Directus permissions. Admin sees empty sidebar.
+
+**Solution**: `complete_schema.sql` now includes automatic permission grants.
+
+**What it does**:
+```sql
+DO $$
+DECLARE
+    admin_policy_id UUID := (
+        SELECT id FROM directus_policies 
+        WHERE name = 'Administrator' 
+        LIMIT 1
+    );
+BEGIN
+    -- Grants CRUD to all 13 new collections
+    INSERT INTO directus_permissions (policy, collection, action, ...) VALUES
+    (admin_policy_id, 'forms', 'create', ...),
+    (admin_policy_id, 'forms', 'read', ...),
+    ...
+END $$;
+```
+
+### 9A.3 Fresh Install Includes Everything
+
+When deploying with `FORCE_FRESH_INSTALL=true`:
+
+1. ✅ 28 tables created (Foundation → Walls → Roof + Stability Patch)
+2. ✅ Directus UI configured (dropdowns, display templates)
+3. ✅ Admin permissions auto-granted for all collections
+
+### 9A.4 Manual Patch (For Existing Databases)
+
+If you need to add the new tables to an existing database WITHOUT wiping:
+
+```bash
+# Connect to PostgreSQL
+docker exec -it [postgres-container] psql -U postgres -d directus
+
+# Run just the Stability Patch section (lines 170-335 of complete_schema.sql)
+# Then run the Permissions Protocol section (lines 610-709)
+```
+
+### 9A.5 Verification
+
+After patching, verify in Directus Admin:
+
+1. **Settings → Data Model** should show all 28 collections
+2. **Content → Forms** should be accessible
+3. **Content → Analytics → Events** should be accessible
+4. **Content → Locations → States** should be accessible
+
 ## 10. Critical Files
 
 | File | Purpose | Change Impact |

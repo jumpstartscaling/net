@@ -606,3 +606,104 @@ SET
     display_template = '{{site_name}}'
 WHERE
     collection = 'globals';
+
+-- ===================================================================================
+-- 🔐 PERMISSIONS GRANT PROTOCOL v1.0
+-- Purpose: Grant full CRUDS access to Admin Policy for all 13 new tables
+-- Author: Spark Overlord
+-- Note: This runs automatically during fresh install to unlock new collections
+-- ===================================================================================
+
+DO $$
+DECLARE
+    admin_policy_id UUID := (
+        SELECT id FROM directus_policies 
+        WHERE name = 'Administrator' 
+        LIMIT 1
+    );
+BEGIN
+    -- Skip if no Administrator policy found (will be created by Directus on first boot)
+    IF admin_policy_id IS NULL THEN
+        RAISE NOTICE '⚠️ Administrator policy not found. Permissions will need to be set manually in Directus.';
+        RETURN;
+    END IF;
+
+    -- ANALYTICS ENGINE (4 tables)
+    INSERT INTO directus_permissions (policy, collection, action, permissions, validation, fields) VALUES
+    (admin_policy_id, 'site_analytics', 'create', '{}', '{}', '*'),
+    (admin_policy_id, 'site_analytics', 'read', '{}', '{}', '*'),
+    (admin_policy_id, 'site_analytics', 'update', '{}', '{}', '*'),
+    (admin_policy_id, 'site_analytics', 'delete', '{}', '{}', '*'),
+    
+    (admin_policy_id, 'events', 'create', '{}', '{}', '*'),
+    (admin_policy_id, 'events', 'read', '{}', '{}', '*'),
+    (admin_policy_id, 'events', 'update', '{}', '{}', '*'),
+    (admin_policy_id, 'events', 'delete', '{}', '{}', '*'),
+
+    (admin_policy_id, 'pageviews', 'create', '{}', '{}', '*'),
+    (admin_policy_id, 'pageviews', 'read', '{}', '{}', '*'),
+    (admin_policy_id, 'pageviews', 'update', '{}', '{}', '*'),
+    (admin_policy_id, 'pageviews', 'delete', '{}', '{}', '*'),
+
+    (admin_policy_id, 'conversions', 'create', '{}', '{}', '*'),
+    (admin_policy_id, 'conversions', 'read', '{}', '{}', '*'),
+    (admin_policy_id, 'conversions', 'update', '{}', '{}', '*'),
+    (admin_policy_id, 'conversions', 'delete', '{}', '{}', '*')
+    ON CONFLICT DO NOTHING;
+
+    -- GEO-INTELLIGENCE (3 tables)
+    INSERT INTO directus_permissions (policy, collection, action, permissions, validation, fields) VALUES
+    (admin_policy_id, 'locations_states', 'create', '{}', '{}', '*'),
+    (admin_policy_id, 'locations_states', 'read', '{}', '{}', '*'),
+    (admin_policy_id, 'locations_states', 'update', '{}', '{}', '*'),
+    (admin_policy_id, 'locations_states', 'delete', '{}', '{}', '*'),
+
+    (admin_policy_id, 'locations_counties', 'create', '{}', '{}', '*'),
+    (admin_policy_id, 'locations_counties', 'read', '{}', '{}', '*'),
+    (admin_policy_id, 'locations_counties', 'update', '{}', '{}', '*'),
+    (admin_policy_id, 'locations_counties', 'delete', '{}', '{}', '*'),
+
+    (admin_policy_id, 'locations_cities', 'create', '{}', '{}', '*'),
+    (admin_policy_id, 'locations_cities', 'read', '{}', '{}', '*'),
+    (admin_policy_id, 'locations_cities', 'update', '{}', '{}', '*'),
+    (admin_policy_id, 'locations_cities', 'delete', '{}', '{}', '*')
+    ON CONFLICT DO NOTHING;
+
+    -- LEAD CAPTURE (2 tables)
+    INSERT INTO directus_permissions (policy, collection, action, permissions, validation, fields) VALUES
+    (admin_policy_id, 'forms', 'create', '{}', '{}', '*'),
+    (admin_policy_id, 'forms', 'read', '{}', '{}', '*'),
+    (admin_policy_id, 'forms', 'update', '{}', '{}', '*'),
+    (admin_policy_id, 'forms', 'delete', '{}', '{}', '*'),
+
+    (admin_policy_id, 'form_submissions', 'create', '{}', '{}', '*'),
+    (admin_policy_id, 'form_submissions', 'read', '{}', '{}', '*'),
+    (admin_policy_id, 'form_submissions', 'update', '{}', '{}', '*'),
+    (admin_policy_id, 'form_submissions', 'delete', '{}', '{}', '*')
+    ON CONFLICT DO NOTHING;
+
+    -- SITE BUILDER & SYSTEM (4 tables)
+    INSERT INTO directus_permissions (policy, collection, action, permissions, validation, fields) VALUES
+    (admin_policy_id, 'navigation', 'create', '{}', '{}', '*'),
+    (admin_policy_id, 'navigation', 'read', '{}', '{}', '*'),
+    (admin_policy_id, 'navigation', 'update', '{}', '{}', '*'),
+    (admin_policy_id, 'navigation', 'delete', '{}', '{}', '*'),
+
+    (admin_policy_id, 'globals', 'create', '{}', '{}', '*'),
+    (admin_policy_id, 'globals', 'read', '{}', '{}', '*'),
+    (admin_policy_id, 'globals', 'update', '{}', '{}', '*'),
+    (admin_policy_id, 'globals', 'delete', '{}', '{}', '*'),
+
+    (admin_policy_id, 'hub_pages', 'create', '{}', '{}', '*'),
+    (admin_policy_id, 'hub_pages', 'read', '{}', '{}', '*'),
+    (admin_policy_id, 'hub_pages', 'update', '{}', '{}', '*'),
+    (admin_policy_id, 'hub_pages', 'delete', '{}', '{}', '*'),
+
+    (admin_policy_id, 'work_log', 'create', '{}', '{}', '*'),
+    (admin_policy_id, 'work_log', 'read', '{}', '{}', '*'),
+    (admin_policy_id, 'work_log', 'update', '{}', '{}', '*'),
+    (admin_policy_id, 'work_log', 'delete', '{}', '{}', '*')
+    ON CONFLICT DO NOTHING;
+
+    RAISE NOTICE '✅ Permissions granted for all 13 new collections.';
+END $$;
