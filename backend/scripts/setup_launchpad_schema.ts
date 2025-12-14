@@ -69,7 +69,7 @@ async function setupLaunchpadSchema() {
             { field: 'blocks', type: 'json', meta: { interface: 'list', note: 'JSON structure of page blocks' } }, // Using JSON for blocks primarily for flexibility
             { field: 'seo_title', type: 'string' },
             { field: 'seo_description', type: 'text' },
-            { field: 'site', type: 'integer', meta: { interface: 'select-dropdown' }, schema: { is_nullable: true } } // Simplified relationship
+            { field: 'site', type: 'uuid', meta: { interface: 'select-dropdown' }, schema: { is_nullable: true } } // UUID relationship
         ];
 
         for (const f of pageFields) {

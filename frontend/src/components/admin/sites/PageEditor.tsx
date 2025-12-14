@@ -13,8 +13,8 @@ const client = getDirectusClient();
 
 interface PageBlock {
     id: string;
-    type: 'hero' | 'content' | 'features' | 'cta';
-    data: any;
+    block_type: 'hero' | 'content' | 'features' | 'cta';
+    block_config: any;
 }
 
 interface Page {
@@ -62,20 +62,20 @@ export default function PageEditor({ pageId, onBack }: PageEditorProps) {
         }
     });
 
-    const addBlock = (type: PageBlock['type']) => {
+    const addBlock = (block_type: PageBlock['block_type']) => {
         const newBlock: PageBlock = {
             id: crypto.randomUUID(),
-            type,
-            data: type === 'hero' ? { title: 'New Hero', subtitle: 'Subtitle here', bg: 'default' } :
-                type === 'content' ? { content: '<p>Start writing...</p>' } :
-                    type === 'features' ? { items: [{ title: 'Feature 1', desc: 'Description' }] } :
+            block_type,
+            block_config: block_type === 'hero' ? { title: 'New Hero', subtitle: 'Subtitle here', bg: 'default' } :
+                block_type === 'content' ? { content: '<p>Start writing...</p>' } :
+                    block_type === 'features' ? { items: [{ title: 'Feature 1', desc: 'Description' }] } :
                         { label: 'Click Me', url: '#' }
         };
         setBlocks([...blocks, newBlock]);
     };
 
-    const updateBlock = (id: string, data: any) => {
-        setBlocks(blocks.map(b => b.id === id ? { ...b, data: { ...b.data, ...data } } : b));
+    const updateBlock = (id: string, config: any) => {
+        setBlocks(blocks.map(b => b.id === id ? { ...b, block_config: { ...b.block_config, ...config } } : b));
     };
 
     const removeBlock = (id: string) => {
@@ -174,19 +174,19 @@ export default function PageEditor({ pageId, onBack }: PageEditorProps) {
 
                             <CardContent className="p-6">
                                 {/* Type Label */}
-                                <div className="absolute left-0 top-0 bg-zinc-800 text-zinc-500 text-[10px] uppercase font-bold px-2 py-1 rounded-br opacity-50">{block.type}</div>
+                                <div className="absolute left-0 top-0 bg-zinc-800 text-zinc-500 text-[10px] uppercase font-bold px-2 py-1 rounded-br opacity-50">{block.block_type}</div>
 
                                 {/* HERO EDITOR */}
-                                {block.type === 'hero' && (
+                                {block.block_type === 'hero' && (
                                     <div className="text-center space-y-4 py-8">
                                         <Input
-                                            value={block.data.title}
+                                            value={block.block_config.title}
                                             onChange={e => updateBlock(block.id, { title: e.target.value })}
                                             className="text-4xl font-bold bg-transparent border-0 text-center placeholder:text-zinc-700 h-auto focus-visible:ring-0 p-0"
                                             placeholder="Hero Headline"
                                         />
                                         <Input
-                                            value={block.data.subtitle}
+                                            value={block.block_config.subtitle}
                                             onChange={e => updateBlock(block.id, { subtitle: e.target.value })}
                                             className="text-xl text-zinc-400 bg-transparent border-0 text-center placeholder:text-zinc-700 h-auto focus-visible:ring-0 p-0"
                                             placeholder="Hero Subtitle"
@@ -195,10 +195,10 @@ export default function PageEditor({ pageId, onBack }: PageEditorProps) {
                                 )}
 
                                 {/* CONTENT EDITOR */}
-                                {block.type === 'content' && (
+                                {block.block_type === 'content' && (
                                     <div className="space-y-2">
                                         <Textarea
-                                            value={block.data.content}
+                                            value={block.block_config.content}
                                             onChange={e => updateBlock(block.id, { content: e.target.value })}
                                             className="min-h-[150px] bg-zinc-950 border-zinc-800 font-serif text-lg leading-relaxed text-zinc-300"
                                             placeholder="Write your HTML content or markdown here..."
@@ -207,14 +207,14 @@ export default function PageEditor({ pageId, onBack }: PageEditorProps) {
                                 )}
 
                                 {/* FEATURES EDITOR */}
-                                {block.type === 'features' && (
+                                {block.block_type === 'features' && (
                                     <div className="grid grid-cols-3 gap-4">
-                                        {(block.data.items || []).map((item: any, i: number) => (
+                                        {(block.block_config.items || []).map((item: any, i: number) => (
                                             <div key={i} className="p-4 rounded bg-zinc-950 border border-zinc-800 space-y-2">
                                                 <Input
                                                     value={item.title}
                                                     onChange={e => {
-                                                        const newItems = [...block.data.items];
+                                                        const newItems = [...block.block_config.items];
                                                         newItems[i].title = e.target.value;
                                                         updateBlock(block.id, { items: newItems });
                                                     }}
@@ -223,7 +223,7 @@ export default function PageEditor({ pageId, onBack }: PageEditorProps) {
                                                 <Textarea
                                                     value={item.desc}
                                                     onChange={e => {
-                                                        const newItems = [...block.data.items];
+                                                        const newItems = [...block.block_config.items];
                                                         newItems[i].desc = e.target.value;
                                                         updateBlock(block.id, { items: newItems });
                                                     }}
@@ -232,7 +232,7 @@ export default function PageEditor({ pageId, onBack }: PageEditorProps) {
                                             </div>
                                         ))}
                                         <Button variant="outline" className="h-full border-dashed border-zinc-800 text-zinc-600" onClick={() => {
-                                            const newItems = [...(block.data.items || []), { title: 'New Feature', desc: 'Desc' }];
+                                            const newItems = [...(block.block_config.items || []), { title: 'New Feature', desc: 'Desc' }];
                                             updateBlock(block.id, { items: newItems });
                                         }}>
                                             <Plus className="h-4 w-4" />
