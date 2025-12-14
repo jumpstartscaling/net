@@ -1,6 +1,7 @@
 ---
 import type { Globals, Navigation } from '@/types/schema';
 import { GlobalToaster } from '@/components/providers/CoreProviders';
+import DebugToolbar from '@/components/debug/DebugToolbar';
 
 interface Props {
   title: string;
@@ -276,5 +277,6 @@ const ogImage = image || globals?.logo || '';
       });
     </script>
     <GlobalToaster client:load />
+    <DebugToolbar client:load />
   </body>
 </html>
