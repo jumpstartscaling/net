@@ -76,7 +76,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     environment:
-      PUBLIC_DIRECTUS_URL: 'https://spark.jumpstartscaling.com'
+      PUBLIC_DIRECTUS_URL: 'https://launch.jumpstartscaling.com'
       DIRECTUS_ADMIN_TOKEN: ''
       PUBLIC_PLATFORM_DOMAIN: 'launch.jumpstartscaling.com'
     depends_on:
