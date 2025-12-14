@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS production_queue (
 
 CREATE TABLE IF NOT EXISTS quality_flags (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    site UUID REFERENCES sites (id) ON DELETE CASCADE,
+    site_id UUID REFERENCES sites (id) ON DELETE CASCADE,
     batch_id VARCHAR(255),
     article_a VARCHAR(255),
     article_b VARCHAR(255),
@@ -260,7 +260,7 @@ CREATE TABLE IF NOT EXISTS image_templates (
 
 CREATE TABLE IF NOT EXISTS conversions (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    site UUID REFERENCES sites (id) ON DELETE CASCADE,
+    site_id UUID REFERENCES sites (id) ON DELETE CASCADE,
     lead UUID,
     conversion_type VARCHAR(100),
     value FLOAT,
@@ -273,7 +273,7 @@ CREATE TABLE IF NOT EXISTS conversions (
 
 CREATE TABLE IF NOT EXISTS site_analytics (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    site UUID REFERENCES sites (id) ON DELETE CASCADE,
+    site_id UUID REFERENCES sites (id) ON DELETE CASCADE,
     google_ads_id VARCHAR(255),
     google_ads_conversion_label VARCHAR(255),
     fb_pixel_id VARCHAR(255),
@@ -287,7 +287,7 @@ CREATE TABLE IF NOT EXISTS site_analytics (
 
 CREATE TABLE IF NOT EXISTS hub_pages (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    site UUID REFERENCES sites (id) ON DELETE CASCADE,
+    site_id UUID REFERENCES sites (id) ON DELETE CASCADE,
     title VARCHAR(255),
     slug VARCHAR(255),
     parent_hub UUID REFERENCES hub_pages (id) ON DELETE SET NULL,
@@ -299,7 +299,7 @@ CREATE TABLE IF NOT EXISTS hub_pages (
 
 CREATE TABLE IF NOT EXISTS link_targets (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    site UUID REFERENCES sites (id) ON DELETE CASCADE,
+    site_id UUID REFERENCES sites (id) ON DELETE CASCADE,
     target_url VARCHAR(500),
     anchor_text VARCHAR(255),
     anchor_variations JSONB,
@@ -311,7 +311,7 @@ CREATE TABLE IF NOT EXISTS link_targets (
 
 CREATE TABLE IF NOT EXISTS work_log (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    site UUID REFERENCES sites (id) ON DELETE CASCADE,
+    site_id UUID REFERENCES sites (id) ON DELETE CASCADE,
     action VARCHAR(255),
     entity_type VARCHAR(100),
     entity_id VARCHAR(255),
@@ -326,7 +326,7 @@ CREATE TABLE IF NOT EXISTS work_log (
 
 CREATE TABLE IF NOT EXISTS forms (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    site UUID REFERENCES sites (id) ON DELETE CASCADE,
+    site_id UUID REFERENCES sites (id) ON DELETE CASCADE,
     name VARCHAR(255),
     fields_config JSONB,
     success_message TEXT,
