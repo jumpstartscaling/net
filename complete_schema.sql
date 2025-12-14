@@ -2,12 +2,48 @@
 -- Creates all remaining tables with proper relationships
 
 -- ============================================
--- CONTENT FACTORY / SEO ENGINE
+-- BATCH 1: PARENT TABLES (NO DEPENDENCIES)
+-- These MUST be created first as other tables reference them
+-- ============================================
+
+-- Super Parent #1: Sites - Referenced by 10+ tables
+CREATE TABLE IF NOT EXISTS sites (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+    name VARCHAR(255) NOT NULL,
+    url VARCHAR(500),
+    domain VARCHAR(255),
+    status VARCHAR(50) DEFAULT 'active',
+    wp_url VARCHAR(500),
+    wp_username VARCHAR(255),
+    wp_app_password TEXT,
+    site_globals JSONB,
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Super Parent #2: Campaign Masters - Referenced by headline_inventory, content_fragments
+CREATE TABLE IF NOT EXISTS campaign_masters (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+    site_id UUID REFERENCES sites (id) ON DELETE CASCADE,
+    name VARCHAR(255) NOT NULL,
+    headline_spintax_root TEXT,
+    niche_variables JSONB,
+    location_mode VARCHAR(100),
+    location_target VARCHAR(255),
+    batch_count INTEGER DEFAULT 0,
+    status VARCHAR(50) DEFAULT 'active',
+    target_word_count INTEGER DEFAULT 1500,
+    article_template UUID,
+    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================
+-- BATCH 2: CONTENT FACTORY / SEO ENGINE
 -- ============================================
 
 CREATE TABLE IF NOT EXISTS headline_inventory (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    campaign UUID REFERENCES campaign_masters (id) ON DELETE CASCADE,
+    campaign_id UUID REFERENCES campaign_masters (id) ON DELETE CASCADE,
     final_title_text VARCHAR(500),
     status VARCHAR(50) DEFAULT 'available',
     used_on_article UUID,
@@ -26,8 +62,8 @@ CREATE TABLE IF NOT EXISTS content_fragments (
 
 CREATE TABLE IF NOT EXISTS production_queue (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
-    site UUID REFERENCES sites (id) ON DELETE CASCADE,
-    campaign UUID REFERENCES campaign_masters (id) ON DELETE CASCADE,
+    site_id UUID REFERENCES sites (id) ON DELETE CASCADE,
+    campaign_id UUID REFERENCES campaign_masters (id) ON DELETE CASCADE,
     status VARCHAR(50) DEFAULT 'pending',
     total_requested INTEGER,
     completed_count INTEGER DEFAULT 0,
