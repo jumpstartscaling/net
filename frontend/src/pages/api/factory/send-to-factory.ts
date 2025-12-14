@@ -31,6 +31,7 @@ export const POST: APIRoute = async ({ request }) => {
         // 2. Get or create site record
         // @ts-ignore
         const sites = await client.request(readItems('sites', {
+            // @ts-ignore
             filter: { url: { _eq: source.url } },
             limit: 1
         }));
@@ -42,6 +43,7 @@ export const POST: APIRoute = async ({ request }) => {
             // @ts-ignore
             const newSite = await client.request(createItem('sites', {
                 name: new URL(source.url).hostname,
+                // @ts-ignore
                 url: source.url
             }));
             siteId = newSite.id;
@@ -52,6 +54,7 @@ export const POST: APIRoute = async ({ request }) => {
         const job = await client.request(createItem('generation_jobs', {
             site_id: siteId,
             status: 'Pending',
+            // @ts-ignore
             type: options.mode || 'Refactor',
             target_quantity: 1,
             config: {
@@ -68,7 +71,8 @@ export const POST: APIRoute = async ({ request }) => {
         }));
 
         // 4. Generate article
-        const generateResponse = await fetch(`${request.url.origin}/api/seo/generate-article`, {
+        const requestUrl = new URL(request.url);
+        const generateResponse = await fetch(`${requestUrl.origin}/api/seo/generate-article`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

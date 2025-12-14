@@ -52,6 +52,18 @@ export class WordPressClient {
         return this.fetchCollection(url);
     }
 
+    async getPost(postId: number): Promise<WPPost | null> {
+        try {
+            const url = `${this.baseUrl}/wp-json/wp/v2/posts/${postId}`;
+            const res = await fetch(url);
+            if (!res.ok) return null;
+            return await res.json();
+        } catch (e) {
+            console.error("Fetch Post Error", e);
+            return null;
+        }
+    }
+
     async getAllPosts(): Promise<WPPost[]> {
         let allPosts: WPPost[] = [];
         let page = 1;
