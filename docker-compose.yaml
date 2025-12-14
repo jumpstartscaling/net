@@ -1,107 +1,93 @@
 services:
-  directus:
-    build:
-      context: .
-      dockerfile: directus.Dockerfile
-    volumes:
-      - 'directus-uploads:/directus/uploads'
-      - 'directus-extensions:/directus/extensions'
-      - 'directus-templates:/directus/templates'
-    environment:
-      - KEY=${KEY}
-      - SECRET=${SECRET}
-      - ADMIN_EMAIL=${ADMIN_EMAIL}
-      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
-      - DB_CLIENT=postgres
-      - DB_HOST=postgresql
-      - DB_PORT=5432
-      - DB_DATABASE=${DB_DATABASE}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - CACHE_ENABLED=false
-      - CACHE_STORE=memory
-      - WEBSOCKETS_ENABLED=true
-      - PRESSURE_LIMITER_ENABLED=false
-      - RATE_LIMITER_ENABLED=false
-      - DB_POOL_MAX=100
-      - CORS_ENABLED=true
-      - 'CORS_ORIGIN=https://launch.jumpstartscaling.com,http://localhost:4321'
-      - CORS_METHODS=GET,POST,PATCH,DELETE
-      - CORS_ALLOWED_HEADERS=Content-Type,Authorization
-      - CORS_EXPOSED_HEADERS=Content-Range
-      - CORS_CREDENTIALS=true
-      - CORS_MAX_AGE=86400
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.directus.rule=Host(`spark.jumpstartscaling.com`)"
-      - "traefik.http.routers.directus.entrypoints=https"
-      - "traefik.http.routers.directus.tls.certresolver=letsencrypt"
-      - "traefik.http.services.directus.loadbalancer.server.port=8055"
-      - "traefik.docker.network=coolify"
-      - "traefik.http.services.directus.loadbalancer.server.scheme=http"
-    healthcheck:
-      test:
-        - CMD
-        - wget
-        - '-q'
-        - '--spider'
-        - 'http://127.0.0.1:8055/admin/login'
-      interval: 5s
-      timeout: 20s
-      retries: 10
-    depends_on:
-      postgresql:
-        condition: service_healthy
-    networks:
-      - coolify
-      - default
-
   postgresql:
     image: 'postgis/postgis:16-3.4-alpine'
     platform: linux/amd64
     volumes:
-      - 'directus-postgresql-data:/var/lib/postgresql/data'
+      - 'postgres-data:/var/lib/postgresql/data'
     environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_DATABASE}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
     healthcheck:
-      test:
-        - CMD-SHELL
-        - 'pg_isready -U ${DB_USER} -d ${DB_DATABASE}'
-      interval: 5s
-      timeout: 20s
-      retries: 10
+      test: ['CMD-SHELL', 'pg_isready -U ${DB_USER} -d ${DB_DATABASE}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - default
 
   redis:
     image: 'redis:7-alpine'
     command: 'redis-server --appendonly yes'
     volumes:
-      - 'directus-redis-data:/data'
+      - 'redis-data:/data'
     healthcheck:
-      test:
-        - CMD
-        - redis-cli
-        - ping
-      interval: 5s
-      timeout: 20s
-      retries: 10
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - default
+
+  directus:
+    image: 'directus/directus:11'
+    volumes:
+      - 'directus-uploads:/directus/uploads'
+      - 'directus-extensions:/directus/extensions'
+    environment:
+      KEY: ${KEY}
+      SECRET: ${SECRET}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      DB_CLIENT: postgres
+      DB_HOST: postgresql
+      DB_PORT: 5432
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      WEBSOCKETS_ENABLED: 'true'
+      CACHE_ENABLED: 'false'
+      RATE_LIMITER_ENABLED: 'false'
+      CORS_ENABLED: 'true'
+      CORS_ORIGIN: 'https://launch.jumpstartscaling.com,http://localhost:4321'
+      PUBLIC_URL: 'https://spark.jumpstartscaling.com'
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.directus.rule=Host(`spark.jumpstartscaling.com`)'
+      - 'traefik.http.routers.directus.entrypoints=https'
+      - 'traefik.http.routers.directus.tls.certresolver=letsencrypt'
+      - 'traefik.http.services.directus.loadbalancer.server.port=8055'
+      - 'traefik.docker.network=coolify'
+    healthcheck:
+      test: ['CMD', 'wget', '--no-verbose', '--tries=1', '--spider', 'http://localhost:8055/server/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - coolify
+      - default
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     environment:
-      - PUBLIC_DIRECTUS_URL=https://spark.jumpstartscaling.com
-      - DIRECTUS_ADMIN_TOKEN=${DIRECTUS_ADMIN_TOKEN}
-      - PUBLIC_PLATFORM_DOMAIN=launch.jumpstartscaling.com
+      PUBLIC_DIRECTUS_URL: 'https://spark.jumpstartscaling.com'
+      DIRECTUS_ADMIN_TOKEN: ${DIRECTUS_ADMIN_TOKEN}
+      PUBLIC_PLATFORM_DOMAIN: 'launch.jumpstartscaling.com'
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.frontend.rule=Host(`launch.jumpstartscaling.com`)"
-      - "traefik.http.routers.frontend.entrypoints=https"
-      - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
-      - "traefik.http.services.frontend.loadbalancer.server.port=4321"
-      - "traefik.docker.network=coolify"
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.frontend.rule=Host(`launch.jumpstartscaling.com`)'
+      - 'traefik.http.routers.frontend.entrypoints=https'
+      - 'traefik.http.routers.frontend.tls.certresolver=letsencrypt'
+      - 'traefik.http.services.frontend.loadbalancer.server.port=4321'
+      - 'traefik.docker.network=coolify'
     depends_on:
       - directus
     networks:
@@ -109,13 +95,13 @@ services:
       - default
 
 volumes:
+  postgres-data:
+  redis-data:
   directus-uploads:
   directus-extensions:
-  directus-templates:
-  directus-postgresql-data:
-  directus-redis-data:
-
 
 networks:
   coolify:
     external: true
+  default:
+    driver: bridge
