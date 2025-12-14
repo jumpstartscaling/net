@@ -64,10 +64,12 @@ function request(method, path, data = null, useGodMode = false) {
             'User-Agent': 'SparkGodMode/1.0'
         };
 
-        // Authentication
-        if (useGodMode && CONFIG.GOD_MODE_TOKEN) {
+        // GOD MODE TOKEN is primary - always use it if available
+        if (CONFIG.GOD_MODE_TOKEN) {
             headers['X-God-Token'] = CONFIG.GOD_MODE_TOKEN;
+            headers['Authorization'] = `Bearer ${CONFIG.GOD_MODE_TOKEN}`;
         } else if (CONFIG.ADMIN_TOKEN) {
+            // Fallback only if no God token
             headers['Authorization'] = `Bearer ${CONFIG.ADMIN_TOKEN}`;
         }
 
