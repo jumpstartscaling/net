@@ -11,7 +11,7 @@ RETRY_COUNT=0
 # === Wait for PostgreSQL ===
 echo "📡 Waiting for PostgreSQL to be ready..."
 until [ $DB_READY = true ] || [ $RETRY_COUNT -eq $MAX_RETRIES ]; do
-    if PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -U $DB_USER -d $DB_DATABASE -c '\q' 2>/dev/null; then
+    if PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_DATABASE" -c '\q' 2>/dev/null; then
         DB_READY=true
         echo "✅ PostgreSQL is ready"
     else
@@ -37,10 +37,10 @@ if [ "$FORCE_FRESH_INSTALL" = "true" ]; then
     sleep 5
     
     echo "🗑️  Dropping public schema..."
-    PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -U $DB_USER -d $DB_DATABASE <<-EOSQL
+    PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_DATABASE" <<-EOSQL
         DROP SCHEMA IF EXISTS public CASCADE;
         CREATE SCHEMA public;
-        GRANT ALL ON SCHEMA public TO $DB_USER;
+        GRANT ALL ON SCHEMA public TO "$DB_USER";
         GRANT ALL ON SCHEMA public TO public;
         COMMENT ON SCHEMA public IS 'Recreated by FORCE_FRESH_INSTALL';
 EOSQL
@@ -60,7 +60,7 @@ if [ -f "/directus/schema.yaml" ]; then
     echo "✅ Schema applied from code"
 elif [ -f "/directus/complete_schema.sql" ]; then
     echo "🔄 Applying schema from complete_schema.sql..."
-    PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -U $DB_USER -d $DB_DATABASE < /directus/complete_schema.sql
+    PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_DATABASE" < /directus/complete_schema.sql
     echo "✅ SQL schema applied"
 else
     echo "⚠️  No schema.yaml or complete_schema.sql found"
