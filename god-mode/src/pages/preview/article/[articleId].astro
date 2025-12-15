@@ -1,0 +1,287 @@
+---
+import { getDirectusClient, readItems } from '@/lib/directus/client';
+
+const { articleId } = Astro.params;
+
+if (!articleId) {
+  return Astro.redirect('/404');
+}
+
+const client = getDirectusClient();
+
+let article;
+try {
+  // @ts-ignore
+  const articles = await client.request(readItems('generated_articles', {
+    filter: { id: { _eq: articleId } },
+    limit: 1
+  }));
+  
+  article = articles[0];
+  
+  if (!article) {
+    return Astro.redirect('/404');
+  }
+} catch (error) {
+  console.error('Error fetching article:', error);
+  return Astro.redirect('/404');
+}
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{article.title} - Preview</title>
+  <meta name="description" content={article.metadata?.description || article.title}>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f5f5f5;
+    }
+    
+    .preview-banner {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-weight: 600;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    .article-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    
+    .article-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2rem;
+    }
+    
+    .article-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+    
+    .article-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0.9;
+      font-size: 0.9rem;
+    }
+    
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .article-content {
+      padding: 2rem;
+    }
+    
+    .article-content h2 {
+      color: #667eea;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+    }
+    
+    .article-content h3 {
+      color: #764ba2;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      font-size: 1.4rem;
+    }
+    
+    .article-content p {
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+    
+    .article-content ul,
+    .article-content ol {
+      margin-left: 2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .article-content li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .article-content strong {
+      color: #667eea;
+      font-weight: 600;
+    }
+    
+    .article-footer {
+      background: #f8f9fa;
+      padding: 2rem;
+      border-top: 1px solid #e9ecef;
+    }
+    
+    .metadata-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .metadata-item {
+      background: white;
+      padding: 1rem;
+      border-radius: 4px;
+      border-left: 3px solid #667eea;
+    }
+    
+    .metadata-label {
+      font-size: 0.8rem;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .metadata-value {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #333;
+      margin-top: 0.25rem;
+    }
+    
+    .actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-secondary {
+      background: white;
+      color: #667eea;
+      border: 2px solid #667eea;
+    }
+    
+    .btn-secondary:hover {
+      background: #667eea;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-banner">
+    🔍 PREVIEW MODE - This is how your article will appear
+  </div>
+  
+  <div class="container">
+    <div class="article-card">
+      <div class="article-header">
+        <h1>{article.title}</h1>
+        <div class="article-meta">
+          <div class="meta-item">
+            📅 {new Date(article.date_created).toLocaleDateString()}
+          </div>
+          <div class="meta-item">
+            🔗 {article.slug}
+          </div>
+          {article.metadata?.word_count && (
+            <div class="meta-item">
+              📝 {article.metadata.word_count} words
+            </div>
+          )}
+          {article.metadata?.seo_score && (
+            <div class="meta-item">
+              ⭐ SEO Score: {article.metadata.seo_score}/100
+            </div>
+          )}
+        </div>
+      </div>
+      
+      <div class="article-content">
+        <Fragment set:html={article.html_content} />
+      </div>
+      
+      <div class="article-footer">
+        <h3>Article Metadata</h3>
+        <div class="metadata-grid">
+          <div class="metadata-item">
+            <div class="metadata-label">Article ID</div>
+            <div class="metadata-value">{article.id}</div>
+          </div>
+          <div class="metadata-item">
+            <div class="metadata-label">Status</div>
+            <div class="metadata-value">{article.status || 'Draft'}</div>
+          </div>
+          {article.metadata?.template && (
+            <div class="metadata-item">
+              <div class="metadata-label">Template</div>
+              <div class="metadata-value">{article.metadata.template}</div>
+            </div>
+          )}
+          {article.metadata?.location && (
+            <div class="metadata-item">
+              <div class="metadata-label">Target Location</div>
+              <div class="metadata-value">{article.metadata.location}</div>
+            </div>
+          )}
+          {article.generation_hash && (
+            <div class="metadata-item">
+              <div class="metadata-label">Generation Hash</div>
+              <div class="metadata-value" style="font-size: 0.8rem; word-break: break-all;">
+                {article.generation_hash}
+              </div>
+            </div>
+          )}
+        </div>
+        
+        <div class="actions">
+          <a href={`/admin/content/generated-articles`} class="btn btn-primary">
+            ← Back to Articles
+          </a>
+          <a href={`https://spark.jumpstartscaling.com/items/generated_articles/${article.id}`} class="btn btn-secondary" target="_blank">
+            Edit in Directus
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
