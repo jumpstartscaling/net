@@ -1,0 +1,119 @@
+services:
+  postgresql:
+    image: 'postgis/postgis:16-3.4-alpine'
+    container_name: spark_db
+    restart: always
+    # Insane Mode: 10,000 Connections
+    command: postgres -c 'max_connections=10000' -c 'shared_buffers=128MB' -c 'work_mem=2MB'
+    volumes:
+      - 'postgres-data:/var/lib/postgresql/data'
+    environment:
+      # Using default postgres user (always exists)
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-directus}
+    networks:
+      - spark_net
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+
+  redis:
+    image: 'redis:7-alpine'
+    command: 'redis-server --appendonly yes'
+    restart: on-failure:5
+    volumes:
+      - 'redis-data:/data'
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  directus:
+    image: 'directus/directus:11'
+    restart: on-failure:5
+    volumes:
+      - 'directus-uploads:/directus/uploads'
+      - ./directus-extensions:/directus/extensions
+      - ./start.sh:/directus/start.sh
+      - ./complete_schema.sql:/directus/complete_schema.sql
+    environment:
+      KEY: 9i2t1bMAIITWCZ+WrzUEk4EuNmIu3kfyB9Peysk7f/jnUZ7hzQ5HoNC8yOT5vi/rwTmDWX3a1+4j2llgAE2VvA==
+      SECRET: Mr4YSrOAfwToxCDFOPwUa8qtxd7BXOvmqXalk3ReikpfcIwf08Kp+hlNjGcr1NtcLIcIZoraaULnMefD5IukGA==
+      ADMIN_EMAIL: admin@sparkplatform.com
+      ADMIN_PASSWORD: SecureAdmin2024!
+      DB_CLIENT: postgres
+      DB_HOST: postgresql
+      DB_PORT: 5432
+      DB_DATABASE: directus
+      # Using default postgres user
+      DB_USER: postgres
+      DB_PASSWORD: Idk@2026lolhappyha232
+
+      MAX_PAYLOAD_SIZE: '500mb'
+      RATE_LIMITER_ENABLED: 'false'
+      CORS_ORIGIN: 'https://spark.jumpstartscaling.com,https://launch.jumpstartscaling.com,http://localhost:4321'
+      CORS_ENABLED: 'true'
+      PUBLIC_URL: 'https://spark.jumpstartscaling.com'
+
+      # Extensions
+      EXTENSIONS_AUTO_RELOAD: 'true'
+      EXTENSIONS_PATH: '/directus/extensions'
+
+      # God Mode API Token (SET IN COOLIFY SECRETS - DO NOT COMMIT!)
+      GOD_MODE_TOKEN: ${GOD_MODE_TOKEN}
+
+      # Schema-as-Code: Set to 'true' for fresh install (WIPES DATABASE!)
+      FORCE_FRESH_INSTALL: ${FORCE_FRESH_INSTALL:-false}
+
+    command: sh /directus/start.sh
+
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "--no-verbose", "http://127.0.0.1:8055/server/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+    labels:
+      coolify.managed: 'true'
+      coolify.name: 'directus'
+      coolify.fqdn: 'spark.jumpstartscaling.com'
+      coolify.port: '8055'
+
+  frontend:
+    build:
+      context: https://gitthis.jumpstartscaling.com/gatekeeper/net.git#main:frontend
+      dockerfile: Dockerfile
+    restart: on-failure:5
+    environment:
+      PUBLIC_DIRECTUS_URL: 'https://spark.jumpstartscaling.com'
+      DIRECTUS_ADMIN_TOKEN: ''
+      PUBLIC_PLATFORM_DOMAIN: 'spark.jumpstartscaling.com'
+      PREVIEW_DOMAIN: 'launch.jumpstartscaling.com'
+    depends_on:
+      - directus
+    labels:
+      coolify.managed: 'true'
+      coolify.name: 'frontend'
+      coolify.fqdn: 'spark.jumpstartscaling.com'
+      coolify.port: '4321'
+
+volumes:
+  postgres-data-fresh:
+  redis-data:
+  directus-uploads:
+
+    # NOTE: No env_file specified - all credentials are hardcoded above
+    # This prevents Coolify from loading external .env files that might override values
