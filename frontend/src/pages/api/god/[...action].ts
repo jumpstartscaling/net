@@ -96,7 +96,7 @@ export const GET: APIRoute = async ({ request, url }) => {
     }
 };
 
-// POST /api/god/sql - Execute raw SQL
+// POST handlers for /api/god/* endpoints
 export const POST: APIRoute = async ({ request, url }) => {
     if (!validateGodToken(request)) {
         return json({ error: 'Unauthorized - Invalid God Mode Token' }, 401);
@@ -104,31 +104,171 @@ export const POST: APIRoute = async ({ request, url }) => {
 
     const action = url.pathname.split('/').pop();
 
-    if (action !== 'sql') {
-        return json({ error: 'POST only supported for /api/god/sql' }, 400);
-    }
-
     try {
         const body = await request.json();
-        const { query } = body;
 
-        if (!query) {
-            return json({ error: 'Missing query in request body' }, 400);
+        switch (action) {
+            case 'sql':
+                return await handleSqlQuery(body);
+            case 'deploy':
+                return await handleDeploy(body);
+            default:
+                return json({
+                    error: `POST not supported for /api/god/${action}`,
+                    available_post_actions: ['sql', 'deploy']
+                }, 400);
         }
-
-        const result = await pool.query(query);
-
-        return json({
-            success: true,
-            command: result.command,
-            rowCount: result.rowCount,
-            rows: result.rows,
-            fields: result.fields?.map(f => f.name)
-        });
     } catch (error: any) {
         return json({ error: error.message, code: error.code }, 500);
     }
 };
+
+// Handle raw SQL queries
+async function handleSqlQuery(body: any) {
+    const { query } = body;
+
+    if (!query) {
+        return json({ error: 'Missing query in request body' }, 400);
+    }
+
+    const result = await pool.query(query);
+
+    return json({
+        success: true,
+        command: result.command,
+        rowCount: result.rowCount,
+        rows: result.rows,
+        fields: result.fields?.map(f => f.name)
+    });
+}
+
+// Handle campaign deployment - Direct SQL, bypasses Directus
+async function handleDeploy(payload: any) {
+    const startTime = Date.now();
+    const results: any = {
+        success: false,
+        workflow: { steps_completed: 0, steps_total: 5 },
+        created: {},
+        errors: []
+    };
+
+    try {
+        const { deployment_instruction, deployment_config, deployment_data } = payload;
+
+        if (!deployment_data) {
+            return json({ error: 'Missing deployment_data in payload' }, 400);
+        }
+
+        // Generate UUIDs for new records
+        const crypto = await import('crypto');
+        const siteId = crypto.randomUUID();
+        const templateId = crypto.randomUUID();
+        const campaignId = crypto.randomUUID();
+
+        // Step 1: Create Site
+        if (deployment_data.site_setup) {
+            await pool.query(`
+                INSERT INTO sites (id, name, url, status, date_created)
+                VALUES ($1, $2, $3, $4, NOW())
+                ON CONFLICT (id) DO UPDATE SET name = $2, url = $3, status = $4
+            `, [
+                siteId,
+                deployment_data.site_setup.name,
+                deployment_data.site_setup.url,
+                deployment_data.site_setup.status || 'active'
+            ]);
+            results.created.site_id = siteId;
+            results.workflow.steps_completed = 1;
+        }
+
+        // Step 2: Create Article Template
+        if (deployment_data.article_template) {
+            await pool.query(`
+                INSERT INTO article_templates (id, name, structure_json, date_created)
+                VALUES ($1, $2, $3, NOW())
+                ON CONFLICT (id) DO UPDATE SET name = $2, structure_json = $3
+            `, [
+                templateId,
+                deployment_data.article_template.name,
+                JSON.stringify(deployment_data.article_template.structure_json)
+            ]);
+            results.created.template_id = templateId;
+        }
+        results.workflow.steps_completed = 2;
+
+        // Step 3: Create Campaign Master
+        if (deployment_data.campaign_master) {
+            await pool.query(`
+                INSERT INTO campaign_masters (id, site_id, name, target_word_count, location_mode, niche_variables, article_template, status, date_created)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW())
+            `, [
+                campaignId,
+                siteId,
+                deployment_data.campaign_master.name,
+                deployment_data.campaign_master.target_word_count || 2200,
+                deployment_data.campaign_master.location_mode || 'city',
+                JSON.stringify(deployment_data.campaign_master.niche_variables),
+                templateId,
+                'active'
+            ]);
+            results.created.campaign_id = campaignId;
+        }
+        results.workflow.steps_completed = 3;
+
+        // Step 4: Import Headlines
+        if (deployment_data.headline_inventory?.length > 0) {
+            let headlinesCreated = 0;
+            for (const headline of deployment_data.headline_inventory) {
+                const headlineId = crypto.randomUUID();
+                await pool.query(`
+                    INSERT INTO headline_inventory (id, campaign_id, headline_text, status, location_data, date_created)
+                    VALUES ($1, $2, $3, $4, $5, NOW())
+                `, [
+                    headlineId,
+                    campaignId,
+                    headline.headline_text,
+                    headline.status || 'available',
+                    JSON.stringify(headline.location_data)
+                ]);
+                headlinesCreated++;
+            }
+            results.created.headlines_created = headlinesCreated;
+        }
+        results.workflow.steps_completed = 4;
+
+        // Step 5: Import Content Fragments
+        if (deployment_data.content_fragments?.length > 0) {
+            let fragmentsCreated = 0;
+            for (const fragment of deployment_data.content_fragments) {
+                const fragmentId = crypto.randomUUID();
+                await pool.query(`
+                    INSERT INTO content_fragments (id, campaign_id, fragment_type, content_body, word_count, status, date_created)
+                    VALUES ($1, $2, $3, $4, $5, $6, NOW())
+                `, [
+                    fragmentId,
+                    campaignId,
+                    fragment.type,
+                    fragment.content,
+                    fragment.word_count || 0,
+                    'active'
+                ]);
+                fragmentsCreated++;
+            }
+            results.created.fragments_imported = fragmentsCreated;
+        }
+        results.workflow.steps_completed = 5;
+
+        results.success = true;
+        results.execution_time = `${((Date.now() - startTime) / 1000).toFixed(2)}s`;
+        results.message = `Campaign "${deployment_data.campaign_master?.name}" deployed successfully via direct SQL`;
+
+        return json(results);
+    } catch (error: any) {
+        results.error = error.message;
+        results.code = error.code;
+        return json(results, 500);
+    }
+}
 
 // Quick service status check
 async function getServices() {
