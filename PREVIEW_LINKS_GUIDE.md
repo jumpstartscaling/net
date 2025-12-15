@@ -1,6 +1,18 @@
 # Preview Links - Implementation Summary
 
-## ✅ Preview Routes Available
+## ⚠️ **DEPLOYMENT STATUS: NOT WORKING ON LIVE SITE**
+
+**Issue:** Preview routes return 404 errors on production  
+**Tested:** `https://spark.jumpstartscaling.com/preview/site/e7c12533-0fb1-4ae1-8b26-b971988a8e84`  
+**Result:** 404: Not found  
+**Cause:** Astro dynamic routes not deployed or not built correctly
+
+**Code Status:** ✅ All files exist in codebase  
+**Live Status:** ❌ Returns 404 on production
+
+---
+
+## 📁 Preview Routes Available (In Code)
 
 The Spark Platform has complete preview functionality for all content types:
 
@@ -210,6 +222,20 @@ https://launch.jumpstartscaling.com/preview/article/[article-id]
 ---
 
 **Commit:** `df8dd18` - feat: add preview button to sites and create site preview page  
-**Status:** ✅ **COMPLETE**
+**Code Status:** ✅ **COMPLETE**  
+**Deployment Status:** ❌ **NOT WORKING ON LIVE SITE**
 
-🎉 **All preview functionality is now available and accessible from the Sites Manager!**
+## 🚨 Critical Issue: Astro Dynamic Routes Not Working
+
+**Problem:** All preview routes return 404 on `https://spark.jumpstartscaling.com`
+
+**Why This Matters:**
+- Preview functionality is essential for content review
+- Dynamic routes are core to the platform architecture
+- Pages and posts will use dynamic routing for custom domains
+
+**Next Steps:**
+1. Verify Astro build configuration
+2. Check if dynamic routes are in build output
+3. Redeploy with proper build settings
+4. Test all 4 preview routes (site, page, post, article)

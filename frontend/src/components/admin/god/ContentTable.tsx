@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useQuery } from '@tantml:parameter name="query';
+import { useQuery } from '@tanstack/react-query';
 import { getDirectusClient, readItems } from '@/lib/directus/client';
 import { ExternalLink, CheckSquare, Square } from 'lucide-react';
 
@@ -114,8 +114,8 @@ export function ContentTable({ collection, searchResults, onSelectionChange }: C
                     <div
                         key={item.id}
                         className={`flex items-center gap-3 p-4 bg-zinc-900 border rounded-lg transition-all ${isSelected
-                                ? 'border-green-500 bg-green-500/10'
-                                : 'border-zinc-800 hover:border-zinc-700'
+                            ? 'border-green-500 bg-green-500/10'
+                            : 'border-zinc-800 hover:border-zinc-700'
                             }`}
                     >
                         <button
@@ -135,10 +135,10 @@ export function ContentTable({ collection, searchResults, onSelectionChange }: C
                             </div>
                             <div className="flex items-center gap-2 mt-1 text-xs text-zinc-500">
                                 <span className={`px-2 py-0.5 rounded ${status === 'published'
-                                        ? 'bg-green-500/20 text-green-400'
-                                        : status === 'draft'
-                                            ? 'bg-blue-500/20 text-blue-400'
-                                            : 'bg-zinc-700 text-zinc-400'
+                                    ? 'bg-green-500/20 text-green-400'
+                                    : status === 'draft'
+                                        ? 'bg-blue-500/20 text-blue-400'
+                                        : 'bg-zinc-700 text-zinc-400'
                                     }`}>
                                     {status}
                                 </span>
