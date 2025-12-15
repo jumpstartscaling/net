@@ -5,14 +5,16 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
+    site: process.env.SITE_URL || 'http://localhost:4321',
     output: 'server',
+    prefetch: true,
     adapter: node({
         mode: 'standalone'
     }),
     integrations: [
         react(),
         tailwind({
-            applyBaseStyles: false,
+            applyBaseStyles: true,
         }),
     ],
     vite: {
