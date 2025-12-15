@@ -10,6 +10,12 @@ export default {
                 // === THE TITANIUM PRO SYSTEM ===
                 // The Void (Base Layer - Pure Black)
                 void: '#000000',
+                // God Mode Specific
+                'god-dark': '#111827',
+                'god-card': '#1f2937',
+                'god-border': '#374151',
+                'god-gold': '#fbbf24',
+
 
                 // Surface Staircase (Hard-Edge Layers)
                 titanium: '#121212',   // Level 1: Main panels
