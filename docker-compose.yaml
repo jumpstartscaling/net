@@ -1,20 +1,28 @@
 services:
   postgresql:
     image: 'postgis/postgis:16-3.4-alpine'
-    command: "postgres -c 'max_connections=200'"
-    restart: on-failure:5
+    container_name: spark_db
+    restart: always
+    # Insane Mode: 10,000 Connections
+    command: postgres -c 'max_connections=10000' -c 'shared_buffers=128MB' -c 'work_mem=2MB'
     volumes:
-      - 'postgres-data-fresh:/var/lib/postgresql/data'
+      - 'postgres-data:/var/lib/postgresql/data'
     environment:
       # Using default postgres user (always exists)
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Idk@2026lolhappyha232
-      POSTGRES_DB: directus
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-directus}
+    networks:
+      - spark_net
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -h 127.0.0.1" ]
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
       timeout: 5s
-      retries: 10
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 4G
 
   redis:
     image: 'redis:7-alpine'

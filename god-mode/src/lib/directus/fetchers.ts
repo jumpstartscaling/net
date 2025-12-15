@@ -1,5 +1,5 @@
 import { getDirectusClient } from './client';
-import { readItems, readItem, readSingleton, aggregate } from '@directus/sdk';
+import { readItems, readItem, readSingleton, aggregate } from './client';
 import type { DirectusSchema, Pages as Page, Posts as Post, Sites as Site, DirectusUsers as User, Globals, Navigation } from '../schemas';
 
 const directus = getDirectusClient();
@@ -135,7 +135,7 @@ export async function fetchPosts(
             directus.request(
                 aggregate('posts', {
                     aggregate: { count: '*' },
-                    query: { filter }
+                    filter
                 })
             )
         ]);
@@ -201,7 +201,7 @@ export async function fetchGeneratedArticles(
             directus.request(
                 aggregate('generated_articles', {
                     aggregate: { count: '*' },
-                    query: { filter: { site_id: { _eq: siteId } } } // UUID string
+                    filter: { site_id: { _eq: siteId } }
                 })
             )
         ]);

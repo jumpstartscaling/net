@@ -16,26 +16,8 @@ export const prerender = false;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔱 🔱 Valhalla - Spark God Mode</title>
+    <title>🔱 Valhalla - Spark God Mode</title>
     <meta name="robots" content="noindex, nofollow">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        god: {
-                            gold: '#FFD700',
-                            dark: '#0a0a0a',
-                            card: '#111111',
-                            border: '#333333'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
     <style>
         @keyframes pulse-gold {
             0%, 100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
@@ -61,14 +43,26 @@ export const prerender = false;
         // API Helper
         const api = {
             async get(endpoint) {
-                const token = localStorage.getItem('godToken') || '';
+                let token = localStorage.getItem('godToken') || '';
+                if (!token) {
+                    token = prompt('Enter God Mode Token (GOD_MODE_TOKEN):');
+                    if (token) localStorage.setItem('godToken', token);
+                }
                 const res = await fetch(`/api/god/${endpoint}`, {
                     headers: { 'X-God-Token': token }
                 });
+                if (res.status === 401) {
+                    localStorage.removeItem('godToken');
+                    alert('Invalid token. Please refresh and try again.');
+                }
                 return res.json();
             },
             async post(endpoint, data) {
-                const token = localStorage.getItem('godToken') || '';
+                let token = localStorage.getItem('godToken') || '';
+                if (!token) {
+                    token = prompt('Enter God Mode Token (GOD_MODE_TOKEN):');
+                    if (token) localStorage.setItem('godToken', token);
+                }
                 const res = await fetch(`/api/god/${endpoint}`, {
                     method: 'POST',
                     headers: { 
@@ -77,6 +71,10 @@ export const prerender = false;
                     },
                     body: JSON.stringify(data)
                 });
+                if (res.status === 401) {
+                    localStorage.removeItem('godToken');
+                    alert('Invalid token. Please refresh and try again.');
+                }
                 return res.json();
             }
         };
@@ -278,7 +276,26 @@ export const prerender = false;
                         ]),
                         h('p', { className: 'text-gray-400 mt-1' }, 
                             'System Diagnostics & Emergency Access'
-                        )
+                        ),
+                        // Navigation Menu
+                        h('div', { className: 'flex gap-3 mt-3' }, [
+                            h('a', { 
+                                href: '/admin', 
+                                className: 'text-sm bg-god-border hover:bg-god-gold hover:text-black px-3 py-1.5 rounded transition-colors'
+                            }, '📊 Admin Dashboard'),
+                            h('a', { 
+                                href: '/admin/db-console', 
+                                className: 'text-sm bg-god-border hover:bg-god-gold hover:text-black px-3 py-1.5 rounded transition-colors'
+                            }, '🗄️ DB Console'),
+                            h('a', { 
+                                href: '/admin/collections/sites', 
+                                className: 'text-sm bg-god-border hover:bg-god-gold hover:text-black px-3 py-1.5 rounded transition-colors'
+                            }, '🌐 Sites'),
+                            h('a', { 
+                                href: '/admin/collections/posts', 
+                                className: 'text-sm bg-god-border hover:bg-god-gold hover:text-black px-3 py-1.5 rounded transition-colors'
+                            }, '📝 Posts')
+                        ])
                     ]),
                     h('div', { className: 'flex items-center gap-4' }, [
                         h('label', { className: 'flex items-center gap-2 text-sm' }, [

@@ -3,14 +3,32 @@
  * Job queue setup for content generation
  */
 
-import { Queue, Worker, QueueOptions } from 'bullmq';
+import { Queue, Worker, type QueueOptions } from 'bullmq';
 import IORedis from 'ioredis';
 
 // Redis connection
-const connection = new IORedis({
-    host: process.env.REDIS_HOST || 'localhost',
-    port: parseInt(process.env.REDIS_PORT || '6379'),
-    maxRetriesPerRequest: null,
+// Supports REDIS_URL (with or without password) or separate host/port
+const connection = process.env.REDIS_URL
+    ? new IORedis(process.env.REDIS_URL, {
+        maxRetriesPerRequest: null,
+        enableOfflineQueue: false,
+        lazyConnect: true,
+    })
+    : new IORedis({
+        host: process.env.REDIS_HOST || 'redis',
+        port: parseInt(process.env.REDIS_PORT || '6379'),
+        maxRetriesPerRequest: null,
+        enableOfflineQueue: false,
+        lazyConnect: true,
+    });
+
+// Handle connection errors gracefully
+connection.on('error', (err) => {
+    console.error('[Redis] Connection error:', err.message);
+});
+
+connection.on('ready', () => {
+    console.log('[Redis] Connected successfully');
 });
 
 // Queue options
@@ -41,4 +59,8 @@ export const queues = {
     cleanup: new Queue('cleanup', queueOptions),
 };
 
+// Batch queue for campaign generation
+export const batchQueue = new Queue('generate_campaign_content', queueOptions);
+
 export { connection };
+export const redisConnection = connection;

@@ -78,7 +78,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
             const headlines = await directus.request(
                 readItems('headline_inventory', {
                     filter: {
-                        campaign: { _eq: campaign_id },
+                        campaign_id: { _eq: campaign_id },
                         status: { _eq: 'available' }
                     },
                     limit: 1,
@@ -184,8 +184,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
                         filter: {
                             fragment_type: { _eq: fragmentType },
                             _or: [
-                                { campaign: { _eq: campaign_id } },
-                                { campaign: { name: { _eq: 'Master Content Library' } } }
+                                { campaign_id: { _eq: campaign_id } },
+                                { campaign_id: { name: { _eq: 'Master Content Library' } } }
                             ]
                         },
                         fields: ['content_body']
@@ -251,8 +251,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
             // Create article record with featured image and schema
             const article = await directus.request(
                 createItem('generated_articles', {
-                    site: siteId || campaign.site,
-                    campaign: campaign_id,
+                    site_id: siteId || campaign.site_id,
+                    campaign_id: campaign_id,
                     headline: processedHeadline,
                     meta_title: metaTitle,
                     meta_description: metaDescription,
@@ -260,9 +260,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
                     word_count: wordCount,
                     word_count_status: wordCountStatus,
                     is_published: false,
-                    location_city: locationVars.city || null,
-                    location_county: locationVars.county || null,
-                    location_state: locationVars.state || null,
+                    location_city: locationVars.city || undefined,
+                    location_county: locationVars.county || undefined,
+                    location_state: locationVars.state || undefined,
                     featured_image_svg: featuredImage.svg,
                     featured_image_filename: featuredImage.filename,
                     featured_image_alt: featuredImage.alt,
@@ -290,7 +290,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
         const remainingHeadlines = await directus.request(
             readItems('headline_inventory', {
                 filter: {
-                    campaign: { _eq: campaign_id },
+                    campaign_id: { _eq: campaign_id },
                     status: { _eq: 'available' }
                 },
                 aggregate: { count: '*' }

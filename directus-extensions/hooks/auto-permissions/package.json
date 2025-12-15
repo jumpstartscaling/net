@@ -1,9 +1,16 @@
 {
-    "id": "auto-permissions",
-    "name": "Auto Permissions",
+    "name": "directus-extension-auto-permissions",
     "version": "1.0.0",
     "description": "Automatically grant permissions to admin policy",
-    "type": "hook",
-    "source": "./index.js",
-    "host": "^11.0.0"
+    "type": "module",
+    "keywords": [
+        "directus",
+        "directus-extension",
+        "directus-extension-hook"
+    ],
+    "directus:extension": {
+        "type": "hook",
+        "source": "index.js",
+        "host": "^11.0.0"
+    }
 }

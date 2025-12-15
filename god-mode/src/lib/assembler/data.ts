@@ -1,6 +1,6 @@
 
-import { directus } from '@/lib/directus/client';
-import { readItems } from '@directus/sdk';
+import { getDirectusClient } from '@/lib/directus/client';
+import { readItems } from '@/lib/directus/client';
 
 /**
  * Fetches all spintax dictionaries and flattens them into a usable SpintaxMap.
@@ -8,7 +8,8 @@ import { readItems } from '@directus/sdk';
  */
 export async function fetchSpintaxMap(): Promise<Record<string, string>> {
     try {
-        const items = await directus.request(
+        const client = getDirectusClient();
+        const items = await client.request(
             readItems('spintax_dictionaries', {
                 fields: ['category', 'variations'],
                 limit: -1

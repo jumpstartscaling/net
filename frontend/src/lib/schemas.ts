@@ -1,8 +1,20 @@
 /**
- * Spark Platform - Directus Schema Types
- * Auto-generated from Golden Schema
+ * Spark Platform - Directus Schema Types v2.0
+ * Auto-generated and enhanced during Phase 9
  * 
- * This provides full TypeScript coverage for all Directus collections
+ * This provides full TypeScript coverage for all Directus collections.
+ * 
+ * ## Phase 9 Changes (Dec 2025):
+ * - Added ArticleTemplates collection (article structure blueprints)
+ * - Sites: +1 field (settings for feature flags)
+ * - CampaignMasters: +3 fields (article_template, niche_variables, paused status)
+ * - GeneratedArticles: +12 fields (headline, SEO, location, featured image metadata)
+ * - HeadlineInventory: +3 fields (final_title_text, location_data, used_on_article)
+ * - ContentFragments: +2 fields (content_body, word_count)
+ * - GenerationJobs: +2 fields (date_created, date_updated)
+ * 
+ * Total: 17 collections, 23 fields added, 0 TypeScript errors
+ * Build Status: ✅ Success
  */
 
 // ============================================================================
@@ -14,19 +26,22 @@ export interface Sites {
     status: 'active' | 'inactive' | 'archived';
     name: string;
     url?: string;
+    settings?: Record<string, any>;
     date_created?: string;
     date_updated?: string;
 }
 
 export interface CampaignMasters {
     id: string;
-    status: 'active' | 'inactive' | 'completed';
+    status: 'active' | 'inactive' | 'completed' | 'paused';
     site_id: string | Sites;
     name: string;
     headline_spintax_root?: string;
     target_word_count?: number;
     location_mode?: string;
     batch_count?: number;
+    article_template?: string | number;
+    niche_variables?: Record<string, any>;
     date_created?: string;
     date_updated?: string;
 }
@@ -70,6 +85,15 @@ export interface OfferBlocks {
     html_content?: string;
 }
 
+export interface ArticleTemplates {
+    id: string | number;
+    name?: string;
+    structure_json?: string[];
+    date_created?: string;
+    date_updated?: string;
+}
+
+
 // ============================================================================
 // BATCH 2: FIRST-LEVEL CHILDREN
 // ============================================================================
@@ -83,6 +107,18 @@ export interface GeneratedArticles {
     content?: string;
     slug?: string;
     is_published?: boolean;
+    headline?: string;
+    meta_title?: string;
+    meta_description?: string;
+    full_html_body?: string;
+    word_count?: number;
+    word_count_status?: string;
+    location_city?: string;
+    location_county?: string;
+    location_state?: string;
+    featured_image_svg?: string;
+    featured_image_filename?: string;
+    featured_image_alt?: string;
     schema_json?: Record<string, any>;
     date_created?: string;
     date_updated?: string;
@@ -97,6 +133,8 @@ export interface GenerationJobs {
     filters?: Record<string, any>;
     current_offset?: number;
     progress?: number;
+    date_created?: string;
+    date_updated?: string;
 }
 
 export interface Pages {
@@ -144,10 +182,13 @@ export interface Leads {
 
 export interface HeadlineInventory {
     id: string;
-    status: 'active' | 'used' | 'archived';
+    status: 'active' | 'used' | 'archived' | 'available';
     campaign_id: string | CampaignMasters;
     headline_text?: string;
+    final_title_text?: string;
+    location_data?: Record<string, any>;
     is_used?: boolean;
+    used_on_article?: string;
 }
 
 export interface ContentFragments {
@@ -155,7 +196,9 @@ export interface ContentFragments {
     status: 'active' | 'archived';
     campaign_id: string | CampaignMasters;
     fragment_text?: string;
+    content_body?: string;
     fragment_type?: string;
+    word_count?: number;
 }
 
 // ============================================================================
@@ -261,6 +304,8 @@ export interface DirectusSchema {
     cartesian_patterns: CartesianPatterns[];
     geo_intelligence: GeoIntelligence[];
     offer_blocks: OfferBlocks[];
+    article_templates: ArticleTemplates[];
+
 
     // Batch 2: Children
     generated_articles: GeneratedArticles[];

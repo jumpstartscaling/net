@@ -151,19 +151,21 @@ async function getServices() {
 
     // Check Redis
     try {
-        const redis = new Redis({
-            host: process.env.REDIS_HOST || 'redis',
-            port: 6379,
+        const redisUrl = process.env.REDIS_URL || 'redis://redis:6379';
+        const redis = new Redis(redisUrl, {
             connectTimeout: 3000,
-            maxRetriesPerRequest: 1
+            maxRetriesPerRequest: 1,
+            lazyConnect: true,
+            enableOfflineQueue: false
         });
+        await redis.connect();
         const start = Date.now();
         await redis.ping();
         services.redis = {
             status: '✅ RUNNING',
             latency_ms: Date.now() - start
         };
-        redis.disconnect();
+        await redis.quit();
     } catch (error: any) {
         services.redis = {
             status: '❌ DOWN',
@@ -251,12 +253,14 @@ async function getHealth() {
 
     // Redis check
     try {
-        const redis = new Redis({
-            host: process.env.REDIS_HOST || 'redis',
-            port: 6379,
+        const redisUrl = process.env.REDIS_URL || 'redis://redis:6379';
+        const redis = new Redis(redisUrl, {
             connectTimeout: 3000,
-            maxRetriesPerRequest: 1
+            maxRetriesPerRequest: 1,
+            lazyConnect: true,
+            enableOfflineQueue: false
         });
+        await redis.connect();
         const redisStart = Date.now();
         const info = await redis.info('server');
         checks.redis = {
@@ -264,7 +268,7 @@ async function getHealth() {
             latency_ms: Date.now() - redisStart,
             version: info.match(/redis_version:([^\r\n]+)/)?.[1]
         };
-        redis.disconnect();
+        await redis.quit();
     } catch (error: any) {
         checks.redis = {
             status: '❌ unhealthy',

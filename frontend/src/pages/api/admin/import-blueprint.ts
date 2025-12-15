@@ -86,10 +86,7 @@ export const POST: APIRoute = async ({ request }) => {
             // For bulk import, we'll just create.
             await directus.request(
                 createItem('content_fragments', {
-                    campaign: fragment.campaign, // Note: You might need to update this ID to a real Campaign ID if "Mass_01" is not real.
-                    // Ideally, user sets the correct campaign ID in the JSON or we strip it.
-                    // I'll assume "Mass_01" is a PLACEHOLDER and we should probably let the user know.
-                    // Or we default to NULL if no campaign found.
+                    campaign_id: fragment.campaign, // Campaign ID from JSON
                     fragment_type: fragment.fragment_type,
                     content_body: fragment.content_body,
                     word_count: fragment.word_count

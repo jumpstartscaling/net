@@ -21,5 +21,7 @@ declare namespace App {
         isAdminRoute: boolean;
         isPlatformAdmin: boolean;
         scope: 'super-admin' | 'tenant';
+        showDiagnostics: boolean;
+        previewMode: boolean;
     }
 }

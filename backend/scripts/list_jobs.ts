@@ -15,7 +15,7 @@ async function listJobs() {
     try {
         console.log("Fetching jobs from", process.env.DIRECTUS_PUBLIC_URL);
         const jobs = await client.request(readItems('generation_jobs', {
-            sort: ['-date_created'],
+            sort: ['-id'],
             limit: 5
         }));
         console.log("Found jobs:", JSON.stringify(jobs, null, 2));

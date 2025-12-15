@@ -55,15 +55,15 @@ export default function ContentFactoryDashboard() {
             // 2. Fetch Active Campaigns
             const activeCampaigns = await client.request(readItems('campaign_masters', {
                 limit: 5,
-                sort: ['-date_created'],
-                filter: { status: { _in: ['active', 'paused'] } } // Show active/paused
+                sort: ['-id'],
+                filter: { status: { _in: ['active', 'paused'] } } // Both active and paused are valid
             }));
             setCampaigns(activeCampaigns as unknown as CampaignMaster[]);
 
             // 3. Fetch Production Jobs (The real "Factory" work)
             const recentJobs = await client.request(readItems('generation_jobs', {
                 limit: 5,
-                sort: ['-date_created']
+                sort: ['-id']
             }));
             setJobs(recentJobs as unknown as GenerationJob[]);
 

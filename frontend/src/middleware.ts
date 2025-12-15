@@ -2,60 +2,84 @@ import { defineMiddleware } from 'astro:middleware';
 import { getDirectusClient, readItems } from './lib/directus/client';
 
 /**
- * Multi-Tenant Middleware
- * Resolves siteId based on incoming domain and attaches it to SSR context.
- * Gracefully handles missing Directus schema (first-run scenario).
+ * Chameleon Middleware
+ * Separates "God Mode/Admin" traffic from "Client/Public" traffic.
  */
 export const onRequest = defineMiddleware(async (context, next) => {
     const host = context.request.headers.get('host') || 'localhost';
     const cleanHost = host.split(':')[0].replace(/^www\./, '');
     const pathname = new URL(context.request.url).pathname;
 
-    // Determine if this is an admin route
-    const isAdminRoute = pathname.startsWith('/admin');
+    // Configuration
+    const platformDomain = import.meta.env.PUBLIC_PLATFORM_DOMAIN || 'spark.jumpstartscaling.com';
+    const previewSecret = import.meta.env.PREVIEW_SECRET || process.env.PREVIEW_SECRET;
 
-    // Check if this is the platform admin (central admin)
-    const platformDomain = import.meta.env.PUBLIC_PLATFORM_DOMAIN || 'platform.local';
-    const isPlatformAdmin = cleanHost === platformDomain;
-
-    // Initialize locals with safe defaults
+    // Defaults
     context.locals.siteId = null;
     context.locals.site = null;
-    context.locals.isAdminRoute = isAdminRoute;
-    context.locals.isPlatformAdmin = isPlatformAdmin;
-    context.locals.scope = isPlatformAdmin && isAdminRoute ? 'super-admin' : 'tenant';
+    context.locals.isAdminRoute = pathname.startsWith('/admin');
+    context.locals.isPlatformAdmin = false; // Will be true if on platform domain
+    context.locals.scope = 'tenant';
+    context.locals.showDiagnostics = false;
+    context.locals.previewMode = false;
 
-    // Skip Directus calls for static assets
-    if (pathname.match(/\.(ico|png|jpg|jpeg|svg|css|js|woff|woff2)$/)) {
+    // Skip static assets
+    if (pathname.match(/\.(ico|png|jpg|jpeg|svg|css|js|woff|woff2|map)$/)) {
         return next();
     }
 
+    // --- LOGIC BRANCH 1: PLATFORM HUB (Admin/Diagnostics) ---
+    if (cleanHost === platformDomain || cleanHost === 'localhost') {
+        context.locals.isPlatformAdmin = true;
+        context.locals.scope = 'super-admin';
+
+        // Diagnostic Overlay Logic
+        // Always show for Admin routes, or if preview token is present
+        if (context.locals.isAdminRoute) {
+            context.locals.showDiagnostics = true;
+        }
+
+        // Preview Logic
+        const token = new URL(context.request.url).searchParams.get('token');
+        const siteId = new URL(context.request.url).searchParams.get('site_id');
+
+        if (token && token === previewSecret) {
+            context.locals.previewMode = true;
+            context.locals.showDiagnostics = true;
+            if (siteId) context.locals.siteId = siteId;
+        }
+
+        return next();
+    }
+
+    // --- LOGIC BRANCH 2: CLIENT NODE (Public Site) ---
+    // Pure Cache-First HTML Delivery
     try {
         const directus = getDirectusClient();
-
         const sites = await directus.request(
             readItems('sites', {
-                filter: {
-                    _or: [
-                        { domain: { _eq: cleanHost } },
-                        { domain_aliases: { _contains: cleanHost } }
-                    ]
-                },
+                filter: { domain: { _eq: cleanHost } },
                 limit: 1,
-                fields: ['id', 'name', 'domain', 'settings']
+                fields: ['id', 'domain', 'config', 'status']
             })
         );
 
         if (sites?.length) {
-            context.locals.siteId = sites[0].id;
-            context.locals.site = sites[0];
+            const site = sites[0];
+            if (site.status === 'maintenance') {
+                return new Response('Maintenance Mode', { status: 503 });
+            }
+            context.locals.siteId = site.id;
+            context.locals.site = site;
+            // Diagnostics strictly OFF for public traffic
+            context.locals.showDiagnostics = false;
+        } else {
+            // Domain not found in DB
+            // return new Response('Site Not Found', { status: 404 });
+            // For now, let it fall through to 404 page handled by Astro
         }
-    } catch (err: any) {
-        // Silently handle - schema may not exist yet
-        // Only log in development
-        if (import.meta.env.DEV) {
-            console.warn('Middleware: Directus query failed (schema may not exist):', err?.message || err);
-        }
+    } catch (err) {
+        if (import.meta.env.DEV) console.warn('Middleware Site Lookup Failed:', err);
     }
 
     return next();
